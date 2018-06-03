@@ -1,6 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {ListOrderComponent} from './list/list-order/list-order.component';
+import {ListOrderResolver} from './services/resolver/order.resolver';
 
 const __ROUTES__: Routes = [
     {
@@ -9,9 +10,9 @@ const __ROUTES__: Routes = [
             {
                 path: 'order',
                 component: ListOrderComponent,
-                // resolve: {
-                //     departmentListResolver: DepartmentListResolver
-                // }
+                resolve: {
+                    listOrderResolver: ListOrderResolver
+                }
             }
         ]
     },
@@ -28,11 +29,11 @@ const __ROUTES__: Routes = [
     // And performs the initial navigation based on the current browser URL.
     imports: [RouterModule.forRoot(
         __ROUTES__,
-        {enableTracing: true}   // <-- debugging purposes only
+        {enableTracing: false}   // <-- debugging purposes only
     )],
     exports: [RouterModule],
     providers: [
-        // HospitalDetailResolver,
+        ListOrderResolver
     ]
 })
 export class AppRouterModule {

@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ title }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body patient-select-modal-body">
+    <table>
+        <!--<thead>-->
+        <!--<tr>-->
+        <!--<th>#</th>-->
+        <!--<th>时间点</th>-->
+        <!--<th>动作</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <tbody>
+        <tr>
+            <td>2019</td>
+            <td>用户下单</td>
+        </tr>
+        <tr>
+            <td>2019</td>
+            <td>发起付款，并于XXX支付成功</td>
+        </tr>
+        <tr>
+            <td>2019</td>
+            <td>用户申请退款，退款原因XXXX</td>
+        </tr>
+        <tr>
+            <td>2019</td>
+            <td>发起退款</td>
+        </tr>
+        <tr>
+            <td>2019</td>
+            <td>退款完成，退回至用户账户</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary">关闭</button>
+</div>

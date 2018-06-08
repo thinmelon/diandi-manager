@@ -8,8 +8,14 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class RichTextModalComponent {
     @Input() title: string;
+    @Input() orderTime: string;
+    @Input() payTime: string;
+    @Input() submitRefundTime: string;
+    @Input() refundReason: string;
+    @Input() refundTime: string;
+    @Input() refundSuccessTime: string;
+    @Input() status: number;
 
     constructor(public activeModal: NgbActiveModal) {
     }
-
 }

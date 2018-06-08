@@ -88,8 +88,8 @@
             </td>
             <td>{{ order.attach }}</td>
             <td>
-                <button *ngIf="order.status === '转入退款'" class="btn btn-danger" (click)="openModal(order.out_trade_no)">
-                    审核
+                <button *ngIf="order.status === '转入退款'" class="btn btn-danger" (click)="openModal(order)">
+                    查询进度
                 </button>
             </td>
         </tr>

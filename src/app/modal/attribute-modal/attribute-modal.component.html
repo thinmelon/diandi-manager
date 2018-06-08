@@ -1,0 +1,30 @@
+    <div class="modal-header">
+        <h4 class="modal-title">{{ title }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body patient-select-modal-body">
+        <input type="text" class="form-control" title="添加属性名" placeholder="输入属性名"
+               name='inputNewName'
+               #attribute
+               (keyup.enter)="onEnter(attribute.value)"
+               [(ngModel)]="inputValue"/>
+        <hr>
+
+        <button class="btn btn-outline-primary" *ngFor="let name of names" (click)="removeAll(name)">
+            {{ name }} X
+        </button>
+        <hr>
+
+        <div class="d-flex flex-row justify-content-around align-items-center" *ngFor="let attribute of attributes">
+            <div id="minus" class="operator" (click)="minus(attribute.id)">-</div>
+            <div class="attribute-name">{{ attribute.name }}：</div>
+            <input type="text" class="form-control" title="添加属性值" placeholder="输入属性值"
+                   [(ngModel)]="attribute.value"/>
+            <div id="plus" class="operator" (click)="plus(attribute.name)">+</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-danger" (click)="addAttribute()">保存</button>
+    </div>

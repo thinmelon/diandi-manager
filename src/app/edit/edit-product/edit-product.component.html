@@ -1,0 +1,28 @@
+<button class="btn btn-primary" (click)="addAttribute()">新增属性</button>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="thead-light">
+        <tr>
+            <th *ngFor="let name of head">
+                {{ name }}
+            </th>
+            <th scope="col" *ngIf="head.length > 0">单价</th>
+            <th scope="col" *ngIf="head.length > 0">数量</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of sku">
+            <td *ngFor="let name of head">
+                {{ item[name] }}
+            </td>
+
+            <td>
+                {{ item.unit }}
+            </td>
+            <td>
+                {{ item.amount }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

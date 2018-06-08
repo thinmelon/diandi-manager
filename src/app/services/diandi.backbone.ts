@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs/index';
 import {UrlService} from './url.service';
 import {catchError} from 'rxjs/internal/operators';
+import {Refund} from './diandi.structure';
 
 // const httpOptions = {
 //     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -18,6 +19,17 @@ export class BackboneService {
     constructor(private http: HttpClient) {
     }
 
+    /**
+     * 获取商品列表
+     * @returns {Observable<A>}
+     */
+    public fetchProducts(session: string, startTime: string, n: number) {
+        return this.http
+            .get<any>(UrlService.FetchProductList(session, startTime, n))
+            .pipe(
+                catchError(this.handleError('fetchProducts', {errMsg: '#fetchProducts#获取商品列表失败'}))
+            );
+    }
 
     /**
      * 获取订单列表
@@ -78,6 +90,26 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('fetchRefundInfo', {errMsg: '#fetchRefundInfo#获取退款进度信息失败'}))
+            );
+    }
+
+    /**
+     *  发起退款
+     * @param session
+     * @param refund
+     * @returns {Observable<A>}
+     */
+    public refund(session: string, refund: Refund): Observable<any> {
+        return this.http
+            .post(UrlService.Refund(), {
+                session: session,
+                out_trade_no: refund.out_trade_no,
+                out_refund_no: refund.out_refund_no,
+                total_fee: refund.total_fee,
+                refund_fee: refund.refund_fee
+            })
+            .pipe(
+                catchError(this.handleError('refund', {errMsg: '#refund#退款失败'}))
             );
     }
 

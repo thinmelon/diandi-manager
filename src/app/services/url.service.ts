@@ -6,6 +6,11 @@ const API = '/backbone';
 const PREFIX = PROTOCOL + HOST + API;
 
 export class UrlService {
+
+    static FetchProductList(session: string, startTime: string, n: number): string {
+        return `${ PREFIX }/product/list?session=${ session }&startTime=${ startTime }&number=${ n }`;
+    }
+
     static FetchOrderList(session: string, startTime: string, n: number): string {
         return `${ PREFIX }/order/list?session=${ session }&startTime=${ startTime }&number=${ n }`;
     }
@@ -19,6 +24,10 @@ export class UrlService {
     }
 
     static FetchRefundInfo(): string {
+        return `${ PREFIX }/refund/progress`;
+    }
+
+    static Refund(): string {
         return `${ PREFIX }/refund`;
     }
 }

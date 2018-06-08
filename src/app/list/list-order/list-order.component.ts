@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal, NgbPopover, NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
-import {Consignee, Order, OrderStatusEnum, SKU, User} from '../../services/diandi.structure';
+import {Consignee, Order, OrderStatusEnum, Refund, SKU, User} from '../../services/diandi.structure';
 import {ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
 import {BackboneService} from '../../services/diandi.backbone';
@@ -18,6 +18,7 @@ export class ListOrderComponent implements OnInit {
     skuListShown: SKU[];
     userShown: User;
     orders: Order[];
+    target: Refund;
     lastPopover: NgbPopover;
 
     constructor(private route: ActivatedRoute,
@@ -148,28 +149,57 @@ export class ListOrderComponent implements OnInit {
         this.shown = false;
     }
 
-    // code: 0
-    // msg: Array (1)
-    // complete: "2018-05-22T14:50:55.000Z"
-    // createTime: "2018-05-22T06:12:01.000Z"
-    // out_refund_no: "13297414012018052214115944426193"
-    // out_trade_no: "13297414012018052214015068882433"
-    // reason: "库存不足"
-    // refundFee: 1
-    // refund_id: "50000606872018052204705879242"
-    // remark: "2018-05-22 22:50:55 refund_status: SUCCESS 退款入账方：支付用户零钱"
-    // startTime: "2018-05-22T06:12:38.000Z"
-    // status: 2
-    // totalFee: 1
-    openModal(out_trade_no) {
-        this.backbone.fetchRefundInfo(this.container.get().session, out_trade_no)
+    /**
+     *      显示对话框
+     * @param order
+     */
+    openModal(order) {
+        this.backbone.fetchRefundInfo(this.container.get().session, order.out_trade_no)
             .subscribe(res => {
                 console.log(res);
-                if (res.code === 0) {
+                if (res.code === 0 && res.msg.length > 0) {
+                    this.target = new Refund(res.msg[0].out_trade_no, res.msg[0].out_refund_no, res.msg[0].totalFee, res.msg[0].refundFee);
                     const modalRef = this.modalService.open(RichTextModalComponent);
                     modalRef.componentInstance.title = '退款进度';
+                    modalRef.componentInstance.orderTime = order.createTime;
+                    modalRef.componentInstance.payTime = order.payTime;
+                    modalRef.componentInstance.submitRefundTime = moment(res.msg[0].createTime).format('YYYY-MM-DD HH:mm:ss');
+                    modalRef.componentInstance.refundReason = res.msg[0].reason;
+                    modalRef.componentInstance.refundTime = moment(res.msg[0].startTime).format('YYYY-MM-DD HH:mm:ss');
+                    modalRef.componentInstance.refundSuccessTime = moment(res.msg[0].complete).format('YYYY-MM-DD HH:mm:ss');
+                    modalRef.componentInstance.status = res.msg[0].status;
+                    modalRef.result.then(
+                        /**
+                         * close
+                         * @param result
+                         */
+                        (result) => {
+                            switch (result) {
+                                case 'Close':
+                                    break;
+                                case 'Refund':
+                                    this.refund();
+                                    break;
+                                default:
+                                    break;
+                            }
+                        },
+                        /**
+                         * dismiss
+                         * @param reason
+                         */
+                        (reason) => {
+                            console.log(reason);
+                        });
                 }
             });
 
+    }
+
+    refund() {
+        this.backbone.refund(this.container.get().session, this.target)
+            .subscribe((res) => {
+                console.log(res);
+            });
     }
 }

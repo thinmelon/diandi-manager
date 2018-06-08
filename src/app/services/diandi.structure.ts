@@ -15,6 +15,9 @@ export class Order {
     }
 }
 
+/**
+ *      库存
+ */
 export class SKU {
     constructor(public stock_no: string,
                 public name: string,
@@ -24,6 +27,19 @@ export class SKU {
     }
 }
 
+/**
+ *      属性
+ */
+export class Attribute {
+    constructor(public id: string,
+                public name: string,
+                public value: string) {
+    }
+}
+
+/**
+ *      用户
+ */
 export class User {
     constructor(public name: string,
                 public sex: number,
@@ -32,6 +48,9 @@ export class User {
     }
 }
 
+/**
+ *      收件人
+ */
 export class Consignee {
     constructor(public name: string,
                 public mobile: string,
@@ -40,6 +59,31 @@ export class Consignee {
     }
 }
 
+/**
+ *      退款
+ */
+export class Refund {
+    constructor(public out_trade_no: string,
+                public out_refund_no: string,
+                public total_fee: number,
+                public refund_fee: number) {
+    }
+}
+
+export class Product {
+    constructor(public index: number,
+                public pid: string,
+                public name: string,
+                public description: string,
+                public sales: number,
+                public status: number,
+                public createTime: string) {
+    }
+}
+
+/**
+ *      订单状态
+ */
 export const OrderStatusEnum = [
     '未支付',		// NOTPAY: 0,
     '支付成功',		// SUCCESS: 1,

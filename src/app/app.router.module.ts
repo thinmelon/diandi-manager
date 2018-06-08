@@ -2,6 +2,9 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {ListOrderComponent} from './list/list-order/list-order.component';
 import {ListOrderResolver} from './services/resolver/order.resolver';
+import {ListProductComponent} from './list/list-product/list-product.component';
+import {ListProductResolver} from './services/resolver/product.resolver';
+import {EditProductComponent} from './edit/edit-product/edit-product.component';
 
 const __ROUTES__: Routes = [
     {
@@ -13,6 +16,22 @@ const __ROUTES__: Routes = [
                 resolve: {
                     listOrderResolver: ListOrderResolver
                 }
+            },
+            {
+                path: 'product',
+                component: ListProductComponent,
+                resolve: {
+                    listProductResolver: ListProductResolver
+                }
+            }
+        ]
+    },
+    {
+        path: 'edit',
+        children: [
+            {
+                path: 'product',
+                component: EditProductComponent
             }
         ]
     },
@@ -33,7 +52,8 @@ const __ROUTES__: Routes = [
     )],
     exports: [RouterModule],
     providers: [
-        ListOrderResolver
+        ListOrderResolver,
+        ListProductResolver
     ]
 })
 export class AppRouterModule {

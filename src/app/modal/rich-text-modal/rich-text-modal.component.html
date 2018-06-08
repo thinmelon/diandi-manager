@@ -5,38 +5,22 @@
     </button>
 </div>
 <div class="modal-body patient-select-modal-body">
-    <table>
-        <!--<thead>-->
-        <!--<tr>-->
-        <!--<th>#</th>-->
-        <!--<th>时间点</th>-->
-        <!--<th>动作</th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <tbody>
-        <tr>
-            <td>2019</td>
-            <td>用户下单</td>
-        </tr>
-        <tr>
-            <td>2019</td>
-            <td>发起付款，并于XXX支付成功</td>
-        </tr>
-        <tr>
-            <td>2019</td>
-            <td>用户申请退款，退款原因XXXX</td>
-        </tr>
-        <tr>
-            <td>2019</td>
-            <td>发起退款</td>
-        </tr>
-        <tr>
-            <td>2019</td>
-            <td>退款完成，退回至用户账户</td>
-        </tr>
-        </tbody>
-    </table>
+    <div>{{ orderTime }}</div>
+    <div>用户下单</div>
+    <div>{{ payTime }}</div>
+    <div>付款成功</div>
+    <div>{{ submitRefundTime }}</div>
+    <div>用户申请退款，退款原因：{{ refundReason }}</div>
+    <div *ngIf="status === 1 || status === 2">
+        <div>{{ refundTime }}</div>
+        <div>发起退款</div>
+    </div>
+    <div *ngIf="status === 2">
+        <div>{{ refundSuccessTime }}</div>
+        <div>退款完成，退回至用户账户</div>
+    </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary">关闭</button>
+    <button type="button" class="btn btn-outline-danger" (click)="activeModal.close('Refund')">确认无误，退款</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close('Close')">关闭</button>
 </div>

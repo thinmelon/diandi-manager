@@ -8,18 +8,27 @@ import {ContainerService} from './services/container.service';
 import {AppComponent} from './app.component';
 import {ListOrderComponent} from './list/list-order/list-order.component';
 import {RichTextModalComponent} from './modal/rich-text-modal/rich-text-modal.component';
+import {ListProductComponent} from "./list/list-product/list-product.component";
+import {EditProductComponent} from "./edit/edit-product/edit-product.component";
+import {AttributeModalComponent} from "./modal/attribute-modal/attribute-modal.component";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
     declarations: [
         AppComponent,
         ListOrderComponent,
-        RichTextModalComponent
+        ListProductComponent,
+        EditProductComponent,
+        RichTextModalComponent,
+        AttributeModalComponent
     ],
     entryComponents: [
-        RichTextModalComponent
+        RichTextModalComponent,
+        AttributeModalComponent
     ],
     imports: [
         BrowserModule,
+        FormsModule,
         NgbModule.forRoot(),
         HttpClientModule,
         AppRouterModule

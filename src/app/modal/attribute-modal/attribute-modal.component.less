@@ -1,0 +1,24 @@
+@color: brown;
+@width: 7.2rem;
+
+.operator(@font-size: 38pt) {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: @font-size;
+  width: @width;
+  color: @color;
+}
+
+#minus {
+  .operator;
+}
+
+#plus {
+  .operator(28pt);
+}
+
+.attribute-name {
+  width: @width;
+}

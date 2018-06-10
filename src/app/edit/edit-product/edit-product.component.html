@@ -1,28 +1,71 @@
-<button class="btn btn-primary" (click)="addAttribute()">新增属性</button>
-<div class="table-responsive">
-    <table class="table table-striped table-hover">
-        <thead class="thead-light">
-        <tr>
-            <th *ngFor="let name of head">
-                {{ name }}
-            </th>
-            <th scope="col" *ngIf="head.length > 0">单价</th>
-            <th scope="col" *ngIf="head.length > 0">数量</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let item of sku">
-            <td *ngFor="let name of head">
-                {{ item[name] }}
-            </td>
+<div class="container">
+    <form #productFrom="ngForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="productName">商品名称: </label>
+            <input type="text" placeholder="输入商品名称" id="productName" class="form-control"
+                   [(ngModel)]="product.name" name="productName"
+                   #productName="ngModel"
+                   required/>
+        </div>
+        <div [hidden]="productName.valid || productName.pristine"
+             class="alert alert-danger">
+            Name is required
+        </div>
+        <hr>
 
-            <td>
-                {{ item.unit }}
-            </td>
-            <td>
-                {{ item.amount }}
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        <div class="form-group">
+            <label for="productThumbnails">微缩图: </label>
+            <input type="file" placeholder="上传商品微缩图" id="productThumbnails" class="form-control"
+                   name="productThumbnails"/>
+        </div>
+        <div>
+
+        </div>
+        <hr>
+
+        <button class="btn btn-primary" (click)="addAttribute()">新增属性</button>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th *ngFor="let name of head">
+                        {{ name }}
+                    </th>
+                    <th scope="col" *ngIf="head.length > 0">单价</th>
+                    <th scope="col" *ngIf="head.length > 0">数量</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of sku">
+                    <td *ngFor="let name of head">
+                        {{ item[name] }}
+                    </td>
+                    <td>
+                        <input type="number" name="unit" class="form-control" title="单价" value="{{ item.unit }}">
+                    </td>
+                    <td>
+                        <input type="number" name="amount" class="form-control" title="数量" value="{{ item.amount }}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+
+        <div class="form-group">
+            <label for="productIntroduce">商品简介: </label>
+            <textarea type="text" placeholder="商品简介" class="form-control" id="productIntroduce"
+                      name="productIntroduce"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="productDescription">商品长图: </label>
+            <input type="file" placeholder="上传商品简介" class="form-control" id="productDescription"
+                   name="productDescription"/>
+            <div>
+
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="!productFrom.form.valid">提交</button>
+    </form>
 </div>

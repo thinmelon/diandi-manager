@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ContainerService} from '../../services/container.service';
 import {ActivatedRoute} from '@angular/router';
-import {Product} from '../../services/diandi.structure';
+import {ProductList} from '../../services/diandi.structure';
 
 @Component({
     selector: 'app-list-product',
@@ -9,7 +9,7 @@ import {Product} from '../../services/diandi.structure';
     styleUrls: ['./list-product.component.less']
 })
 export class ListProductComponent implements OnInit {
-    products: Product[];
+    products: ProductList[];
 
     constructor(private route: ActivatedRoute,
                 private container: ContainerService) {
@@ -23,7 +23,7 @@ export class ListProductComponent implements OnInit {
                 if (data.listProductResolver.code === 0) {
                     let index = 0;
                     this.products = data.listProductResolver.msg.map(item => {
-                        return new Product(++index,
+                        return new ProductList(++index,
                             item.pid,
                             item.name,
                             item.description,

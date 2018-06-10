@@ -38,6 +38,15 @@ export class Attribute {
 }
 
 /**
+ *      商品
+ */
+export class Product {
+    constructor(public name: string,
+                public introduce: string) {
+    }
+}
+
+/**
  *      用户
  */
 export class User {
@@ -70,7 +79,10 @@ export class Refund {
     }
 }
 
-export class Product {
+/**
+ *      商品列表
+ */
+export class ProductList {
     constructor(public index: number,
                 public pid: string,
                 public name: string,

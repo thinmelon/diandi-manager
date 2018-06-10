@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AttributeModalComponent} from '../../modal/attribute-modal/attribute-modal.component';
+import {Product} from '../../services/diandi.structure';
 
 @Component({
     selector: 'app-edit-product',
@@ -8,12 +9,13 @@ import {AttributeModalComponent} from '../../modal/attribute-modal/attribute-mod
     styleUrls: ['./edit-product.component.less']
 })
 export class EditProductComponent implements OnInit {
-
+    product: Product;
     attributes = [];
     head = [];
     sku = [];
 
     constructor(private modalService: NgbModal) {
+        this.product = new Product('', '');
     }
 
     ngOnInit() {
@@ -79,5 +81,9 @@ export class EditProductComponent implements OnInit {
             }
         }
         return tmp;
+    }
+
+    onSubmit() {
+        console.log('onSubmit');
     }
 }

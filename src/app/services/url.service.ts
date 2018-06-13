@@ -30,5 +30,9 @@ export class UrlService {
     static Refund(): string {
         return `${ PREFIX }/refund`;
     }
+
+    static UploadProductThumbnails(): string {
+        return `${ PREFIX }/product/thumbnail`;
+    }
 }
 

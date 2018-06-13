@@ -16,10 +16,23 @@
         <div class="form-group">
             <label for="productThumbnails">微缩图: </label>
             <input type="file" placeholder="上传商品微缩图" id="productThumbnails" class="form-control"
-                   name="productThumbnails"/>
+                   name="productThumbnails" ng2FileSelect [uploader]="uploader"
+                   (change)="selectedFileOnChanged($event)" multiple/>
         </div>
+        <div *ngFor="let item of thumbnails">
+            <img src="{{ item }}" style="width: 50px; height: 50px;"/>
+        </div>
+        <button type="button" class="btn btn-success btn-xs" (click)="uploadAll()">
+            上传
+        </button>
         <div>
-
+            上传进度:
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
+                     [ngStyle]="{ 'width': progress + '%' }" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                    {{ progress }}
+                </div>
+            </div>
         </div>
         <hr>
 

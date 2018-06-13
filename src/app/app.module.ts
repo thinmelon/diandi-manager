@@ -2,16 +2,17 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
+import {FileUploadModule} from 'ng2-file-upload';
 import {AppRouterModule} from './app.router.module';
 import {BackboneService} from './services/diandi.backbone';
 import {ContainerService} from './services/container.service';
 import {AppComponent} from './app.component';
 import {ListOrderComponent} from './list/list-order/list-order.component';
 import {RichTextModalComponent} from './modal/rich-text-modal/rich-text-modal.component';
-import {ListProductComponent} from "./list/list-product/list-product.component";
-import {EditProductComponent} from "./edit/edit-product/edit-product.component";
-import {AttributeModalComponent} from "./modal/attribute-modal/attribute-modal.component";
-import {FormsModule} from "@angular/forms";
+import {ListProductComponent} from './list/list-product/list-product.component';
+import {EditProductComponent} from './edit/edit-product/edit-product.component';
+import {AttributeModalComponent} from './modal/attribute-modal/attribute-modal.component';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import {FormsModule} from "@angular/forms";
         FormsModule,
         NgbModule.forRoot(),
         HttpClientModule,
-        AppRouterModule
+        AppRouterModule,
+        FileUploadModule
     ],
     providers: [
         BackboneService,

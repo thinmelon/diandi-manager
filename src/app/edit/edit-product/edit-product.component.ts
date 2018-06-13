@@ -112,6 +112,7 @@ export class EditProductComponent implements OnDestroy {
         // 遍历所选择的文件
         this.uploader.queue.forEach((fileItem, index) => {
             console.log(fileItem);
+            fileItem.withCredentials = false;
             const reader = new FileReader();
             // 生成base64图片地址，实现本地预览。
             reader.readAsDataURL(fileItem._file);

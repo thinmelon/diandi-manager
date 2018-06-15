@@ -20,6 +20,7 @@ export class AttributeModalComponent {
 
     onEnter(values: string) {
         this.inputValue = '';
+        values = values.trim();
         /** 属性名不可为空 */
         if (values === '') {
             return;

@@ -1,9 +1,11 @@
 import {Component, OnDestroy} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AttributeModalComponent} from '../../modal/attribute-modal/attribute-modal.component';
-import {Product} from '../../services/diandi.structure';
+import {AttributeSet, Product} from '../../services/diandi.structure';
 import {FileUploader} from 'ng2-file-upload';
 import {UrlService} from '../../services/url.service';
+import {BackboneService} from '../../services/diandi.backbone';
+import {ContainerService} from '../../services/container.service';
 
 const URL = UrlService.UploadProductThumbnails();
 
@@ -13,11 +15,13 @@ const URL = UrlService.UploadProductThumbnails();
     styleUrls: ['./edit-product.component.less']
 })
 export class EditProductComponent implements OnDestroy {
-    product: Product;
     attributes = [];
     head = [];
     sku = [];
     thumbnails = [];
+    details = [];
+    name = '';
+    introduce = '';
     progress = 0;
     public uploader: FileUploader = new FileUploader({
         url: URL,
@@ -28,14 +32,18 @@ export class EditProductComponent implements OnDestroy {
         removeAfterUpload: true                //  是否在上传完成后从队列中移除
     });
 
-    constructor(private modalService: NgbModal) {
-        this.product = new Product('', '');
+    constructor(private modalService: NgbModal,
+                private backbone: BackboneService,
+                private container: ContainerService) {
     }
 
     ngOnDestroy() {
         this.uploader.destroy();
     }
 
+    /**
+     *  添加属性
+     */
     addAttribute() {
         const modalRef = this.modalService.open(AttributeModalComponent);
         modalRef.componentInstance.title = '输入后按回车添加属性名';
@@ -50,23 +58,28 @@ export class EditProductComponent implements OnDestroy {
                     // 将相同属性名的值归为对象内
                     if (this.attributes[i].name === item.name) {
                         isHit = true;
-                        this.attributes[i].values.push(item.value);
+                        this.attributes[i].values.push(item.value.trim());
                         break;
                     }
                 }
                 if (!isHit) {
-                    this.attributes.push({
-                        name: item.name,
-                        values: [item.value]
-                    });
+                    this.attributes.push(new AttributeSet(
+                        item.name.trim(),
+                        [item.value.trim()]
+                    ));
                 }
             });
-            //  赋值属性名数组
-            for (let i = 0; i < this.attributes.length; i++) {
-                this.head.push(this.attributes[i].name);
-            }
-            //  赋值SKU数组
-            this.sku = this.generateSKU(this.attributes.length - 1);
+            //  保存属性键值
+            this.backbone.saveProductAttributes(this.attributes)
+                .subscribe(res => {
+                    this.attributes = res;
+                    //  赋值属性名数组
+                    for (let i = 0; i < this.attributes.length; i++) {
+                        this.head.push(this.attributes[i].name);
+                    }
+                    //  赋值SKU数组
+                    this.sku = this.generateSKU(this.attributes.length - 1);
+                });
         });
     }
 
@@ -80,8 +93,9 @@ export class EditProductComponent implements OnDestroy {
         //  当递归至最底层时，对属性数组的第一个元素进行加工后直接返回
         if (n <= 0) {
             for (let i = 0; i < this.attributes[0].values.length; i++) {
-                const item = {unit: 0, amount: 0};
-                item[this.attributes[0].name] = this.attributes[0].values[i];
+                const item = {unit: 0, amount: 0, vids: ''};
+                item[this.attributes[0].name] = this.attributes[0].values[i].value;
+                item['vids'] += this.attributes[0].values[i].vid + ',';
                 tmp.push(item);
             }
             return tmp;
@@ -91,7 +105,8 @@ export class EditProductComponent implements OnDestroy {
         //  整合下一层的结果与该层的数组元素
         for (let j = 0, length = result.length; j < length; j++) {
             for (let k = 0; k < this.attributes[n].values.length; k++) {
-                result[j][this.attributes[n].name] = this.attributes[n].values[k];
+                result[j][this.attributes[n].name] = this.attributes[n].values[k].value;
+                result[j]['vids'] += this.attributes[n].values[k].vid + ',';
                 tmp.push(JSON.parse(JSON.stringify(result[j])));        //  实现对象的深拷贝
             }
         }
@@ -102,23 +117,27 @@ export class EditProductComponent implements OnDestroy {
      * 本地预览
      * 文件选择完成后的操作处理
      */
-    selectedFileOnChanged() {
+    selectedFileOnChanged(currentTarget: Array<any>) {
         //  区别于new FileReader()中的this
         const that = this;
-        //  清空thumbnails数组
-        while (this.thumbnails.length > 0) {
-            this.thumbnails.pop();
+        //  清空currentTarget数组
+        while (currentTarget.length > 0) {
+            currentTarget.pop();
         }
         // 遍历所选择的文件
         this.uploader.queue.forEach((fileItem, index) => {
             console.log(fileItem);
             fileItem.withCredentials = false;
             const reader = new FileReader();
-            // 生成base64图片地址，实现本地预览。
+            // 生成base64图片地址，实现本地预览
             reader.readAsDataURL(fileItem._file);
             reader.onload = function (e) {
-                // that.thumbnails.push(e.currentTarget.result);
-                that.thumbnails.push(this.result);
+                currentTarget.push({
+                    index: index,
+                    originalName: fileItem._file.name,
+                    src: this.result,
+                    imageId: ''
+                });
             };
         });
     }
@@ -126,23 +145,82 @@ export class EditProductComponent implements OnDestroy {
     /**
      *  上传文件
      */
-    uploadAll() {
+    uploadAll(currentTarget: Array<any>) {
         console.log('========>  uploadAll');
         const that = this;
+        /**
+         * 整体的上传进度的回调（开始上传后调用非常频繁）
+         * @param progress          - 整体的上传文件的进度
+         */
         this.uploader.onProgressAll = function (progress) {
             console.log('=======>   onProgressAll');
             console.log(progress);
             that.progress = progress;
         };
+        /**
+         *  完成上传一个文件的回调
+         * @param item              - 上传成功的文件
+         * @param response          - 上传成功后服务器的返回
+         * @param status            - 状态码
+         * @param headers            上传成功后服务器的返回的返回头
+         */
+        this.uploader.onCompleteItem = function (item, response, status, headers) {
+            console.log('===========> onCompleteItem ');
+            const res = JSON.parse(response);
+            console.log(res);
+            currentTarget = currentTarget.map(target => {
+                if (target.originalName === item._file.name) {
+                    target.imageId = res.imageId;
+                }
+                return target;
+            });
+        };
+        /**
+         *  完成上传所有文件的回调
+         */
         this.uploader.onCompleteAll = function () {
             console.log('===========> Completed ');
-            console.log(that.uploader.queue);
         };
         this.uploader.uploadAll();
     }
 
-
+    /**
+     *  提交保存商品
+     */
     onSubmit() {
-        console.log('onSubmit');
+        console.log('======>    onSubmit');
+        const thumbnails = this.thumbnails.map(thumbnail => {
+            return {
+                imageId: thumbnail.imageId,
+                type: 0
+            };
+        });
+
+        const details = this.thumbnails.map(detail => {
+            return {
+                imageId: detail.imageId,
+                type: 1
+            };
+        });
+
+        const product = new Product(
+            this.name,                  //  商品名称
+            this.introduce,             //  商品描述
+            this.attributes,            //  商品属性
+            this.sku,                   //  库存信息
+            thumbnails,                 //  微缩图
+            details                     //  详情图
+        );
+
+        console.log(product);
+
+        this.backbone
+            .saveProduct(
+                this.container.get().session,
+                product
+            )
+            .subscribe(response => {
+                console.log(response);
+            });
     }
 }

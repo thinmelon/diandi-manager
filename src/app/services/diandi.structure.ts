@@ -38,11 +38,24 @@ export class Attribute {
 }
 
 /**
+ *      属性键值集合
+ */
+export class AttributeSet {
+    constructor(public name: string,
+                public values: string[]) {
+    }
+}
+
+/**
  *      商品
  */
 export class Product {
     constructor(public name: string,
-                public introduce: string) {
+                public introduce: string,
+                public attributes: Array<any>,
+                public sku: Array<any>,
+                public thumbnails: Array<any>,
+                public details: Array<any>) {
     }
 }
 

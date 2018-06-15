@@ -34,5 +34,13 @@ export class UrlService {
     static UploadProductThumbnails(): string {
         return `${ PREFIX }/product/thumbnail`;
     }
+
+    static SaveProductAttributes(): string {
+        return `${ PREFIX }/product/attributes`;
+    }
+
+    static SaveProductInfo(): string {
+        return `${ PREFIX }/product`;
+    }
 }
 

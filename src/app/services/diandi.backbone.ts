@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs/index';
 import {UrlService} from './url.service';
 import {catchError} from 'rxjs/internal/operators';
-import {Refund} from './diandi.structure';
+import {AttributeSet, Product, Refund} from './diandi.structure';
 
 // const httpOptions = {
 //     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -110,6 +110,38 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('refund', {errMsg: '#refund#退款失败'}))
+            );
+    }
+
+    /**
+     *  保存商品属性
+     * @param attributes
+     * @returns {Observable<A>}
+     */
+    public saveProductAttributes(attributes: AttributeSet[]): Observable<any> {
+        return this.http
+            .post(UrlService.SaveProductAttributes(), {
+                attributes: JSON.stringify(attributes)
+            })
+            .pipe(
+                catchError(this.handleError('saveProductAttributes', {errMsg: '#saveProductAttributes#保存商品属性失败'}))
+            );
+    }
+
+    /**
+     * 新建商品
+     * @param session
+     * @param product
+     * @returns {Observable<A>}
+     */
+    public saveProduct(session: string, product: Product): Observable<any> {
+        return this.http
+            .post(UrlService.SaveProductInfo(), {
+                session: session,
+                product: JSON.stringify(product)
+            })
+            .pipe(
+                catchError(this.handleError('saveProduct', {errMsg: '#saveProduct#保存商品属性失败'}))
             );
     }
 

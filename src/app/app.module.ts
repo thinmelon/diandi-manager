@@ -13,6 +13,7 @@ import {RichTextModalComponent} from './modal/rich-text-modal/rich-text-modal.co
 import {ListProductComponent} from './list/list-product/list-product.component';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {AttributeModalComponent} from './modal/attribute-modal/attribute-modal.component';
+import {ProgressBarModalComponent} from './modal/progress-bar-modal/progress-bar-modal.component';
 
 @NgModule({
     declarations: [
@@ -21,11 +22,13 @@ import {AttributeModalComponent} from './modal/attribute-modal/attribute-modal.c
         ListProductComponent,
         EditProductComponent,
         RichTextModalComponent,
-        AttributeModalComponent
+        AttributeModalComponent,
+        ProgressBarModalComponent
     ],
     entryComponents: [
         RichTextModalComponent,
-        AttributeModalComponent
+        AttributeModalComponent,
+        ProgressBarModalComponent
     ],
     imports: [
         BrowserModule,

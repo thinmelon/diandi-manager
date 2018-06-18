@@ -1,6 +1,6 @@
 const PROTOCOL = 'https://';
 // const PROTOCOL = 'http://';
-const HOST = 'www.thinmelon.cc:3000';
+const HOST = 'www.pusudo.cn';
 // const HOST = 'localhost:4200';
 const API = '/backbone';
 const PREFIX = PROTOCOL + HOST + API;

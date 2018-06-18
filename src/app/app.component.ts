@@ -9,7 +9,7 @@ import {ContainerService} from './services/container.service';
 export class AppComponent {
     constructor(private container: ContainerService) {
         this.container.set({
-            session: 'kGKs01p7ONomrPWeGKdopUv1HbXcdQlZ'
+            session: 'ndeXKpf04OqcAvzZP8p40jfcwiYRWWPO'
         });
     }
 }

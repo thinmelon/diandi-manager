@@ -1,11 +1,15 @@
+import {Router} from '@angular/router';
 import {Component, OnDestroy} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AttributeModalComponent} from '../../modal/attribute-modal/attribute-modal.component';
-import {AttributeSet, Product} from '../../services/diandi.structure';
 import {FileUploader} from 'ng2-file-upload';
+/** service */
+import {AttributeSet, Product} from '../../services/diandi.structure';
 import {UrlService} from '../../services/url.service';
 import {BackboneService} from '../../services/diandi.backbone';
 import {ContainerService} from '../../services/container.service';
+/** component */
+import {AttributeModalComponent} from '../../modal/attribute-modal/attribute-modal.component';
+import {ProgressBarModalComponent} from '../../modal/progress-bar-modal/progress-bar-modal.component';
 
 const URL = UrlService.UploadProductThumbnails();
 
@@ -22,7 +26,6 @@ export class EditProductComponent implements OnDestroy {
     details = [];
     name = '';
     introduce = '';
-    progress = 0;
     public uploader: FileUploader = new FileUploader({
         url: URL,
         // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
@@ -32,7 +35,8 @@ export class EditProductComponent implements OnDestroy {
         removeAfterUpload: true                //  是否在上传完成后从队列中移除
     });
 
-    constructor(private modalService: NgbModal,
+    constructor(private router: Router,
+                private modalService: NgbModal,
                 private backbone: BackboneService,
                 private container: ContainerService) {
     }
@@ -118,8 +122,8 @@ export class EditProductComponent implements OnDestroy {
      * 文件选择完成后的操作处理
      */
     selectedFileOnChanged(currentTarget: Array<any>) {
-        //  区别于new FileReader()中的this
-        const that = this;
+        // //  区别于new FileReader()中的this
+        // const that = this;
         //  清空currentTarget数组
         while (currentTarget.length > 0) {
             currentTarget.pop();
@@ -146,8 +150,23 @@ export class EditProductComponent implements OnDestroy {
      *  上传文件
      */
     uploadAll(currentTarget: Array<any>) {
-        console.log('========>  uploadAll');
-        const that = this;
+        const modalRef = this.modalService.open(ProgressBarModalComponent);
+        modalRef.componentInstance.progress = 0;
+        modalRef.result.then(
+            /**
+             * close
+             * @param result
+             */
+            (result) => {
+                console.log(result);
+            },
+            /**
+             * dismiss
+             * @param reason
+             */
+            (reason) => {
+                console.log(reason);
+            });
         /**
          * 整体的上传进度的回调（开始上传后调用非常频繁）
          * @param progress          - 整体的上传文件的进度
@@ -155,7 +174,7 @@ export class EditProductComponent implements OnDestroy {
         this.uploader.onProgressAll = function (progress) {
             console.log('=======>   onProgressAll');
             console.log(progress);
-            that.progress = progress;
+            modalRef.componentInstance.progress = progress;
         };
         /**
          *  完成上传一个文件的回调
@@ -180,6 +199,7 @@ export class EditProductComponent implements OnDestroy {
          */
         this.uploader.onCompleteAll = function () {
             console.log('===========> Completed ');
+            modalRef.close('Completed');
         };
         this.uploader.uploadAll();
     }
@@ -188,18 +208,19 @@ export class EditProductComponent implements OnDestroy {
      *  提交保存商品
      */
     onSubmit() {
-        console.log('======>    onSubmit');
         const thumbnails = this.thumbnails.map(thumbnail => {
             return {
-                imageId: thumbnail.imageId,
-                type: 0
+                imageId: thumbnail.imageId,     //  图片id
+                type: 0,                        //  图片类型
+                number: thumbnail.index         //  图片索引
             };
         });
 
-        const details = this.thumbnails.map(detail => {
+        const details = this.details.map(detail => {
             return {
                 imageId: detail.imageId,
-                type: 1
+                type: 1,
+                number: detail.index
             };
         });
 
@@ -221,6 +242,9 @@ export class EditProductComponent implements OnDestroy {
             )
             .subscribe(response => {
                 console.log(response);
+                if (response.code === 0) {
+                    this.router.navigate(['/list/product']);
+                }
             });
     }
 }

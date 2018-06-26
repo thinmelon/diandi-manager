@@ -19,9 +19,10 @@
             <td>{{ product.createTime }}</td>
             <td>{{ product.status }}</td>
             <td>
-                <button class="btn btn-primary">上架</button>
-                <button class="btn btn-primary">下架</button>
-                <button class="btn btn-primary">编辑</button>
+                <button class="btn btn-outline-secondary" (click)="changeProductStatus(0,product.pid)">上架</button>
+                <button class="btn btn-outline-secondary" (click)="changeProductStatus(1,product.pid)">下架</button>
+                <button class="btn btn-outline-primary">编辑</button>
+                <button class="btn btn-outline-danger" (click)="removeProduct(product.pid)">删除</button>
             </td>
         </tbody>
     </table>

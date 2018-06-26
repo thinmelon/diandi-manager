@@ -42,5 +42,13 @@ export class UrlService {
     static SaveProductInfo(): string {
         return `${ PREFIX }/product`;
     }
+
+    static RemoveProduct(): string {
+        return `${ PREFIX }/product/dead`;
+    }
+
+    static ChangeProductStatus(): string {
+        return `${ PREFIX }/product/status`;
+    }
 }
 

@@ -141,7 +141,41 @@ export class BackboneService {
                 product: JSON.stringify(product)
             })
             .pipe(
-                catchError(this.handleError('saveProduct', {errMsg: '#saveProduct#保存商品属性失败'}))
+                catchError(this.handleError('saveProduct', {errMsg: '#saveProduct#新增商品失败'}))
+            );
+    }
+
+    /**
+     * 移除商品
+     * @param pid
+     * @returns {Observable<A>}
+     */
+    public removeProduct(pid: string): Observable<any> {
+        return this.http
+            .post(UrlService.RemoveProduct(), {
+                productid: pid
+            })
+            .pipe(
+                catchError(this.handleError('removeProduct', {errMsg: '#removeProduct#移除商品失败'}))
+            );
+    }
+
+    /**
+     * * 调整商品状态
+     *  --  上/下架
+     * @param status
+     * @param productid
+     * @returns {Observable<A>}
+     * @constructor
+     */
+    public changeProductStatus(status: number, productid: string): Observable<any> {
+        return this.http
+            .post(UrlService.ChangeProductStatus(), {
+                status: status,
+                productid: productid
+            })
+            .pipe(
+                catchError(this.handleError('ChangeProductStatus', {errMsg: '#ChangeProductStatus#调整商品状态失败'}))
             );
     }
 

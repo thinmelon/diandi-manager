@@ -1,6 +1,6 @@
 <div class="container">
     <form #productFrom="ngForm">
-        <button class="btn btn-success" [disabled]="!productFrom.form.valid" (click)="onSubmit($event)">提交</button>
+        <button class="btn btn-success" [disabled]="!productFrom.form.valid" (click)="onSubmit()">提交</button>
         <hr>
 
         <div [hidden]="productName.valid || productName.pristine"

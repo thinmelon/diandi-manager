@@ -12,6 +12,6 @@ export class ListProductResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchProducts(this.container.get().session, moment().format(), 10);
+        return this.backbone.fetchProducts(this.container.get().session, moment().format(), 100);
     }
 }

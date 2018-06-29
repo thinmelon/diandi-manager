@@ -5,10 +5,13 @@ import {ListOrderResolver} from './services/resolver/order.resolver';
 import {ListProductComponent} from './list/list-product/list-product.component';
 import {ListProductResolver} from './services/resolver/product.resolver';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
+import {AuthGuard} from './services/authentication.service';
+import {LoginComponent} from './login/login.component';
 
 const __ROUTES__: Routes = [
     {
         path: 'list',
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'order',
@@ -28,6 +31,7 @@ const __ROUTES__: Routes = [
     },
     {
         path: 'edit',
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'product',
@@ -36,8 +40,12 @@ const __ROUTES__: Routes = [
         ]
     },
     {
+        path: 'login',
+        component: LoginComponent
+    },
+    {
         path: '',
-        redirectTo: '/list/order',
+        redirectTo: '/login',
         pathMatch: 'full'
     }
 ];

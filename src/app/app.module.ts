@@ -5,6 +5,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {FileUploadModule} from 'ng2-file-upload';
 import {AppRouterModule} from './app.router.module';
+import {WidgetModule} from './widget/widget.module';
 import {BackboneService} from './services/diandi.backbone';
 import {ContainerService} from './services/container.service';
 import {AppComponent} from './app.component';
@@ -14,6 +15,8 @@ import {ListProductComponent} from './list/list-product/list-product.component';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {AttributeModalComponent} from './modal/attribute-modal/attribute-modal.component';
 import {ProgressBarModalComponent} from './modal/progress-bar-modal/progress-bar-modal.component';
+import {LoginComponent} from './login/login.component';
+import {AuthGuard} from './services/authentication.service';
 
 @NgModule({
     declarations: [
@@ -23,7 +26,8 @@ import {ProgressBarModalComponent} from './modal/progress-bar-modal/progress-bar
         EditProductComponent,
         RichTextModalComponent,
         AttributeModalComponent,
-        ProgressBarModalComponent
+        ProgressBarModalComponent,
+        LoginComponent
     ],
     entryComponents: [
         RichTextModalComponent,
@@ -36,11 +40,13 @@ import {ProgressBarModalComponent} from './modal/progress-bar-modal/progress-bar
         NgbModule.forRoot(),
         HttpClientModule,
         AppRouterModule,
-        FileUploadModule
+        FileUploadModule,
+        WidgetModule
     ],
     providers: [
         BackboneService,
-        ContainerService
+        ContainerService,
+        AuthGuard
     ],
     bootstrap: [AppComponent]
 })

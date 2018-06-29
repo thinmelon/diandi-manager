@@ -25,9 +25,10 @@ export class ListProductComponent implements OnInit {
                 if (data.listProductResolver.code === 0) {
                     let index = 0;
                     this.products = data.listProductResolver.msg.product.map(item => {
+                        // console.log(item.description);
                         return new ProductList(++index,
                             item.pid,
-                            item.name,
+                            decodeURIComponent(item.name),
                             item.description,
                             item.sales,
                             item.status,

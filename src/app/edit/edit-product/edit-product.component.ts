@@ -31,7 +31,7 @@ export class EditProductComponent implements OnDestroy {
         // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
         method: 'POST',                         //  上传文件的方式
         maxFileSize: 5 * 1024 * 1024,           //  最大可上传的文件大小
-        queueLimit: 5,                          //  最大可上传的文件数量
+        queueLimit: 9,                          //  最大可上传的文件数量
         removeAfterUpload: true                //  是否在上传完成后从队列中移除
     });
 
@@ -225,12 +225,12 @@ export class EditProductComponent implements OnDestroy {
         });
 
         const product = new Product(
-            this.name,                  //  商品名称
-            this.introduce,             //  商品描述
-            this.attributes,            //  商品属性
-            this.sku,                   //  库存信息
-            thumbnails,                 //  微缩图
-            details                     //  详情图
+            encodeURIComponent(this.name),                  //  商品名称
+            encodeURIComponent(this.introduce),             //  商品描述
+            this.attributes,                                //  商品属性
+            this.sku,                                       //  库存信息
+            thumbnails,                                      //  微缩图
+            details                                          //  详情图
         );
 
         console.log(product);

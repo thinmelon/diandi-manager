@@ -8,7 +8,7 @@ const PREFIX = PROTOCOL + HOST + API;
 export class UrlService {
 
     static FetchProductList(session: string, startTime: string, n: number): string {
-        return `${ PREFIX }/product/list?session=${ session }&startTime=${ startTime }&number=${ n }`;
+        return `${ PREFIX }/product/list?session=${ session }&startTime=${ startTime }&number=${ n }&queryType=FULL`;
     }
 
     static FetchOrderList(session: string, startTime: string, n: number): string {
@@ -49,6 +49,10 @@ export class UrlService {
 
     static ChangeProductStatus(): string {
         return `${ PREFIX }/product/status`;
+    }
+
+    static SendVerificationCode(): string {
+        return `${ PREFIX }/sms`;
     }
 }
 

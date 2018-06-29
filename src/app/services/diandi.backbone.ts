@@ -12,6 +12,32 @@ import {AttributeSet, Product, Refund} from './diandi.structure';
 @Injectable()
 export class BackboneService {
     /**
+     *  登录态
+     */
+    private _isLoggedIn: boolean;
+
+    get isLoggedIn(): boolean {
+        return this._isLoggedIn;
+    }
+
+    set isLoggedIn(loginOrNot: boolean) {
+        this._isLoggedIn = loginOrNot;
+    }
+
+    /**
+     *  回调地址
+     */
+    private _redirectUrl: string;
+
+    get redirectUrl(): string {
+        return this._redirectUrl;
+    }
+
+    set redirectUrl(url: string) {
+        this._redirectUrl = url;
+    }
+
+    /**
      * 构造函数
      * 依赖注入 HttpClient 服务
      * @param http
@@ -176,6 +202,21 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('ChangeProductStatus', {errMsg: '#ChangeProductStatus#调整商品状态失败'}))
+            );
+    }
+
+    /**
+     * 发送验证码
+     * @param phone
+     * @returns {Observable<A>}
+     */
+    public sendVerificationCode(phone: string): Observable<any> {
+        return this.http
+            .post(UrlService.SendVerificationCode(), {
+                phone: phone
+            })
+            .pipe(
+                catchError(this.handleError('sendVerificationCode', {errMsg: '#sendVerificationCode#调用发送验证码失败'}))
             );
     }
 

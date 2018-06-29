@@ -107,6 +107,17 @@ export class ProductList {
 }
 
 /**
+ *      验证码
+ */
+export class VerificationCode {
+    constructor(public requestId: string,
+                public bizId: string,
+                public phone: string,
+                public verificationCode: string) {
+    }
+}
+
+/**
  *      订单状态
  */
 export const OrderStatusEnum = [

@@ -86,7 +86,7 @@ export class ListOrderComponent implements OnInit {
                     this.skuListShown.push(
                         {
                             stock_no: res.msg.order[key].stock_no,
-                            name: res.msg.order[key].name,
+                            name: decodeURIComponent(res.msg.order[key].name),
                             unit: res.msg.order[key].unit,
                             amount: res.msg.order[key].amount,
                             attributes: attributes

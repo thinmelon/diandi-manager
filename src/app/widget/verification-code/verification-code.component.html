@@ -1,0 +1,33 @@
+<form #verificationCodeForm="ngForm">
+  <div class="container">
+    <ngb-alert type="danger" *ngIf="message" (close)="message=''">{{ message }}</ngb-alert>
+    <div class="form-group">
+      <input #mobilePhone type="text" class="form-control" value="{{ phone }}" (blur)="onMobilePhoneBlur(mobilePhone.value)">
+    </div>
+    <div class="form-group">
+      <div class="d-flex flex-md-row justify-content-between">
+        <input type="number" class="form-control input-verification-code" placeholder="请输入验证码"
+               required minlength="6"
+               [(ngModel)]="verificationCode" name="inputVerificationCode"
+               #verificationCodeValue="ngModel"
+        />
+        <button type="button" class="btn btn-primary btn-send-code"
+                (click)="sendVerificationCode()" [disabled]="hasSent"> {{ btnSendText }}
+        </button>
+      </div>
+      <div *ngIf="verificationCodeValue.invalid && (verificationCodeValue.dirty || verificationCodeValue.touched)"
+           class="alert alert-danger">
+        <div *ngIf="verificationCodeValue.errors.required">
+          * 必填项
+        </div>
+        <div *ngIf="verificationCodeValue.errors.minlength">
+          验证码输入有误
+        </div>
+      </div>
+    </div>
+    <button (click)="onConfirm()" type="button"
+            class="btn btn-success btn-lg btn-block"
+            [disabled]="!verificationCodeForm.form.valid"> {{ btnConfirmText }}
+    </button>
+  </div>
+</form>

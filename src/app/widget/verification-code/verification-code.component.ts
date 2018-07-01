@@ -15,13 +15,11 @@ export class VerificationCodeComponent implements OnDestroy {
     @Input() hasSent = false;
     @Input() btnSendText = '发送';
     @Input() btnConfirmText = '下一步';
-    @Input() phone = '';
+    // @Input() phone = '';
     @Input() message = '';
     @Output() gotoNext = new EventEmitter<VerificationCode>();
 
-    /**
-     *  验证码
-     */
+    public phone = '';
     public verificationCode = '';
     /**
      *  内部属性
@@ -77,12 +75,12 @@ export class VerificationCodeComponent implements OnDestroy {
         }, 1000);
     }
 
-    /**
-     *  输入手机号码
-     */
-    onMobilePhoneBlur(value: string): void {
-        this.phone = value;
-    }
+    // /**
+    //  *  输入手机号码
+    //  */
+    // onMobilePhoneBlur(value: string): void {
+    //     this.phone = value;
+    // }
 
     /**
      * 开始发送验证码
@@ -107,10 +105,10 @@ export class VerificationCodeComponent implements OnDestroy {
 
     onConfirm(): void {
         // this.gotoNext.emit(new VerificationCode(
-        //     '5E835EAC-AC30-49EA-89CC-FE78087E32DF',
-        //     '285725118508128016^0',
+        //     '4CA5D55F-B201-48F7-898B-4DD4E1B4CB16',
+        //     '250717730345090598^0',
         //     '18159393355',
-        //     '660628'
+        //     '032851'
         // ));
         this.gotoNext.emit(new VerificationCode(
             this.requestId,

@@ -221,6 +221,27 @@ export class BackboneService {
     }
 
     /**
+     * 登录
+     * @param requestId
+     * @param bizId
+     * @param phone
+     * @param verificationCode
+     * @returns {Observable<A>}
+     */
+    public login(requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
+        return this.http
+            .post(UrlService.Login(), {
+                requestId: requestId,
+                bizId: bizId,
+                phone: phone,
+                verificationCode: verificationCode
+            })
+            .pipe(
+                catchError(this.handleError('login', {errMsg: '#login#登录失败'}))
+            );
+    }
+
+    /**
      * Handle Http operation that failed.
      * Let the app continue.
      * @param operation - name of the operation that failed

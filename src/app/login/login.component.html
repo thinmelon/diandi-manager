@@ -1,6 +1,7 @@
-<app-verification-code
-        [phone]="phone"
-        [message]="message"
-        [btnConfirmText]='btnText'
-        (gotoNext)="login($event)"
-></app-verification-code>
+<div class="container">
+    <app-verification-code
+            [message]="message"
+            [btnConfirmText]='btnText'
+            (gotoNext)="login($event)"
+    ></app-verification-code>
+</div>

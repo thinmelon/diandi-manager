@@ -54,5 +54,9 @@ export class UrlService {
     static SendVerificationCode(): string {
         return `${ PREFIX }/sms`;
     }
+
+    static Login(): string {
+        return `${ PREFIX }/login`;
+    }
 }
 

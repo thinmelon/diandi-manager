@@ -23,10 +23,10 @@
             管理系统
         </a>
         <div class="nav nav-pills d-flex flex-row">
-            <a class="nav-item nav-link active" [routerLink]="['/list/order']">订单</a>
-            <a class="nav-item nav-link " [routerLink]="['/list/product']">商品</a>
-            <a class="nav-item nav-link" href="#">用户</a>
-            <a class="nav-item nav-link disabled" href="#">权限</a>
+            <a class="nav-item nav-link" [ngClass]="{'active': focusItem === 'order'}" (click)="onFocus('order')">订单</a>
+            <a class="nav-item nav-link" [ngClass]="{'active': focusItem === 'product'}"
+               (click)="onFocus('product')">商品</a>
+            <a class="nav-item nav-link" [ngClass]="{'active': focusItem === 'user'}" (click)="onFocus('user')">用户</a>
         </div>
     </div>
 

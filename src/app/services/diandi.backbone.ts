@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs/index';
 import {UrlService} from './url.service';
@@ -14,27 +14,47 @@ export class BackboneService {
     /**
      *  登录态
      */
-    private _isLoggedIn: boolean;
-
-    get isLoggedIn(): boolean {
-        return this._isLoggedIn;
+    get isLoggedIn(): string {
+        return sessionStorage.getItem('_isLoggedIn');
     }
 
-    set isLoggedIn(loginOrNot: boolean) {
-        this._isLoggedIn = loginOrNot;
+    set isLoggedIn(loginOrNot: string) {
+        sessionStorage.removeItem('_isLoggedIn');
+        sessionStorage.setItem('_isLoggedIn', loginOrNot);
     }
 
     /**
      *  回调地址
      */
-    private _redirectUrl: string;
-
     get redirectUrl(): string {
-        return this._redirectUrl;
+        return sessionStorage.getItem('_redirectUrl');
     }
 
     set redirectUrl(url: string) {
-        this._redirectUrl = url;
+        sessionStorage.removeItem('_redirectUrl');
+        sessionStorage.setItem('_redirectUrl', url);
+    }
+
+    /**
+     *  SESSION
+     */
+    get session(): string {
+        return sessionStorage.getItem('_session');
+    }
+
+    set session(value: string) {
+        sessionStorage.setItem('_session', value);
+    }
+
+    /**
+     *  菜单栏光标所在位置
+     */
+    get focusItem(): string {
+        return sessionStorage.getItem('_focusItem');
+    }
+
+    set focusItem(value: string) {
+        sessionStorage.setItem('_focusItem', value);
     }
 
     /**
@@ -99,6 +119,23 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('fetchUserInfo', {errMsg: '#fetchUserInfo#获取用户资料失败'}))
+            );
+    }
+
+    /**
+     *  获取用户列表
+     * @param session
+     * @param queryType
+     * @returns {Observable<A>}
+     */
+    public fetchUserList(session: string, queryType: string): Observable<any> {
+        return this.http
+            .post(UrlService.FetchUserList(), {
+                session: session,
+                queryType: queryType
+            })
+            .pipe(
+                catchError(this.handleError('fetchUserList', {errMsg: '#fetchUserList#获取用户列表失败'}))
             );
     }
 
@@ -178,8 +215,8 @@ export class BackboneService {
      */
     public removeProduct(pid: string): Observable<any> {
         return this.http
-            .post(UrlService.RemoveProduct(), {
-                productid: pid
+            .delete(UrlService.RemoveProduct(), {
+                params: new HttpParams().set('productid', pid),
             })
             .pipe(
                 catchError(this.handleError('removeProduct', {errMsg: '#removeProduct#移除商品失败'}))

@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs/index';
-import * as moment from 'moment';
 import {BackboneService} from '../diandi.backbone';
+import {Observable} from 'rxjs/index';
 
 @Injectable()
-export class ListOrderResolver implements Resolve<any> {
+export class ListUserResolver implements Resolve<any> {
     constructor(private backbone: BackboneService) {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchOrders(this.backbone.session, moment().format(), 10);
+        // return this.backbone.fetchProducts(this.backbone.session, moment().format(), 100);
+        return this.backbone.fetchUserList(this.backbone.session, 'ALL');
     }
 }

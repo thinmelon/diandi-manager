@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ContainerService} from '../../services/container.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ProductList} from '../../services/diandi.structure';
 import {BackboneService} from '../../services/diandi.backbone';
 
@@ -12,13 +11,12 @@ import {BackboneService} from '../../services/diandi.backbone';
 export class ListProductComponent implements OnInit {
     products: ProductList[];
 
-    constructor(private route: ActivatedRoute,
-                private container: ContainerService,
+    constructor(private router: Router,
+                private route: ActivatedRoute,
                 private backbone: BackboneService) {
     }
 
     ngOnInit() {
-        console.log(this.container.get().session);
         this.route.data
             .subscribe((data: { listProductResolver: any }) => {
                 console.log(data.listProductResolver);
@@ -35,6 +33,9 @@ export class ListProductComponent implements OnInit {
                             item.createTime
                         );
                     });
+                } else {
+                    sessionStorage.clear();
+                    this.router.navigate(['/login']);
                 }
             });
     }

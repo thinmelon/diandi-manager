@@ -1,7 +1,6 @@
 import {Router} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
 import {BackboneService} from '../services/diandi.backbone';
-import {ContainerService} from '../services/container.service';
 
 @Component({
     selector: 'app-login',
@@ -14,7 +13,6 @@ export class LoginComponent implements OnInit {
     btnText = '登录';
 
     constructor(private router: Router,
-                private container: ContainerService,
                 private backbone: BackboneService) {
     }
 
@@ -35,19 +33,18 @@ export class LoginComponent implements OnInit {
                     /**
                      *  保存session
                      */
-                    this.container.set({
-                        session: res.msg[0]['3rd_session']
-                    });
+                    this.backbone.session = res.msg[0]['3rd_session'];
                     /**
                      *  设置状态为已登录
                      */
-                    this.backbone.isLoggedIn = true;
+                    this.backbone.isLoggedIn = 'YES';
                     /**
                      *  跳转至回调地址
                      */
-                    typeof(this.backbone.redirectUrl) === 'undefined' ?
-                        this.router.navigate(['/list/order']) :         //  默认： 订单页
-                        this.router.navigate([this.backbone.redirectUrl]);
+                    typeof(this.backbone.redirectUrl) !== 'undefined' && this.backbone.redirectUrl ?
+                        this.router.navigate([this.backbone.redirectUrl]) :
+                        this.router.navigate(['/list/order']);                      //  默认： 订单页
+
                 }
             });
 

@@ -4,6 +4,8 @@ import {ListOrderComponent} from './list/list-order/list-order.component';
 import {ListOrderResolver} from './services/resolver/order.resolver';
 import {ListProductComponent} from './list/list-product/list-product.component';
 import {ListProductResolver} from './services/resolver/product.resolver';
+import {ListUserComponent} from './list/list-user/list-user.component';
+import {ListUserResolver} from './services/resolver/user.resolver';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {AuthGuard} from './services/authentication.service';
 import {LoginComponent} from './login/login.component';
@@ -25,6 +27,13 @@ const __ROUTES__: Routes = [
                 component: ListProductComponent,
                 resolve: {
                     listProductResolver: ListProductResolver
+                }
+            },
+            {
+                path: 'user',
+                component: ListUserComponent,
+                resolve: {
+                    listUserResolver: ListUserResolver
                 }
             }
         ]
@@ -61,7 +70,8 @@ const __ROUTES__: Routes = [
     exports: [RouterModule],
     providers: [
         ListOrderResolver,
-        ListProductResolver
+        ListProductResolver,
+        ListUserResolver
     ]
 })
 export class AppRouterModule {

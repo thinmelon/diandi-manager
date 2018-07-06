@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal, NgbPopover, NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
 import {Consignee, Order, OrderStatusEnum, Refund, SKU, User} from '../../services/diandi.structure';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as moment from 'moment';
 import {BackboneService} from '../../services/diandi.backbone';
-import {ContainerService} from '../../services/container.service';
 import {RichTextModalComponent} from '../../modal/rich-text-modal/rich-text-modal.component';
 
 @Component({
@@ -21,10 +20,10 @@ export class ListOrderComponent implements OnInit {
     target: Refund;
     lastPopover: NgbPopover;
 
-    constructor(private route: ActivatedRoute,
+    constructor(private router: Router,
+                private route: ActivatedRoute,
                 private popoverConfig: NgbPopoverConfig,
                 private backbone: BackboneService,
-                private container: ContainerService,
                 private modalService: NgbModal) {
         this.orders = [];
         popoverConfig.placement = 'bottom';         //  显示在下方
@@ -32,7 +31,7 @@ export class ListOrderComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.container.get().session);
+        console.log(this.backbone.session);
         this.route.data
             .subscribe((data: { listOrderResolver: any }) => {
                 console.log(data.listOrderResolver);
@@ -51,6 +50,9 @@ export class ListOrderComponent implements OnInit {
                             item.attach,
                             item.remark);
                     });
+                } else {
+                    sessionStorage.clear();
+                    this.router.navigate(['/login']);
                 }
             });
     }
@@ -64,7 +66,7 @@ export class ListOrderComponent implements OnInit {
         this.afterShown(popover);
         this.skuListShown = [];
 
-        this.backbone.fetchAOrder(this.container.get().session, event)
+        this.backbone.fetchAOrder(this.backbone.session, event)
             .subscribe(res => {
                 console.log(res);
                 for (const key in res.msg.order) {
@@ -108,7 +110,7 @@ export class ListOrderComponent implements OnInit {
     consigneePopoverShown(popover, user_id, consignee_no) {
         this.afterShown(popover);
 
-        this.backbone.fetchUserInfo(this.container.get().session, user_id, consignee_no)
+        this.backbone.fetchUserInfo(this.backbone.session, user_id, consignee_no)
             .subscribe(res => {
                 console.log(res);
                 if (res.code === 0) {
@@ -154,7 +156,7 @@ export class ListOrderComponent implements OnInit {
      * @param order
      */
     openModal(order) {
-        this.backbone.fetchRefundInfo(this.container.get().session, order.out_trade_no)
+        this.backbone.fetchRefundInfo(this.backbone.session, order.out_trade_no)
             .subscribe(res => {
                 console.log(res);
                 if (res.code === 0 && res.msg.length > 0) {
@@ -197,7 +199,7 @@ export class ListOrderComponent implements OnInit {
     }
 
     refund() {
-        this.backbone.refund(this.container.get().session, this.target)
+        this.backbone.refund(this.backbone.session, this.target)
             .subscribe((res) => {
                 console.log(res);
             });

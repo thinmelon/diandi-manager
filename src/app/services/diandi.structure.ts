@@ -55,7 +55,8 @@ export class Product {
                 public attributes: Array<any>,
                 public sku: Array<any>,
                 public thumbnails: Array<any>,
-                public details: Array<any>) {
+                public details: Array<any>,
+                public videos: Array<any>) {
     }
 }
 
@@ -67,6 +68,17 @@ export class User {
                 public sex: number,
                 public headimgurl: string,
                 public consignee: Consignee) {
+    }
+}
+
+/**
+ *      管理者
+ */
+export class Manager {
+    constructor(public index: number,
+                public phone: string,
+                public session: number,
+                public role: string) {
     }
 }
 

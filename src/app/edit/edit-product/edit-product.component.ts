@@ -6,12 +6,12 @@ import {FileUploader} from 'ng2-file-upload';
 import {AttributeSet, Product} from '../../services/diandi.structure';
 import {UrlService} from '../../services/url.service';
 import {BackboneService} from '../../services/diandi.backbone';
-import {ContainerService} from '../../services/container.service';
 /** component */
 import {AttributeModalComponent} from '../../modal/attribute-modal/attribute-modal.component';
 import {ProgressBarModalComponent} from '../../modal/progress-bar-modal/progress-bar-modal.component';
 
-const URL = UrlService.UploadProductThumbnails();
+const IMAGE = UrlService.UploadProductThumbnails();
+const VIDEO = UrlService.UploadProductVideo();
 
 @Component({
     selector: 'app-edit-product',
@@ -24,25 +24,32 @@ export class EditProductComponent implements OnDestroy {
     sku = [];
     thumbnails = [];
     details = [];
+    videos = [];
     name = '';
     introduce = '';
-    public uploader: FileUploader = new FileUploader({
-        url: URL,
+    public imageUploader: FileUploader = new FileUploader({
+        url: IMAGE,
         // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
         method: 'POST',                         //  上传文件的方式
         maxFileSize: 5 * 1024 * 1024,           //  最大可上传的文件大小
         queueLimit: 9,                          //  最大可上传的文件数量
         removeAfterUpload: true                //  是否在上传完成后从队列中移除
     });
+    public videoUploader: FileUploader = new FileUploader({
+        url: VIDEO,
+        method: 'POST',                         //  上传文件的方式
+        queueLimit: 1,                          //  最大可上传的文件数量
+        removeAfterUpload: true                //  是否在上传完成后从队列中移除
+    });
 
     constructor(private router: Router,
                 private modalService: NgbModal,
-                private backbone: BackboneService,
-                private container: ContainerService) {
+                private backbone: BackboneService) {
     }
 
     ngOnDestroy() {
-        this.uploader.destroy();
+        this.imageUploader.destroy();
+        this.videoUploader.destroy();
     }
 
     /**
@@ -122,14 +129,12 @@ export class EditProductComponent implements OnDestroy {
      * 文件选择完成后的操作处理
      */
     selectedFileOnChanged(currentTarget: Array<any>) {
-        // //  区别于new FileReader()中的this
-        // const that = this;
         //  清空currentTarget数组
         while (currentTarget.length > 0) {
             currentTarget.pop();
         }
         // 遍历所选择的文件
-        this.uploader.queue.forEach((fileItem, index) => {
+        this.imageUploader.queue.forEach((fileItem, index) => {
             console.log(fileItem);
             fileItem.withCredentials = false;
             const reader = new FileReader();
@@ -147,9 +152,31 @@ export class EditProductComponent implements OnDestroy {
     }
 
     /**
+     * 选择视频文件
+     * @param currentTarget
+     */
+    selectedVideoOnChanged(currentTarget: Array<any>) {
+        while (currentTarget.length > 0) {
+            currentTarget.pop();
+        }
+        this.videoUploader.queue.forEach((fileItem, index) => {
+            console.log(fileItem);
+            fileItem.withCredentials = false;
+            currentTarget.push({
+                index: index,
+                originalName: fileItem._file.name,
+                imageId: ''
+            });
+        });
+    }
+
+    /**
      *  上传文件
      */
-    uploadAll(currentTarget: Array<any>) {
+    uploadAll(currentTarget: Array<any>, uploader: FileUploader) {
+        console.log(uploader);
+        console.log(currentTarget);
+
         const modalRef = this.modalService.open(ProgressBarModalComponent);
         modalRef.componentInstance.progress = 0;
         modalRef.result.then(
@@ -171,7 +198,7 @@ export class EditProductComponent implements OnDestroy {
          * 整体的上传进度的回调（开始上传后调用非常频繁）
          * @param progress          - 整体的上传文件的进度
          */
-        this.uploader.onProgressAll = function (progress) {
+        uploader.onProgressAll = function (progress) {
             console.log('=======>   onProgressAll');
             console.log(progress);
             modalRef.componentInstance.progress = progress;
@@ -183,7 +210,7 @@ export class EditProductComponent implements OnDestroy {
          * @param status            - 状态码
          * @param headers            上传成功后服务器的返回的返回头
          */
-        this.uploader.onCompleteItem = function (item, response, status, headers) {
+        uploader.onCompleteItem = function (item, response, status, headers) {
             console.log('===========> onCompleteItem ');
             const res = JSON.parse(response);
             console.log(res);
@@ -197,11 +224,11 @@ export class EditProductComponent implements OnDestroy {
         /**
          *  完成上传所有文件的回调
          */
-        this.uploader.onCompleteAll = function () {
+        uploader.onCompleteAll = function () {
             console.log('===========> Completed ');
             modalRef.close('Completed');
         };
-        this.uploader.uploadAll();
+        uploader.uploadAll();
     }
 
     /**
@@ -224,20 +251,29 @@ export class EditProductComponent implements OnDestroy {
             };
         });
 
+        const videos = this.videos.map(video => {
+            return {
+                imageId: video.imageId,
+                type: 2,
+                number: video.index
+            };
+        });
+
         const product = new Product(
             encodeURIComponent(this.name),                  //  商品名称
             encodeURIComponent(this.introduce),             //  商品描述
             this.attributes,                                //  商品属性
             this.sku,                                       //  库存信息
             thumbnails,                                      //  微缩图
-            details                                          //  详情图
+            details,                                         //  详情图
+            videos                                           //  视频
         );
 
         console.log(product);
 
         this.backbone
             .saveProduct(
-                this.container.get().session,
+                this.backbone.session,
                 product
             )
             .subscribe(response => {

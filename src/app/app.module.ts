@@ -7,7 +7,6 @@ import {FileUploadModule} from 'ng2-file-upload';
 import {AppRouterModule} from './app.router.module';
 import {WidgetModule} from './widget/widget.module';
 import {BackboneService} from './services/diandi.backbone';
-import {ContainerService} from './services/container.service';
 import {AppComponent} from './app.component';
 import {ListOrderComponent} from './list/list-order/list-order.component';
 import {RichTextModalComponent} from './modal/rich-text-modal/rich-text-modal.component';
@@ -17,12 +16,14 @@ import {AttributeModalComponent} from './modal/attribute-modal/attribute-modal.c
 import {ProgressBarModalComponent} from './modal/progress-bar-modal/progress-bar-modal.component';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './services/authentication.service';
+import {ListUserComponent} from './list/list-user/list-user.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         ListOrderComponent,
         ListProductComponent,
+        ListUserComponent,
         EditProductComponent,
         RichTextModalComponent,
         AttributeModalComponent,
@@ -45,7 +46,6 @@ import {AuthGuard} from './services/authentication.service';
     ],
     providers: [
         BackboneService,
-        ContainerService,
         AuthGuard
     ],
     bootstrap: [AppComponent]

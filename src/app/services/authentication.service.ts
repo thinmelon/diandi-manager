@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
     checkLogin(url: string): boolean {
         console.log('checkLogin  isLoggedIn  ===>  ' + this.backbone.isLoggedIn);
-        if (this.backbone.isLoggedIn) {
+        if ('YES' === this.backbone.isLoggedIn) {
             return true;
         }
 

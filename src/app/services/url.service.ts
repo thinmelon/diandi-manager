@@ -23,6 +23,10 @@ export class UrlService {
         return `${ PREFIX }/user`;
     }
 
+    static FetchUserList(): string {
+        return `${ PREFIX }/user/manager`;
+    }
+
     static FetchRefundInfo(): string {
         return `${ PREFIX }/refund/progress`;
     }
@@ -35,6 +39,10 @@ export class UrlService {
         return `${ PREFIX }/product/thumbnail`;
     }
 
+    static UploadProductVideo(): string {
+        return `${ PREFIX }/product/video`;
+    }
+
     static SaveProductAttributes(): string {
         return `${ PREFIX }/product/attributes`;
     }
@@ -44,7 +52,7 @@ export class UrlService {
     }
 
     static RemoveProduct(): string {
-        return `${ PREFIX }/product/dead`;
+        return `${ PREFIX }/product`;
     }
 
     static ChangeProductStatus(): string {

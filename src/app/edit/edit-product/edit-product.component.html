@@ -62,13 +62,13 @@
         <div class="form-group">
             <label for="productThumbnails">微缩图: </label>
             <input type="file" placeholder="上传商品微缩图" id="productThumbnails" class="form-control"
-                   name="productThumbnails" ng2FileSelect [uploader]="uploader"
+                   name="productThumbnails" ng2FileSelect [uploader]="imageUploader"
                    (change)="selectedFileOnChanged(thumbnails)" multiple/>
         </div>
         <div *ngFor="let item of thumbnails">
             <img src="{{ item.src }}" style="width: 50px; height: 50px;" title="{{ item.originalName }}"/>
         </div>
-        <button type="button" class="btn btn-success btn-xs" (click)="uploadAll(thumbnails)">
+        <button type="button" class="btn btn-success btn-xs" (click)="uploadAll(thumbnails, imageUploader)">
             上传
         </button>
         <hr>
@@ -76,12 +76,22 @@
         <div class="form-group">
             <label for="productDescription">商品长图: </label>
             <input type="file" placeholder="上传商品简介" class="form-control" id="productDescription"
-                   name="productDescription" ng2FileSelect [uploader]="uploader"
+                   name="productDescription" ng2FileSelect [uploader]="imageUploader"
                    (change)="selectedFileOnChanged(details)" multiple/>
             <div *ngFor="let item of details">
                 <img src="{{ item.src }}" style="width: 50px; height: 50px;" title="{{ item.originalName }}"/>
             </div>
-            <button type="button" class="btn btn-success btn-xs" (click)="uploadAll(details)">
+            <button type="button" class="btn btn-success btn-xs" (click)="uploadAll(details, imageUploader)">
+                上传
+            </button>
+        </div>
+
+        <div class="form-group">
+            <label for="productVideo">上传视频（仅支持mp4格式） </label>
+            <input type="file" placeholder="上传商品视频" class="form-control" id="productVideo"
+                   name="productVideo" ng2FileSelect [uploader]="videoUploader"
+                   (change)="selectedVideoOnChanged(videos)"/>
+            <button type="button" class="btn btn-success btn-xs" (click)="uploadAll(videos, videoUploader)">
                 上传
             </button>
         </div>

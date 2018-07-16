@@ -19,6 +19,7 @@ export class ListCardComponent implements OnInit {
         console.log(this.backbone.productId);
         this.route.data
             .subscribe((data: { listCardResolver: any }) => {
+                console.log(data.listCardResolver)
                 if (data.listCardResolver.errcode === 0) {
                     this.cards = data.listCardResolver.card_id_list.map(item => {
                         return new Card(
@@ -26,6 +27,15 @@ export class ListCardComponent implements OnInit {
                         );
                     });
                 }
+            });
+    }
+
+    queryCardDetail(cardId) {
+        console.log(cardId);
+        this.backbone
+            .queryCardDetail(this.backbone.session, cardId)
+            .subscribe(result => {
+                console.log(result);
             });
     }
 

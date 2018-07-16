@@ -15,12 +15,16 @@ export class UrlService {
         return `${ PREFIX }/order/list?session=${ session }&startTime=${ startTime }&number=${ n }`;
     }
 
-    static FetchCardList(): string {
-        return `${ PREFIX }/card/list`;
+    static FetchCardList(session: string): string {
+        return `${ PREFIX }/card/list?session=${ session }`;
     }
 
     static FetchAOrder(session: string, out_trade_no: string): string {
         return `${ PREFIX }/order/${ out_trade_no }?session=${ session }`;
+    }
+
+    static QueryCardDetail(session: string, card_id: string): string {
+        return `${ PREFIX }/card/${ card_id }?session=${ session }`;
     }
 
     static FetchUserInfo(): string {

@@ -294,13 +294,28 @@ export class BackboneService {
 
     /**
      * 获取卡券列表
+     * @param session
      * @returns {Observable<A>}
      */
-    public fetchCardList(): Observable<any> {
+    public fetchCardList(session: string): Observable<any> {
         return this.http
-            .get<any>(UrlService.FetchCardList())
+            .get<any>(UrlService.FetchCardList(session))
             .pipe(
                 catchError(this.handleError('fetchCardList', {errMsg: '#fetchUserList#获取卡券列表失败'}))
+            );
+    }
+
+    /**
+     * 获取卡券详情
+     * @param session
+     * @param card_id
+     * @returns {Observable<A>}
+     */
+    public queryCardDetail(session: string, card_id: string): Observable<any> {
+        return this.http
+            .get<any>(UrlService.QueryCardDetail(session, card_id))
+            .pipe(
+                catchError(this.handleError('queryCardDetail', {errMsg: '#queryCardDetail#获取卡券列表失败'}))
             );
     }
 

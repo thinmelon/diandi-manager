@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {ProductList} from '../../services/diandi.structure';
 import {BackboneService} from '../../services/diandi.backbone';
 
@@ -30,7 +30,8 @@ export class ListProductComponent implements OnInit {
                             item.description,
                             item.sales,
                             item.status,
-                            item.createTime
+                            item.createTime,
+                            item.type
                         );
                     });
                 } else {
@@ -61,5 +62,10 @@ export class ListProductComponent implements OnInit {
                     });
                 }
             });
+    }
+
+    manageProductCard(pid) {
+        this.backbone.productId = pid;
+        this.router.navigate(['/list/card', pid]);
     }
 }

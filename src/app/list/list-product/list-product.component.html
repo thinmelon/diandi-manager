@@ -20,6 +20,9 @@
             <td *ngIf="product.status === 0">已上架</td>
             <td *ngIf="product.status === 1">已下架</td>
             <td>
+                <button class="btn btn-outline-secondary" (click)="manageProductCard(product.pid)"
+                        *ngIf="product.type === 1">卡券
+                </button>
                 <button class="btn btn-outline-secondary" (click)="changeProductStatus(0,product.pid)">上架</button>
                 <button class="btn btn-outline-secondary" (click)="changeProductStatus(1,product.pid)">下架</button>
                 <!--<button class="btn btn-outline-primary">编辑</button>-->

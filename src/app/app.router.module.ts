@@ -9,6 +9,8 @@ import {ListUserResolver} from './services/resolver/user.resolver';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {AuthGuard} from './services/authentication.service';
 import {LoginComponent} from './login/login.component';
+import {ListCardComponent} from './list/list-card/list-card.component';
+import {ListCardResolver} from './services/resolver/card.resolver';
 
 const __ROUTES__: Routes = [
     {
@@ -34,6 +36,13 @@ const __ROUTES__: Routes = [
                 component: ListUserComponent,
                 resolve: {
                     listUserResolver: ListUserResolver
+                }
+            },
+            {
+                path: 'card/:pid',
+                component: ListCardComponent,
+                resolve: {
+                    listCardResolver: ListCardResolver
                 }
             }
         ]
@@ -71,7 +80,8 @@ const __ROUTES__: Routes = [
     providers: [
         ListOrderResolver,
         ListProductResolver,
-        ListUserResolver
+        ListUserResolver,
+        ListCardResolver
     ]
 })
 export class AppRouterModule {

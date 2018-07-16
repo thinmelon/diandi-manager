@@ -25,6 +25,7 @@ export class EditProductComponent implements OnDestroy {
     thumbnails = [];
     details = [];
     videos = [];
+    type = '0';
     name = '';
     introduce = '';
     public imageUploader: FileUploader = new FileUploader({
@@ -262,6 +263,7 @@ export class EditProductComponent implements OnDestroy {
         const product = new Product(
             encodeURIComponent(this.name),                  //  商品名称
             encodeURIComponent(this.introduce),             //  商品描述
+            parseInt(this.type, 10),                        //  商品类型
             this.attributes,                                //  商品属性
             this.sku,                                       //  库存信息
             thumbnails,                                      //  微缩图

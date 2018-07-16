@@ -43,6 +43,7 @@ export class BackboneService {
     }
 
     set session(value: string) {
+        sessionStorage.removeItem('_session');
         sessionStorage.setItem('_session', value);
     }
 
@@ -54,7 +55,20 @@ export class BackboneService {
     }
 
     set focusItem(value: string) {
+        sessionStorage.removeItem('_focusItem');
         sessionStorage.setItem('_focusItem', value);
+    }
+
+    /**
+     *  商品ID
+     */
+    get productId(): string {
+        return sessionStorage.getItem('_productId');
+    }
+
+    set productId(value: string) {
+        sessionStorage.removeItem('_productId');
+        sessionStorage.setItem('_productId', value);
     }
 
     /**
@@ -275,6 +289,18 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('login', {errMsg: '#login#登录失败'}))
+            );
+    }
+
+    /**
+     * 获取卡券列表
+     * @returns {Observable<A>}
+     */
+    public fetchCardList(): Observable<any> {
+        return this.http
+            .get<any>(UrlService.FetchCardList())
+            .pipe(
+                catchError(this.handleError('fetchCardList', {errMsg: '#fetchUserList#获取卡券列表失败'}))
             );
     }
 

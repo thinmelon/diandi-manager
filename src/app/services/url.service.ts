@@ -15,6 +15,10 @@ export class UrlService {
         return `${ PREFIX }/order/list?session=${ session }&startTime=${ startTime }&number=${ n }`;
     }
 
+    static FetchCardList(): string {
+        return `${ PREFIX }/card/list`;
+    }
+
     static FetchAOrder(session: string, out_trade_no: string): string {
         return `${ PREFIX }/order/${ out_trade_no }?session=${ session }`;
     }

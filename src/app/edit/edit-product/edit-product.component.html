@@ -3,6 +3,24 @@
         <button class="btn btn-success" [disabled]="!productFrom.form.valid" (click)="onSubmit()">提交</button>
         <hr>
 
+        <div class="form-group">
+            <label>商品类型: </label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" [(ngModel)]="type" name="productTypeRadios" id="entity"
+                       value='0' checked="{{ type === '0' }}">
+                <label class="form-check-label" for="entity">
+                    实物
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" [(ngModel)]="type" name="productTypeRadios" id="coupon"
+                       value='1' checked="{{ type === '1' }}">
+                <label class="form-check-label" for="coupon">
+                    卡券
+                </label>
+            </div>
+        </div>
+
         <div [hidden]="productName.valid || productName.pristine"
              class="alert alert-danger">
             * 商品名称为必填项

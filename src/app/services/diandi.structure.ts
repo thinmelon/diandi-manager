@@ -52,6 +52,7 @@ export class AttributeSet {
 export class Product {
     constructor(public name: string,
                 public introduce: string,
+                public type: number,
                 public attributes: Array<any>,
                 public sku: Array<any>,
                 public thumbnails: Array<any>,
@@ -114,7 +115,8 @@ export class ProductList {
                 public description: string,
                 public sales: number,
                 public status: number,
-                public createTime: string) {
+                public createTime: string,
+                public type: number) {
     }
 }
 
@@ -126,6 +128,14 @@ export class VerificationCode {
                 public bizId: string,
                 public phone: string,
                 public verificationCode: string) {
+    }
+}
+
+/**
+ *      卡券
+ */
+export class Card {
+    constructor(public cardId: string) {
     }
 }
 

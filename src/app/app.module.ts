@@ -17,6 +17,7 @@ import {ProgressBarModalComponent} from './modal/progress-bar-modal/progress-bar
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './services/authentication.service';
 import {ListUserComponent} from './list/list-user/list-user.component';
+import {ListCardComponent} from './list/list-card/list-card.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import {ListUserComponent} from './list/list-user/list-user.component';
         ListOrderComponent,
         ListProductComponent,
         ListUserComponent,
+        ListCardComponent,
         EditProductComponent,
         RichTextModalComponent,
         AttributeModalComponent,

@@ -135,7 +135,10 @@ export class VerificationCode {
  *      卡券
  */
 export class Card {
-    constructor(public cardId: string) {
+    constructor(public cardId: string,
+                public cardType = '',
+                public brandName = '',
+                public title = '') {
     }
 }
 

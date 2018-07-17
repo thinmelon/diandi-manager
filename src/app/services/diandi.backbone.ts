@@ -320,6 +320,39 @@ export class BackboneService {
     }
 
     /**
+     * 获取商品所关联的卡券
+     * @param session
+     * @param product_id
+     * @returns {Observable<A>}
+     */
+    public queryProductCard(session: string, product_id: string): Observable<any> {
+        return this.http
+            .get<any>(UrlService.QueryProductCard(session, product_id))
+            .pipe(
+                catchError(this.handleError('queryProductCard', {errMsg: '#queryProductCard#获取商品所关联的卡券失败'}))
+            );
+    }
+
+    /**
+     * 关联商品与卡券
+     * @param session
+     * @param product_id
+     * @param card_id
+     * @returns {Observable<A>}
+     */
+    public associateProductCard(session: string, product_id: string, card_id: string): Observable<any> {
+        return this.http
+            .post<any>(UrlService.AssociateProductCard(), {
+                session: session,
+                product_id: product_id,
+                card_id: card_id
+            })
+            .pipe(
+                catchError(this.handleError('associateProductCard', {errMsg: '#associateProductCard#关联商品与卡券失败'}))
+            );
+    }
+
+    /**
      * Handle Http operation that failed.
      * Let the app continue.
      * @param operation - name of the operation that failed

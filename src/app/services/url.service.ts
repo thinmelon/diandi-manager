@@ -27,6 +27,10 @@ export class UrlService {
         return `${ PREFIX }/card/${ card_id }?session=${ session }`;
     }
 
+    static QueryProductCard(session: string, product_id: string): string {
+        return `${ PREFIX }/card/product/${ product_id }?session=${ session }`;
+    }
+
     static FetchUserInfo(): string {
         return `${ PREFIX }/user`;
     }
@@ -69,6 +73,10 @@ export class UrlService {
 
     static SendVerificationCode(): string {
         return `${ PREFIX }/sms`;
+    }
+
+    static AssociateProductCard(): string {
+        return `${ PREFIX }/card/product`;
     }
 
     static Login(): string {

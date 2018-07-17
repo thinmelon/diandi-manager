@@ -1,18 +1,32 @@
-<div class="d-flex flex-row justify-content-start">
-    <div class="table-responsive" style="width: 24rem;">
-        <table class="table table-striped table-hover">
-            <thead class="thead-light">
-            <tr>
-                <th scope="col">卡券ID</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let card of cards">
-                <th scope="row" (click)="queryCardDetail(card.cardId)">{{ card.cardId }}</th>
-            </tbody>
-        </table>
-    </div>
-    <div>
-        卡券详情
+<div>
+    <button class="btn btn-primary" (click)="associateProductCard()">保存</button>
+
+    <div class="d-flex flex-row justify-content-start">
+        <div class="table-responsive" style="width: 24rem;">
+            <table class="table table-striped table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">卡券ID</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let card of cards">
+                    <th scope="row">
+                        <input class="form-check-input" style="margin-left: 0" type="radio" name="cardID"
+                               [(ngModel)]="associatedCard" value='{{ card.cardId }}'
+                               checked="{{ card.cardId === associatedCard }}">
+                        <label class="form-check-label" style="margin-left: 2rem"
+                               (click)="queryCardDetail(card.cardId)">
+                            {{ card.cardId }}
+                        </label>
+                    </th>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            卡券类别：{{ chosenCard.cardType }}
+            品牌：{{ chosenCard.brandName }}
+            标题：{{ chosenCard.title }}
+        </div>
     </div>
 </div>

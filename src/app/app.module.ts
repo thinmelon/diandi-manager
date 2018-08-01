@@ -18,6 +18,7 @@ import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './services/authentication.service';
 import {ListUserComponent} from './list/list-user/list-user.component';
 import {ListCardComponent} from './list/list-card/list-card.component';
+import {MapTencentComponent} from './map/map-tencent/map-tencent.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import {ListCardComponent} from './list/list-card/list-card.component';
         ListProductComponent,
         ListUserComponent,
         ListCardComponent,
+        MapTencentComponent,
         EditProductComponent,
         RichTextModalComponent,
         AttributeModalComponent,

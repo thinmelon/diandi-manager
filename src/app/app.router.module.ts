@@ -11,6 +11,7 @@ import {AuthGuard} from './services/authentication.service';
 import {LoginComponent} from './login/login.component';
 import {ListCardComponent} from './list/list-card/list-card.component';
 import {ListCardResolver} from './services/resolver/card.resolver';
+import {MapTencentComponent} from './map/map-tencent/map-tencent.component';
 
 const __ROUTES__: Routes = [
     {
@@ -54,6 +55,15 @@ const __ROUTES__: Routes = [
             {
                 path: 'product',
                 component: EditProductComponent
+            }
+        ]
+    },
+    {
+        path: 'map',
+        children: [
+            {
+                path: 'tencent',
+                component: MapTencentComponent
             }
         ]
     },

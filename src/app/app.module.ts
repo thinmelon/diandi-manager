@@ -18,7 +18,8 @@ import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './services/authentication.service';
 import {ListUserComponent} from './list/list-user/list-user.component';
 import {ListCardComponent} from './list/list-card/list-card.component';
-import {MapTencentComponent} from './map/map-tencent/map-tencent.component';
+import {ListBusinessComponent} from './list/list-business/list-business.component';
+import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
 
 @NgModule({
     declarations: [
@@ -27,8 +28,9 @@ import {MapTencentComponent} from './map/map-tencent/map-tencent.component';
         ListProductComponent,
         ListUserComponent,
         ListCardComponent,
-        MapTencentComponent,
+        ListBusinessComponent,
         EditProductComponent,
+        EditBusinessComponent,
         RichTextModalComponent,
         AttributeModalComponent,
         ProgressBarModalComponent,

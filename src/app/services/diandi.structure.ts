@@ -143,6 +143,17 @@ export class Card {
 }
 
 /**
+ *      商户
+ */
+export class BusinessList {
+    constructor(public index: number,
+                public bid: string,
+                public name: string,
+                public status: number) {
+    }
+}
+
+/**
  *      订单状态
  */
 export const OrderStatusEnum = [
@@ -154,4 +165,56 @@ export const OrderStatusEnum = [
     '用户支付中',			// USERPAYING: 5,
     '支付失败',			// PAYERROR: 6,
     '状态异常'			// ABNORMAL: 7
+];
+
+/**
+ *      商户类别
+ */
+export const BusinessType = [
+    '其它',
+    '川菜',
+    '粤菜',
+    '鲁菜',
+    '湘菜',
+    '沪菜',
+    '京菜',
+    '浙菜',
+    '徽菜',
+    '闽菜',
+    '素菜',
+    '凉菜',
+    '海鲜',
+    '烧烤',
+    '糕点',
+    '湖北菜',
+    '东北菜',
+    '云贵菜',
+    '西北菜',
+    '煲仔饭',
+    '天津菜',
+    '清真菜',
+    '农家菜',
+    '客家菜',
+    '粉面食',
+    '快餐',
+    '外卖',
+    '西餐',
+    '自助餐',
+    '冰淇淋',
+    '饮品',
+    '咖啡',
+    '火锅',
+    '炒冰',
+    '砂锅粥',
+    '糖水',
+    '比萨',
+    '甜点点心',
+    '日本烤肉',
+    '韩国烤肉',
+    '料理/寿司',
+    '东南亚印',
+    '洗浴健身',
+    '酒吧',
+    '茶室',
+    'KTV'
 ];

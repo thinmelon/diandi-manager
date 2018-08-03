@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MapTencentComponent } from './map-tencent.component';
+import { ListBusinessComponent } from './list-business.component';
 
-describe('MapTencentComponent', () => {
-  let component: MapTencentComponent;
-  let fixture: ComponentFixture<MapTencentComponent>;
+describe('ListBusinessComponent', () => {
+  let component: ListBusinessComponent;
+  let fixture: ComponentFixture<ListBusinessComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MapTencentComponent ]
+      declarations: [ ListBusinessComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MapTencentComponent);
+    fixture = TestBed.createComponent(ListBusinessComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

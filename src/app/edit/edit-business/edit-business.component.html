@@ -1,0 +1,118 @@
+<div class="container">
+    <form #businessForm="ngForm">
+        <button class="btn btn-success" [disabled]="!businessForm.form.valid" (click)="onSubmit()">提交</button>
+        <hr>
+
+        <div class="form-group">
+            <div ngbDropdown #businessTypeDropdown="ngbDropdown">
+                <button class="btn btn-outline-primary" id="businessType" ngbDropdownToggle>{{businessTypeHint}}
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+                    <button *ngFor="let item of businessTypeGroup" class="dropdown-item"
+                            (click)="chooseBusinessType(item.name, item.index)">{{ item.name }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div [hidden]="businessName.valid || businessName.pristine"
+             class="alert alert-danger">
+            * 商户名称为必填项
+        </div>
+        <div class="form-group">
+            <label for="businessName"> * 商户名称: </label>
+            <input type="text" placeholder="输入商户名称" id="businessName" class="form-control"
+                   [(ngModel)]="name" name="businessName"
+                   #businessName="ngModel"
+                   required/>
+        </div>
+        <hr>
+
+        <div [hidden]="businessAddress.valid || businessAddress.pristine"
+             class="alert alert-danger">
+            * 商户地址为必填项
+        </div>
+        <div class="form-group">
+            <label for="businessAddress"> * 商户地址: </label>
+            <textarea type="text" placeholder="输入商户地址" id="businessAddress" class="form-control"
+                      [(ngModel)]="address" name="businessAddress"
+                      #businessAddress="ngModel"
+                      required
+            ></textarea>
+            <button class="btn btn-success" [disabled]="!businessAddress.valid" (click)="getCoordinates()">获取经纬度
+            </button>
+            <div id="tencent-map" [style.height]="mapViewHeight"></div>
+        </div>
+        <div class="form-group">
+            <label for="businessLongitude">经度: </label>
+            <input type="text" id="businessLongitude" class="form-control"
+                   [(ngModel)]="longitude" name="businessLongitude"
+                   #businessLongitude="ngModel"
+                   disabled/>
+            <label for="businessLatitude">纬度: </label>
+            <input type="text" id="businessLatitude" class="form-control"
+                   [(ngModel)]="latitude" name="businessLatitude"
+                   #businessLatitude="ngModel"
+                   disabled/>
+        </div>
+        <hr>
+
+        <div class="form-group">
+            <label>关联商品: </label>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">商品名</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let product of products">
+                        <td>
+                            <input title="关联的商品" class="form-check-input" style="margin-left: 0" type="radio" name="myProduct"
+                                   [(ngModel)]="associatedProduct" value='{{ product.name }}'
+                                   checked="{{ product.pid === associatedProduct }}">
+                            <label class="form-check-label" style="margin-left: 2rem"
+                                   (click)="queryCardDetail(product.pid)">
+                                {{ product.name }}
+                            </label>
+                        </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr>
+
+        <div class="form-group">
+            <label for="businessShopHours">营业时间: </label>
+            <input type="text" placeholder="输入营业时间" id="businessShopHours" class="form-control"
+                   [(ngModel)]="shopHours" name="businessShopHours"
+                   #businessShopHours="ngModel"/>
+        </div>
+        <hr>
+
+        <div class="form-group">
+            <label for="businessPhone">联系电话: </label>
+            <input type="text" placeholder="输入联系电话" id="businessPhone" class="form-control"
+                   [(ngModel)]="phone" name="businessPhone"
+                   #businessPhone="ngModel"/>
+        </div>
+        <hr>
+
+        <div class="form-group">
+            <label for="businessComsuptionPerPersion">人均消费: </label>
+            <input type="text" placeholder="输入人均消费" id="businessComsuptionPerPersion" class="form-control"
+                   [(ngModel)]="comsuptionPerPersion" name="businessComsuptionPerPersion"
+                   #businessComsuptionPerPersion="ngModel"/>
+        </div>
+        <hr>
+
+        <div class="form-group">
+            <label for="businessRemark">备注: </label>
+            <textarea type="text" placeholder="输入备注" id="businessRemark" class="form-control"
+                      [(ngModel)]="remark" name="businessRemark"
+                      #businessRemark="ngModel"></textarea>
+        </div>
+        <hr>
+    </form>
+</div>

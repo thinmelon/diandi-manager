@@ -91,6 +91,14 @@ export class BackboneService {
             );
     }
 
+    public fetchPartialProducts(session: string, n: number) {
+        return this.http
+            .get<any>(UrlService.FetchPartialProductList(session, n))
+            .pipe(
+                catchError(this.handleError('fetchPartialProducts', {errMsg: '#fetchPartialProducts#获取商品列表失败'}))
+            );
+    }
+
     /**
      * 获取订单列表
      * @returns {Observable<A>}
@@ -349,6 +357,34 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('associateProductCard', {errMsg: '#associateProductCard#关联商品与卡券失败'}))
+            );
+    }
+
+    /**
+     * 查询商户列表
+     * @param session
+     * @returns {Observable<A>}
+     */
+    public fetchBusinessList(session: string): Observable<any> {
+        return this.http
+            .get<any>(UrlService.FetchBusinessList(session))
+            .pipe(
+                catchError(this.handleError('fetchBusinessList', {errMsg: '#fetchBusinessList#获取商户列表失败'}))
+            );
+    }
+
+    /**
+     * 添加商户
+     * @param session
+     * @returns {Observable<A>}
+     */
+    public addBusiness(session: string): Observable<any> {
+        return this.http
+            .post<any>(UrlService.AddBusiness(session), {
+                session: session
+            })
+            .pipe(
+                catchError(this.handleError('addBusiness', {errMsg: '#addBusiness#添加商户失败'}))
             );
     }
 

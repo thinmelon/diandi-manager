@@ -11,6 +11,10 @@ export class UrlService {
         return `${ PREFIX }/product/list?session=${ session }&startTime=${ startTime }&number=${ n }&queryType=FULL`;
     }
 
+    static FetchPartialProductList(session: string, n: number): string {
+        return `${ PREFIX }/product/partial?session=${ session }&amount=${ n }`;
+    }
+
     static FetchOrderList(session: string, startTime: string, n: number): string {
         return `${ PREFIX }/order/list?session=${ session }&startTime=${ startTime }&number=${ n }`;
     }
@@ -77,6 +81,14 @@ export class UrlService {
 
     static AssociateProductCard(): string {
         return `${ PREFIX }/card/product`;
+    }
+
+    static FetchBusinessList(session: string): string {
+        return `${ PREFIX }/business/list?session=${ session }`;
+    }
+
+    static AddBusiness(session: string): string {
+        return `${ PREFIX }/business`;
     }
 
     static Login(): string {

@@ -11,7 +11,9 @@ import {AuthGuard} from './services/authentication.service';
 import {LoginComponent} from './login/login.component';
 import {ListCardComponent} from './list/list-card/list-card.component';
 import {ListCardResolver} from './services/resolver/card.resolver';
-import {MapTencentComponent} from './map/map-tencent/map-tencent.component';
+import {ListBusinessComponent} from './list/list-business/list-business.component';
+import {ListBusinessResolver} from './services/resolver/business.resolver';
+import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
 
 const __ROUTES__: Routes = [
     {
@@ -45,6 +47,13 @@ const __ROUTES__: Routes = [
                 resolve: {
                     listCardResolver: ListCardResolver
                 }
+            },
+            {
+                path: 'business',
+                component: ListBusinessComponent,
+                resolve: {
+                    listBusinessResolver: ListBusinessResolver
+                }
             }
         ]
     },
@@ -55,15 +64,10 @@ const __ROUTES__: Routes = [
             {
                 path: 'product',
                 component: EditProductComponent
-            }
-        ]
-    },
-    {
-        path: 'map',
-        children: [
+            },
             {
-                path: 'tencent',
-                component: MapTencentComponent
+                path: 'business',
+                component: EditBusinessComponent
             }
         ]
     },
@@ -91,7 +95,8 @@ const __ROUTES__: Routes = [
         ListOrderResolver,
         ListProductResolver,
         ListUserResolver,
-        ListCardResolver
+        ListCardResolver,
+        ListBusinessResolver
     ]
 })
 export class AppRouterModule {

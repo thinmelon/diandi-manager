@@ -11,8 +11,8 @@ export class UrlService {
         return `${ PREFIX }/product/list?session=${ session }&startTime=${ startTime }&number=${ n }&queryType=FULL`;
     }
 
-    static FetchPartialProductList(session: string, n: number): string {
-        return `${ PREFIX }/product/partial?session=${ session }&amount=${ n }`;
+    static FetchPartialProductList(session: string, offset: number, amount: number): string {
+        return `${ PREFIX }/product/partial?session=${ session }&offset=${ offset }&amount=${ amount }`;
     }
 
     static FetchOrderList(session: string, startTime: string, n: number): string {
@@ -83,12 +83,32 @@ export class UrlService {
         return `${ PREFIX }/card/product`;
     }
 
+    static FetchOfficialAccountMaterialList(offset: number, count: number): string {
+        return `${ PREFIX }/official/list/material?offset=${offset}&count=${count}`;
+    }
+
     static FetchBusinessList(session: string): string {
         return `${ PREFIX }/business/list?session=${ session }`;
     }
 
-    static AddBusiness(session: string): string {
+    static FetchBusinessDetail(session: string, bid: string): string {
+        return `${ PREFIX }/business/detail?session=${ session }&bid=${ bid }`;
+    }
+
+    static AddBusiness(): string {
         return `${ PREFIX }/business`;
+    }
+
+    static UpdateBusiness(): string {
+        return `${ PREFIX }/business`;
+    }
+
+    static RemoveBusiness(): string {
+        return `${ PREFIX }/business`;
+    }
+
+    static ChangeBusinessStatus(): string {
+        return `${ PREFIX }/business/status`;
     }
 
     static Login(): string {

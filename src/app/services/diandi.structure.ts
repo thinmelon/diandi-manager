@@ -143,13 +143,33 @@ export class Card {
 }
 
 /**
- *      商户
+ *      商户列表
  */
 export class BusinessList {
     constructor(public index: number,
                 public bid: string,
                 public name: string,
+                public longitude: number,
+                public latitude: number,
+                public shopHours: string,
+                public phone: string,
                 public status: number) {
+    }
+}
+
+export class Business {
+    constructor(public bid: string,
+                public type: number,
+                public name: string,
+                public address: string,
+                public longitude: number,
+                public latitude: number,
+                public shopHours: string,
+                public phone: string,
+                public consumptionPerPerson: string,
+                public remark: string,
+                public associatedProductPid: string,
+                public associatedMaterialId: string) {
     }
 }
 

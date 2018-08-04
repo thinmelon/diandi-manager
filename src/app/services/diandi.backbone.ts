@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs/index';
 import {UrlService} from './url.service';
 import {catchError} from 'rxjs/internal/operators';
-import {AttributeSet, Product, Refund} from './diandi.structure';
+import {AttributeSet, Business, Product, Refund} from './diandi.structure';
 
 // const httpOptions = {
 //     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -72,6 +72,18 @@ export class BackboneService {
     }
 
     /**
+     *  商户ID
+     */
+    get businessId(): string {
+        return sessionStorage.getItem('_businessId');
+    }
+
+    set businessId(value: string) {
+        sessionStorage.removeItem('_businessId');
+        sessionStorage.setItem('_businessId', value);
+    }
+
+    /**
      * 构造函数
      * 依赖注入 HttpClient 服务
      * @param http
@@ -91,9 +103,9 @@ export class BackboneService {
             );
     }
 
-    public fetchPartialProducts(session: string, n: number) {
+    public fetchPartialProducts(session: string, offset: number, amount: number) {
         return this.http
-            .get<any>(UrlService.FetchPartialProductList(session, n))
+            .get<any>(UrlService.FetchPartialProductList(session, offset, amount))
             .pipe(
                 catchError(this.handleError('fetchPartialProducts', {errMsg: '#fetchPartialProducts#获取商品列表失败'}))
             );
@@ -374,17 +386,103 @@ export class BackboneService {
     }
 
     /**
-     * 添加商户
+     * 查询商户信息
      * @param session
+     * @param bid
      * @returns {Observable<A>}
      */
-    public addBusiness(session: string): Observable<any> {
+    public fetchBusinessDetail(session: string, bid: string): Observable<any> {
         return this.http
-            .post<any>(UrlService.AddBusiness(session), {
-                session: session
+            .get<any>(UrlService.FetchBusinessDetail(session, bid))
+            .pipe(
+                catchError(this.handleError('fetchBusinessDetail', {errMsg: '#fetchBusinessDetail#获取商户信息失败'}))
+            );
+    }
+
+    /**
+     * 添加商户
+     * @param session
+     * @param business
+     * @returns {Observable<A>}
+     */
+    public addBusiness(session: string, business: Business): Observable<any> {
+        return this.http
+            .post<any>(UrlService.AddBusiness(), {
+                session: session,
+                business: JSON.stringify(business)
             })
             .pipe(
                 catchError(this.handleError('addBusiness', {errMsg: '#addBusiness#添加商户失败'}))
+            );
+    }
+
+    /**
+     * 更新商户
+     *
+     * @param session
+     * @param business
+     * @returns {Observable<A>}
+     */
+    public updateBusiness(session: string, business: Business): Observable<any> {
+        return this.http
+            .put<any>(UrlService.UpdateBusiness(), {
+                session: session,
+                business: JSON.stringify(business)
+            })
+            .pipe(
+                catchError(this.handleError('updateBusiness', {errMsg: '#updateBusiness#更新商户失败'}))
+            );
+    }
+
+    /**
+     * 移除商户
+     * @param session
+     * @param bid
+     * @returns {Observable<A>}
+     */
+    public removeBusiness(session: string, bid: string): Observable<any> {
+        return this.http
+            .delete(UrlService.RemoveBusiness(), {
+                params: {
+                    session: session,
+                    bid: bid
+                }
+            })
+            .pipe(
+                catchError(this.handleError('removeBusiness', {errMsg: '#removeBusiness#删除商户失败'}))
+            );
+    }
+
+    /**
+     * 调整商户状态 -- 上下架
+     * @param session
+     * @param status
+     * @param bid
+     * @returns {Observable<A>}
+     */
+    public changeBusinessStatus(session: string, status: number, bid: string): Observable<any> {
+        return this.http
+            .post(UrlService.ChangeBusinessStatus(), {
+                session: session,
+                status: status,
+                bid: bid
+            })
+            .pipe(
+                catchError(this.handleError('changeBusinessStatus', {errMsg: '#changeBusinessStatus#调整商户状态失败'}))
+            );
+    }
+
+    /**
+     * 获取商户关联软文列表
+     * @param offset    --  起始位置
+     * @param count     --  数量
+     * @returns {Observable<A>}
+     */
+    public fetchOfficialAccountMaterialList(offset: number, count: number): Observable<any> {
+        return this.http
+            .get<any>(UrlService.FetchOfficialAccountMaterialList(offset, count))
+            .pipe(
+                catchError(this.handleError('fetchOfficialAccountMaterialList', {errMsg: '#fetchOfficialAccountMaterialList#获取商户关联软文列表失败'}))
             );
     }
 

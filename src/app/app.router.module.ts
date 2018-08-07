@@ -14,6 +14,7 @@ import {ListCardResolver} from './services/resolver/card.resolver';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
 import {ListBusinessComponent} from './list/list-business/list-business.component';
 import {ListBusinessResolver} from './services/resolver/business.resolver';
+import {AuthorityComponent} from './authority/authority.component';
 
 const __ROUTES__: Routes = [
     {
@@ -74,6 +75,10 @@ const __ROUTES__: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+        path: 'authority',
+        component: AuthorityComponent
     },
     {
         path: '',

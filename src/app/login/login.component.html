@@ -4,4 +4,14 @@
             [btnConfirmText]='btnText'
             (gotoNext)="login($event)"
     ></app-verification-code>
+    <hr>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <div>
+            使用第三方登录
+        </div>
+        <a href="{{ wxLogin }}">
+            <img src="../../assets/public/wechat.png" style="width: 50px; height: 50px;">
+        </a>
+    </div>
 </div>
+

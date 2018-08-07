@@ -20,6 +20,7 @@ import {ListUserComponent} from './list/list-user/list-user.component';
 import {ListCardComponent} from './list/list-card/list-card.component';
 import {ListBusinessComponent} from './list/list-business/list-business.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
+import {AuthorityComponent} from './authority/authority.component';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import {EditBusinessComponent} from './edit/edit-business/edit-business.componen
         RichTextModalComponent,
         AttributeModalComponent,
         ProgressBarModalComponent,
-        LoginComponent
+        LoginComponent,
+        AuthorityComponent
     ],
     entryComponents: [
         RichTextModalComponent,

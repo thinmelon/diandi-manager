@@ -6,15 +6,17 @@ import {ListProductComponent} from './list/list-product/list-product.component';
 import {ListProductResolver} from './services/resolver/product.resolver';
 import {ListUserComponent} from './list/list-user/list-user.component';
 import {ListUserResolver} from './services/resolver/user.resolver';
+import {ListCardComponent} from './list/list-card/list-card.component';
+import {ListCardResolver} from './services/resolver/card.resolver';
+import {ListBusinessComponent} from './list/list-business/list-business.component';
+import {ListBusinessResolver} from './services/resolver/business.resolver';
+import {ListEntryComponent} from './list/list-entry/list-entry.component';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {AuthGuard} from './services/authentication.service';
 import {LoginComponent} from './login/login.component';
-import {ListCardComponent} from './list/list-card/list-card.component';
-import {ListCardResolver} from './services/resolver/card.resolver';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
-import {ListBusinessComponent} from './list/list-business/list-business.component';
-import {ListBusinessResolver} from './services/resolver/business.resolver';
-import {AuthorityComponent} from './authority/authority.component';
+import {WechatOfficialComponent} from './entry/wechat-official/wechat-official.component';
+
 
 const __ROUTES__: Routes = [
     {
@@ -55,6 +57,10 @@ const __ROUTES__: Routes = [
                 resolve: {
                     listBusinessResolver: ListBusinessResolver
                 }
+            },
+            {
+                path: 'entry',
+                component: ListEntryComponent
             }
         ]
     },
@@ -73,12 +79,18 @@ const __ROUTES__: Routes = [
         ]
     },
     {
-        path: 'login',
-        component: LoginComponent
+        path: 'entry',
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'wechat/official',
+                component: WechatOfficialComponent
+            }
+        ]
     },
     {
-        path: 'authority',
-        component: AuthorityComponent
+        path: 'login',
+        component: LoginComponent
     },
     {
         path: '',

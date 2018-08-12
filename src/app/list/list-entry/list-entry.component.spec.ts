@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AuthorityComponent } from './authority.component';
+import { ListEntryComponent } from './list-entry.component';
 
-describe('AuthorityComponent', () => {
-  let component: AuthorityComponent;
-  let fixture: ComponentFixture<AuthorityComponent>;
+describe('ListEntryComponent', () => {
+  let component: ListEntryComponent;
+  let fixture: ComponentFixture<ListEntryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AuthorityComponent ]
+      declarations: [ ListEntryComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AuthorityComponent);
+    fixture = TestBed.createComponent(ListEntryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

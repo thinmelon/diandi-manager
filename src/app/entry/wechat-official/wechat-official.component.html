@@ -1,6 +1,6 @@
 <div class="container-fluid d-flex flex-row justify-content-start board">
     <div class="d-flex flex-column align-items-center justify-content-start panel">
-        <div class="d-flex flex-row justify-content-around align-items-center panel-subject">
+        <div class="d-flex flex-row justify-content-around align-items-center panel-subject" (click)="basic()">
             <img src="../../../assets/panel/main.png">
             <div>首页</div>
         </div>
@@ -8,9 +8,8 @@
             <img src="../../../assets/panel/func.png">
             <div>功能</div>
         </div>
-        <div class="panel-subject panel-item">自定义菜单</div>
+        <div class="panel-subject panel-item" (click)="menu()">自定义菜单</div>
     </div>
     <router-outlet></router-outlet>
-
 </div>
 

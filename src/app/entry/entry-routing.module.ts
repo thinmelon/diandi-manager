@@ -4,6 +4,7 @@ import {AuthGuard} from '../services/authentication.service';
 import {WechatOfficialComponent} from './wechat-official/wechat-official.component';
 import {WechatOfficialResolver} from '../services/resolver/wechat.resolver';
 import {OfficialBasicComponent} from './official-basic/official-basic.component';
+import {OfficialMenuComponent} from './official-menu/official-menu.component';
 
 const __ENTRY_ROUTING__: Routes = [
     {
@@ -17,6 +18,10 @@ const __ENTRY_ROUTING__: Routes = [
                 resolve: {
                     wechatOfficialResolver: WechatOfficialResolver
                 }
+            },
+            {
+                path: 'menu',
+                component: OfficialMenuComponent
             }
         ]
     }

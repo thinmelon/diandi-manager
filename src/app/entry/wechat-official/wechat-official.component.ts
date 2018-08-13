@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-wechat-official',
@@ -7,10 +8,17 @@ import {Component, OnInit} from '@angular/core';
 })
 export class WechatOfficialComponent implements OnInit {
 
-    constructor() {
+    constructor(private router: Router) {
     }
 
     ngOnInit() {
     }
 
+    basic() {
+        this.router.navigate(['entry/wechat/official/basic']);
+    }
+
+    menu() {
+        this.router.navigate(['entry/wechat/official/menu']);
+    }
 }

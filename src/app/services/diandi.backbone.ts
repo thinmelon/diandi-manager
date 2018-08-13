@@ -84,6 +84,18 @@ export class BackboneService {
     }
 
     /**
+     *  APPID
+     */
+    get authorizerAppId(): string {
+        return sessionStorage.getItem('_authorizerAppId');
+    }
+
+    set authorizerAppId(value: string) {
+        sessionStorage.removeItem('_authorizerAppId');
+        sessionStorage.setItem('_authorizerAppId', value);
+    }
+
+    /**
      * 构造函数
      * 依赖注入 HttpClient 服务
      * @param http

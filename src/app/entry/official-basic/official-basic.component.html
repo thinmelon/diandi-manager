@@ -1,9 +1,25 @@
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="{{ headImage }}" alt="Card image cap">
+<div class="d-flex flex-row justify-content-start align-items-center basic">
+    <img class="img-thumbnail" src="{{ headImage }}" alt="headImg">
     <div class="card-body">
-        <h5 class="card-title">{{ nickName }}</h5>
-        <h5 class="card-title">{{ principalName }}</h5>
-        <h5 class="card-title">{{ alias }}</h5>
-        <p class="card-text">{{ signature }}</p>
+        <h3>{{ nickName }}</h3>
+        <p>主体信息：{{ principalName }}</p>
+        <p>微信号：{{ alias }}</p>
+        <p>介绍：{{ signature }}</p>
     </div>
+</div>
+<hr>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">权限</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let func of funcInfo">
+            <th scope="row">{{ func.index }}</th>
+            <td>{{ func.name }}</td>
+        </tbody>
+    </table>
 </div>

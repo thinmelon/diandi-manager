@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('======== ngOnInit ========');
         const session = this.route.snapshot.queryParamMap.get('s');
         if (session && session !== '') {
             console.log('S ===> ' + session);
@@ -67,6 +66,6 @@ export class LoginComponent implements OnInit {
         console.log('REDIRECT URL ===> ' + this.backbone.redirectUrl);
         typeof(this.backbone.redirectUrl) !== 'undefined' && this.backbone.redirectUrl ?
             this.router.navigate([this.backbone.redirectUrl]) :
-            this.router.navigate(['/list/order']);                      //  默认： 订单页
+            this.router.navigate(['/list/entry']);                      //  默认： 订单页
     }
 }

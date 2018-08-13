@@ -16,6 +16,7 @@ import {AuthGuard} from './services/authentication.service';
 import {LoginComponent} from './login/login.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
 import {WechatOfficialComponent} from './entry/wechat-official/wechat-official.component';
+import {WechatOfficialResolver} from './services/resolver/wechat.resolver';
 
 
 const __ROUTES__: Routes = [
@@ -78,16 +79,7 @@ const __ROUTES__: Routes = [
             }
         ]
     },
-    {
-        path: 'entry',
-        canActivate: [AuthGuard],
-        children: [
-            {
-                path: 'wechat/official',
-                component: WechatOfficialComponent
-            }
-        ]
-    },
+
     {
         path: 'login',
         component: LoginComponent
@@ -113,7 +105,8 @@ const __ROUTES__: Routes = [
         ListProductResolver,
         ListUserResolver,
         ListCardResolver,
-        ListBusinessResolver
+        ListBusinessResolver,
+        WechatOfficialResolver
     ]
 })
 export class AppRouterModule {

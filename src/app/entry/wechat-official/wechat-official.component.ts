@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {BackboneService} from '../../services/diandi.backbone';
 
 @Component({
     selector: 'app-wechat-official',
@@ -8,11 +7,10 @@ import {BackboneService} from '../../services/diandi.backbone';
 })
 export class WechatOfficialComponent implements OnInit {
 
-    constructor(private backbone: BackboneService) {
+    constructor() {
     }
 
     ngOnInit() {
-
     }
 
 }

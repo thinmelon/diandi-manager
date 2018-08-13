@@ -1,8 +1,14 @@
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="../../../assets/public/wechat.png" alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">微信公众号</h5>
-        <p class="card-text">绑定微信公众号，把店铺和微信打通</p>
-        <a href="{{ wechatOfficialAccount }}" class="btn btn-primary">去绑定</a>
+<div class="d-flex flex-row justify-content-around align-items-center" style="height: 100vh">
+    <div class="card d-flex flex-column align-items-center" style="width: 18rem;" (click)="wechat()">
+        <img class="mx-auto" src="../../../assets/public/wechat.png" alt="official account">
+        <div class="card-body">
+            <h5 class="card-title">微信公众号</h5>
+        </div>
+    </div>
+    <div class="card d-flex flex-column align-items-center" style="width: 18rem;" (click)="wechat()">
+        <img class="mx-auto" src="../../../assets/public/mini-program.png" alt="official account">
+        <div class="card-body">
+            <h5 class="card-title">微信小程序</h5>
+        </div>
     </div>
 </div>

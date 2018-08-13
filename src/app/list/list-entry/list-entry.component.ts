@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BackboneService} from '../../services/diandi.backbone';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-list-entry',
@@ -7,13 +7,14 @@ import {BackboneService} from '../../services/diandi.backbone';
     styleUrls: ['./list-entry.component.less']
 })
 export class ListEntryComponent implements OnInit {
-    public wechatOfficialAccount = '';
 
-    constructor(private backbone: BackboneService) {
+    constructor(private router: Router) {
     }
 
     ngOnInit() {
-        this.wechatOfficialAccount = `https://www.pusudo.cn/platform/authority/wechat?session=${ this.backbone.session }`;
     }
 
+    wechat() {
+        this.router.navigate(['entry/wechat/official/basic']);
+    }
 }

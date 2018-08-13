@@ -487,6 +487,19 @@ export class BackboneService {
     }
 
     /**
+     * 获取授权方信息
+     * @param session
+     * @returns {Observable<A>}
+     */
+    public fetchAuthorizerInfo(session: string): Observable<any> {
+        return this.http
+            .get<any>(UrlService.FetchAuthorizerInfo(session))
+            .pipe(
+                catchError(this.handleError('fetchAuthorizerInfo', {errMsg: '#fetchAuthorizerInfo#获取授权方信息失败'}))
+            );
+    }
+
+    /**
      * Handle Http operation that failed.
      * Let the app continue.
      * @param operation - name of the operation that failed

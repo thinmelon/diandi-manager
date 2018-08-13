@@ -111,6 +111,10 @@ export class UrlService {
         return `${ PREFIX }/business/status`;
     }
 
+    static FetchAuthorizerInfo(session: string): string {
+        return `${ PREFIX }/wechat/official?session=${ session }`;
+    }
+
     static Login(): string {
         return `${ PREFIX }/login`;
     }

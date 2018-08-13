@@ -6,6 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {FileUploadModule} from 'ng2-file-upload';
 import {AppRouterModule} from './app.router.module';
 import {WidgetModule} from './widget/widget.module';
+import {EntryModule} from './entry/entry.module';
 import {BackboneService} from './services/diandi.backbone';
 import {AuthGuard} from './services/authentication.service';
 import {AppComponent} from './app.component';
@@ -21,7 +22,6 @@ import {AttributeModalComponent} from './modal/attribute-modal/attribute-modal.c
 import {ProgressBarModalComponent} from './modal/progress-bar-modal/progress-bar-modal.component';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
-import {WechatOfficialComponent} from './entry/wechat-official/wechat-official.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +38,6 @@ import {WechatOfficialComponent} from './entry/wechat-official/wechat-official.c
         AttributeModalComponent,
         ProgressBarModalComponent,
         LoginComponent,
-        WechatOfficialComponent
     ],
     entryComponents: [
         RichTextModalComponent,
@@ -48,8 +47,9 @@ import {WechatOfficialComponent} from './entry/wechat-official/wechat-official.c
     imports: [
         BrowserModule,
         FormsModule,
-        NgbModule.forRoot(),
         HttpClientModule,
+        NgbModule.forRoot(),
+        EntryModule,
         AppRouterModule,
         FileUploadModule,
         WidgetModule

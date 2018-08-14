@@ -115,6 +115,10 @@ export class UrlService {
         return `${ PREFIX }/wechat/official?session=${ session }`;
     }
 
+    static CreateMenu(session: string): string {
+        return `${ PREFIX }/wechat/official/menu?session=${ session }`;
+    }
+
     static Login(): string {
         return `${ PREFIX }/login`;
     }

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Menu, MenuType} from '../../services/diandi.structure';
 import {Utils} from '../../services/utils';
+import {BackboneService} from '../../services/diandi.backbone';
 
 @Component({
     selector: 'app-official-menu',
@@ -12,7 +13,7 @@ export class OfficialMenuComponent implements OnInit {
     public menuTypeGroup = [];
     public mainMenus = [];
 
-    constructor() {
+    constructor(private backbone: BackboneService) {
     }
 
     ngOnInit() {
@@ -70,6 +71,55 @@ export class OfficialMenuComponent implements OnInit {
             '');
     }
 
+    createMenuItemJson(menu) {
+        const item = {};
+
+        switch (menu.type) {
+            case 'miniprogram':
+                item.type = menu.type;
+                item.name = menu.name;
+                item.url = menu.url;
+                item.appid = menu.appid;
+                item.pagepath = menu.pagePath;
+                break;
+            case 'click':
+                item.type = menu.type;
+                item.name = menu.name;
+                item.key = menu.key;
+                break;
+            case 'view':
+                item.type = menu.type;
+                item.name = menu.name;
+                item.url = menu.url;
+                break;
+            case 'scancode_push':
+            case 'scancode_waitmsg':
+            case 'pic_sysphoto':
+            case 'pic_photo_or_album':
+            case 'pic_weixin':
+                item.type = menu.type;
+                item.name = menu.name;
+                item.key = menu.key;
+                item.sub_button = [];
+                break;
+            case 'location_select':
+                item.type = menu.type;
+                item.name = menu.name;
+                item.key = menu.key;
+                break;
+            case 'media_id':
+            case 'view_limited':
+                item.type = menu.type;
+                item.name = menu.name;
+                item.media_id = menu.mediaId;
+                break;
+            default:
+                break;
+        }
+
+        return item;
+    }
+
     /**
      * 创建菜单项
      */
@@ -106,6 +156,12 @@ export class OfficialMenuComponent implements OnInit {
         }
     }
 
+    /**
+     * 移除子菜单
+     * @param outterId
+     * @param innerId
+     * @constructor
+     */
     RemoveSubMenu(outterId, innerId) {
         for (let i = 0; i < this.mainMenus.length; i++) {
             if (this.mainMenus[i].id === outterId) {
@@ -122,6 +178,36 @@ export class OfficialMenuComponent implements OnInit {
     }
 
     convertMenuToJson() {
+        const menu = {
+            button: []
+        };
 
+        this.mainMenus.map(item => {
+            console.log(item);
+            if (item.subMenus.length === 1) {
+                menu.button.push(this.createMenuItemJson(item.subMenus[0]));
+            } else if (item.subMenus.length > 1) {
+                const menuItem = {
+                    name: item.name,
+                    sub_button: []
+                };
+                item.subMenus.map(sub => {
+                    menuItem.sub_button.push(this.createMenuItemJson(sub));
+                });
+                menu.button.push(menuItem);
+            }
+        });
+
+        console.log(menu);
+        console.log(this.backbone.session);
+        console.log(this.backbone.authorizerAppId);
+
+        this.backbone.createMenu(
+            this.backbone.session,
+            this.backbone.authorizerAppId,
+            menu
+        ).subscribe(result => {
+            console.log(result);
+        });
     }
 }

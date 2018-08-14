@@ -3,7 +3,7 @@
          class="alert alert-danger">
         {{errorMessage}}
     </div>
-    <button class="btn btn-success" [disabled]="!menuForm.form.valid" (click)="onSubmit()">提交</button>
+    <button class="btn btn-success" [disabled]="!menuForm.form.valid" (click)="convertMenuToJson()">提交</button>
     <hr>
 
     <button class="btn btn-success" (click)="AddMainMenu()">添加一级菜单</button>
@@ -14,7 +14,7 @@
                 <div class="form-group" *ngIf="mainMenu.subMenus.length > 1">
                     <label> 一级菜单名称 </label>
                     <input type="text" class="form-control"
-                           [(ngModel)]="mainMenu.name" name="mainMenuName"
+                           [(ngModel)]="mainMenu.name" name="mainMenuName-{{mainMenu.id}}"
                            #mainMenuName="ngModel"
                            required/>
                 </div>

@@ -511,6 +511,17 @@ export class BackboneService {
             );
     }
 
+    public createMenu(session: string, appid: string, menu: any): Observable<any> {
+        return this.http
+            .post(UrlService.CreateMenu(session), {
+                appid: appid,
+                menu: encodeURIComponent(JSON.stringify(menu))
+            })
+            .pipe(
+                catchError(this.handleError('changeBusinessStatus', {errMsg: '#changeBusinessStatus#调整商户状态失败'}))
+            );
+    }
+
     /**
      * Handle Http operation that failed.
      * Let the app continue.

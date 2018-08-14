@@ -32,17 +32,42 @@ export class OfficialMenuComponent implements OnInit {
     /**
      * 选择菜单类型
      * @param index
-     * @param id
+     * @param outterId
+     * @param innerId
      */
-    chooseMenuType(index, id) {
-        // for (const i = 0; i < this.menus.length; i++) {
-        //     if (this.menus[i].id === id) {
-        //         this.menus[i].type = this.menuTypeGroup[index].key;
-        //         this.menus[i].typeName = this.menuTypeGroup[index].value;
-        //         this.menus[i].typeHint = this.menuTypeGroup[index].hint;
-        //         break;
-        //     }
-        // }
+    chooseMenuType(index, outterId, innerId) {
+        for (let i = 0; i < this.mainMenus.length; i++) {
+            if (this.mainMenus[i].id === outterId) {
+                for (let j = 0; j < this.mainMenus[i].subMenus.length; j++) {
+                    if (this.mainMenus[i].subMenus[j].id === innerId) {
+                        this.mainMenus[i].subMenus[j].type = this.menuTypeGroup[index].key;
+                        this.mainMenus[i].subMenus[j].typeName = this.menuTypeGroup[index].value;
+                        this.mainMenus[i].subMenus[j].typeHint = this.menuTypeGroup[index].hint;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * 新建菜单项
+     * @returns {Menu}
+     */
+    createNewMenu() {
+        return new Menu(
+            Utils.GetNonceStr(16),
+            false,
+            this.menuTypeGroup[0].key,
+            this.menuTypeGroup[0].value,
+            this.menuTypeGroup[0].hint,
+            '',
+            'http://mp.weixin.qq.com',
+            '',
+            '',
+            '',
+            '');
     }
 
     /**
@@ -51,28 +76,49 @@ export class OfficialMenuComponent implements OnInit {
     AddMainMenu() {
         if (this.mainMenus.length < 3) {
             this.mainMenus.push({
+                id: Utils.GetNonceStr(16),
                 name: '',
                 subMenus: []
             });
-            const menu = new Menu(
-                Utils.GetNonceStr(16),
-                false,
-                this.menuTypeGroup[0].key,
-                this.menuTypeGroup[0].value,
-                this.menuTypeGroup[0].hint,
-                '', '', '', '', '', '');
-            switch (menu.type) {
-                case 'miniprogram':
-                    menu.url = 'http://mp.weixin.qq.com';
-                    break;
-                default:
-                    break;
-            }
+            const menu = this.createNewMenu();
             this.mainMenus[this.mainMenus.length - 1].subMenus.push(menu);
-            console.log(this.mainMenus);
         } else {
             this.errorMessage = '最多添加三个一级菜单';
         }
+    }
+
+    /**
+     * 创建子菜单
+     * @param id
+     * @constructor
+     */
+    AddSubMenu(id) {
+        for (let i = 0; i < this.mainMenus.length; i++) {
+            if (this.mainMenus[i].id === id) {
+                if (this.mainMenus[i].subMenus.length < 5) {
+                    const menu = this.createNewMenu();
+                    this.mainMenus[i].subMenus.push(menu);
+                } else {
+                    this.errorMessage = '最多添加五个二级菜单';
+                }
+                break;
+            }
+        }
+    }
+
+    RemoveSubMenu(outterId, innerId) {
+        for (let i = 0; i < this.mainMenus.length; i++) {
+            if (this.mainMenus[i].id === outterId) {
+                for (let j = 0; j < this.mainMenus[i].subMenus.length; j++) {
+                    if (this.mainMenus[i].subMenus[j].id === innerId) {
+                        this.mainMenus[i].subMenus.splice(j, 1);
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
     }
 
     convertMenuToJson() {

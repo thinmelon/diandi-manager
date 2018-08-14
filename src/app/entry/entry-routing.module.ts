@@ -9,7 +9,7 @@ import {OfficialMenuComponent} from './official-menu/official-menu.component';
 const __ENTRY_ROUTING__: Routes = [
     {
         path: 'entry/wechat/official',
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         component: WechatOfficialComponent,
         children: [
             {

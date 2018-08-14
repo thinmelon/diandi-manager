@@ -18,7 +18,6 @@ import {EditBusinessComponent} from './edit/edit-business/edit-business.componen
 import {WechatOfficialComponent} from './entry/wechat-official/wechat-official.component';
 import {WechatOfficialResolver} from './services/resolver/wechat.resolver';
 
-
 const __ROUTES__: Routes = [
     {
         path: 'list',

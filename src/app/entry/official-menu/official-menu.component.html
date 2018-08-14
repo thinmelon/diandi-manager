@@ -1,3 +1,84 @@
-<p>
-  official-menu works!
-</p>
+<form #menuForm="ngForm">
+    <div [hidden]="errorMessage === ''"
+         class="alert alert-danger">
+        {{errorMessage}}
+    </div>
+    <button class="btn btn-success" [disabled]="!menuForm.form.valid" (click)="onSubmit()">提交</button>
+    <hr>
+
+    <button class="btn btn-success" (click)="AddMainMenu()">添加一级菜单</button>
+
+    <div class="d-flex flex-row justify-content-start">
+        <div class="d-flex flex-column justify-content-start" *ngFor="let mainMenu of mainMenus">
+            <div *ngFor="let menu of mainMenu.subMenus">
+                <div class="form-group">
+                    <div ngbDropdown #businessTypeDropdown="ngbDropdown">
+                        <button class="btn btn-outline-primary" id="menuType" ngbDropdownToggle>{{ menu.typeName }}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+                            <button *ngFor="let item of menuTypeGroup" class="dropdown-item"
+                                    (click)="chooseMenuType(item.index, menu.id)">{{ item.value }}
+                            </button>
+                        </div>
+                    </div>
+                    <!--<div>{{ menu.typeHint }}</div>-->
+                </div>
+
+                <div [hidden]="menuName.valid || menuName.pristine"
+                     class="alert alert-danger">
+                    * 菜单名称为必填项
+                </div>
+                <div class="form-group">
+                    <label for="menuName"> * 菜单名称: </label>
+                    <input type="text" placeholder="输入菜单名称" id="menuName" class="form-control"
+                           [(ngModel)]="menu.name" name="menuName"
+                           #menuName="ngModel"
+                           required/>
+                </div>
+
+                <div class="form-group"
+                     *ngIf="menu.type === 'click' || menu.type === 'scancode_push'|| menu.type === 'scancode_waitmsg'
+         || menu.type === 'pic_sysphoto'|| menu.type === 'pic_photo_or_album' || menu.type === 'pic_weixin'
+         || menu.type === 'location_select'">
+                    <label for="menuKey"> * KEY: </label>
+                    <input type="text" id="menuKey" class="form-control"
+                           [(ngModel)]="menu.key" name="menuKey"
+                           #menuKey="ngModel"
+                           required/>
+                </div>
+
+                <div class="form-group" *ngIf="menu.type === 'media_id' || menu.type === 'view_limited'">
+                    <label for="menuMediaId"> * Media ID: </label>
+                    <input type="text" id="menuMediaId" class="form-control"
+                           [(ngModel)]="menu.mediaId" name="menuMediaId"
+                           #menuMediaId="ngModel"
+                           required/>
+                </div>
+
+                <div class="form-group" *ngIf="menu.type === 'miniprogram' || menu.type === 'view'">
+                    <label for="menuURL"> * URL: </label>
+                    <input type="text" id="menuURL" class="form-control"
+                           [(ngModel)]="menu.url" name="menuURL"
+                           #menuURL="ngModel"
+                           required/>
+                </div>
+
+                <div class="form-group" *ngIf="menu.type === 'miniprogram'">
+                    <label for="menuAppId"> * APPID: </label>
+                    <input type="text" id="menuAppId" class="form-control"
+                           [(ngModel)]="menu.appid" name="menuAppId"
+                           #menuAppId="ngModel"
+                           required/>
+                </div>
+
+                <div class="form-group" *ngIf="menu.type === 'miniprogram'">
+                    <label for="menuPagePath"> * 页面路径: </label>
+                    <input type="text" id="menuPagePath" class="form-control"
+                           [(ngModel)]="menu.pagePath" name="menuPagePath"
+                           #menuPagePath="ngModel"
+                           required/>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

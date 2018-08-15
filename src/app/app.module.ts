@@ -8,7 +8,7 @@ import {AppRouterModule} from './app.router.module';
 import {WidgetModule} from './widget/widget.module';
 import {EntryModule} from './entry/entry.module';
 import {BackboneService} from './services/diandi.backbone';
-import {AuthGuard} from './services/authentication.service';
+import {LoginGuard} from './services/authentication.service';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
 import {ListOrderComponent} from './list/list-order/list-order.component';
@@ -56,7 +56,7 @@ import {EditBusinessComponent} from './edit/edit-business/edit-business.componen
     ],
     providers: [
         BackboneService,
-        AuthGuard
+        LoginGuard
     ],
     bootstrap: [AppComponent]
 })

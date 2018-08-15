@@ -1,15 +1,16 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AuthGuard} from '../services/authentication.service';
+import {AuthorizerGuard, LoginGuard} from '../services/authentication.service';
 import {WechatOfficialComponent} from './wechat-official/wechat-official.component';
 import {WechatOfficialResolver} from '../services/resolver/wechat.resolver';
 import {OfficialBasicComponent} from './official-basic/official-basic.component';
 import {OfficialMenuComponent} from './official-menu/official-menu.component';
+import {BindOfficialComponent} from './bind-official/bind-official.component';
 
 const __ENTRY_ROUTING__: Routes = [
     {
         path: 'entry/wechat/official',
-        canActivate: [AuthGuard],
+        canActivate: [LoginGuard],
         component: WechatOfficialComponent,
         children: [
             {
@@ -21,7 +22,12 @@ const __ENTRY_ROUTING__: Routes = [
             },
             {
                 path: 'menu',
+                canActivate: [AuthorizerGuard],
                 component: OfficialMenuComponent
+            },
+            {
+                path: 'bind',
+                component: BindOfficialComponent
             }
         ]
     }

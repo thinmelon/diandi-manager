@@ -12,7 +12,7 @@ import {ListBusinessComponent} from './list/list-business/list-business.componen
 import {ListBusinessResolver} from './services/resolver/business.resolver';
 import {ListEntryComponent} from './list/list-entry/list-entry.component';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
-import {AuthGuard} from './services/authentication.service';
+import {LoginGuard} from './services/authentication.service';
 import {LoginComponent} from './login/login.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
 import {WechatOfficialComponent} from './entry/wechat-official/wechat-official.component';
@@ -21,7 +21,7 @@ import {WechatOfficialResolver} from './services/resolver/wechat.resolver';
 const __ROUTES__: Routes = [
     {
         path: 'list',
-        canActivate: [AuthGuard],
+        canActivate: [LoginGuard],
         children: [
             {
                 path: 'order',
@@ -66,7 +66,7 @@ const __ROUTES__: Routes = [
     },
     {
         path: 'edit',
-        canActivate: [AuthGuard],
+        canActivate: [LoginGuard],
         children: [
             {
                 path: 'product',

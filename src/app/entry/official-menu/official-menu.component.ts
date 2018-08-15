@@ -72,46 +72,58 @@ export class OfficialMenuComponent implements OnInit {
     }
 
     createMenuItemJson(menu) {
-        const item = {};
+        let item: any;
 
         switch (menu.type) {
             case 'miniprogram':
-                item.type = menu.type;
-                item.name = menu.name;
-                item.url = menu.url;
-                item.appid = menu.appid;
-                item.pagepath = menu.pagePath;
+                item = {
+                    type: menu.type,
+                    name: menu.name,
+                    url: menu.url,
+                    appid: menu.appid,
+                    pagepath: menu.pagePath
+                };
                 break;
             case 'click':
-                item.type = menu.type;
-                item.name = menu.name;
-                item.key = menu.key;
+                item = {
+                    type: menu.type,
+                    name: menu.name,
+                    key: menu.key
+                };
                 break;
             case 'view':
-                item.type = menu.type;
-                item.name = menu.name;
-                item.url = menu.url;
+                item = {
+                    type: menu.type,
+                    name: menu.name,
+                    url: menu.url
+                };
                 break;
             case 'scancode_push':
             case 'scancode_waitmsg':
             case 'pic_sysphoto':
             case 'pic_photo_or_album':
             case 'pic_weixin':
-                item.type = menu.type;
-                item.name = menu.name;
-                item.key = menu.key;
-                item.sub_button = [];
+                item = {
+                    type: menu.type,
+                    name: menu.name,
+                    key: menu.key,
+                    sub_button: []
+                };
                 break;
             case 'location_select':
-                item.type = menu.type;
-                item.name = menu.name;
-                item.key = menu.key;
+                item = {
+                    type: menu.type,
+                    name: menu.name,
+                    key: menu.key
+                };
                 break;
             case 'media_id':
             case 'view_limited':
-                item.type = menu.type;
-                item.name = menu.name;
-                item.media_id = menu.mediaId;
+                item = {
+                    type: menu.type,
+                    name: menu.name,
+                    media_id: menu.mediaId
+                };
                 break;
             default:
                 break;

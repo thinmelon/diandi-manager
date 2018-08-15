@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {PrivilegeSet} from '../../services/diandi.structure';
 import {BackboneService} from '../../services/diandi.backbone';
 
@@ -17,6 +17,7 @@ export class OfficialBasicComponent implements OnInit {
     public funcInfo = [];
 
     constructor(private route: ActivatedRoute,
+                private router: Router,
                 private backbone: BackboneService) {
     }
 
@@ -24,7 +25,6 @@ export class OfficialBasicComponent implements OnInit {
         const that = this;
         this.route.data
             .subscribe((data: { wechatOfficialResolver: any }) => {
-                console.log(data);
                 if (data.wechatOfficialResolver.hasOwnProperty('authorizer_info') &&
                     data.wechatOfficialResolver.hasOwnProperty('authorization_info')) {
                     const authorizer = data.wechatOfficialResolver.authorizer_info;
@@ -42,7 +42,8 @@ export class OfficialBasicComponent implements OnInit {
                             name: PrivilegeSet[item.funcscope_category.id]
                         };
                     });
-
+                } else {
+                    this.router.navigate(['/entry/wechat/official/bind']);
                 }
             });
     }

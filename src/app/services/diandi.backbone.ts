@@ -501,16 +501,39 @@ export class BackboneService {
     /**
      * 获取授权方信息
      * @param session
+     * @param type
      * @returns {Observable<A>}
      */
-    public fetchAuthorizerInfo(session: string): Observable<any> {
+    public fetchAuthorizerInfo(session: string, type: string): Observable<any> {
         return this.http
-            .get<any>(UrlService.FetchAuthorizerInfo(session))
+            .get<any>(UrlService.FetchAuthorizerInfo(session, type))
             .pipe(
                 catchError(this.handleError('fetchAuthorizerInfo', {errMsg: '#fetchAuthorizerInfo#获取授权方信息失败'}))
             );
     }
 
+    /**
+     * 获取复用公众号主体注册的小程序列表
+     * @param session
+     * @param type
+     * @returns {Observable<A>}
+     */
+    public fetchFastRegisterMiniprogramList(session: string, type: string): Observable<any> {
+        return this.http
+            .get<any>(UrlService.FetchFastRegisterMiniprogramList(session, type))
+            .pipe(
+                catchError(this.handleError('fetchFastRegisterMiniprogramList',
+                    {errMsg: '#fetchFastRegisterMiniprogramList#获取复用公众号主体注册的小程序列表失败'}))
+            );
+    }
+
+    /**
+     * 创建菜单
+     * @param session
+     * @param appid
+     * @param menu
+     * @returns {Observable<A>}
+     */
     public createMenu(session: string, appid: string, menu: any): Observable<any> {
         return this.http
             .post(UrlService.CreateMenu(session), {

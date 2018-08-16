@@ -8,6 +8,7 @@
     </div>
 </div>
 <hr>
+<a class="btn btn-outline-danger" href="{{ reauthorization }}">重新授权</a>
 <div class="table-responsive">
     <table class="table table-striped table-hover">
         <thead class="thead-light">
@@ -18,7 +19,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let func of funcInfo">
-            <th scope="row">{{ func.index }}</th>
+            <th scope="row">{{ func.id }}</th>
             <td>{{ func.name }}</td>
         </tbody>
     </table>

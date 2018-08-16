@@ -15,10 +15,15 @@ export class WechatOfficialComponent implements OnInit {
     }
 
     basic() {
-        this.router.navigate(['entry/wechat/official/basic']);
+        this.router.navigate(['entry/wechat/official/basic', {type: 0}]);
     }
 
     menu() {
         this.router.navigate(['entry/wechat/official/menu']);
+    }
+
+    miniprogram() {
+        this.router.navigate(['entry/wechat/official/miniprogram', {type: 1}]);
+        // this.router.navigate(['entry/wechat/official/miniprogram']);
     }
 }

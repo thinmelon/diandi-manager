@@ -111,8 +111,12 @@ export class UrlService {
         return `${ PREFIX }/business/status`;
     }
 
-    static FetchAuthorizerInfo(session: string): string {
-        return `${ PREFIX }/wechat/official?session=${ session }`;
+    static FetchAuthorizerInfo(session: string, type: string): string {
+        return `${ PREFIX }/wechat/official?session=${ session }&type=${ type }`;
+    }
+
+    static FetchFastRegisterMiniprogramList(session: string, type: string): string {
+        return `${ PREFIX }/wechat/miniprogram/list?session=${ session }&type=${ type }`;
     }
 
     static CreateMenu(session: string): string {

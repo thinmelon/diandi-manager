@@ -14,6 +14,10 @@ export class WechatOfficialComponent implements OnInit {
     ngOnInit() {
     }
 
+    main() {
+        this.router.navigate(['list/entry']);
+    }
+
     basic() {
         this.router.navigate(['entry/wechat/official/basic', {type: 0}]);
     }

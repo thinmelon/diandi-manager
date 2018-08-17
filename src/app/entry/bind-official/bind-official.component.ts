@@ -13,6 +13,6 @@ export class BindOfficialComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.wechatOfficialAccount = `https://www.pusudo.cn/platform/authority/wechat?session=${ this.backbone.session }`;
+        this.wechatOfficialAccount = `https://www.pusudo.cn/platform/authority/wechat?auth_type=1&session=${ this.backbone.session }`;
     }
 }

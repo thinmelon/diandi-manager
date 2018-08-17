@@ -528,6 +528,21 @@ export class BackboneService {
     }
 
     /**
+     * 获取小程序的基础信息
+     * @param session
+     * @param appid
+     * @returns {Observable<A>}
+     */
+    public fetchMiniprogramInfo(session: string, appid: string): Observable<any> {
+        return this.http
+            .get<any>(UrlService.FetchMiniprogramInfo(session, appid))
+            .pipe(
+                catchError(this.handleError('fetchMiniprogramInfo',
+                    {errMsg: '#fetchMiniprogramInfo#获取小程序的基础信息失败'}))
+            );
+    }
+
+    /**
      * 创建菜单
      * @param session
      * @param appid

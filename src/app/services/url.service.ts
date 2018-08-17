@@ -119,6 +119,10 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/list?session=${ session }&type=${ type }`;
     }
 
+    static FetchMiniprogramInfo(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/info?session=${ session }&appid=${ appid }`;
+    }
+
     static CreateMenu(session: string): string {
         return `${ PREFIX }/wechat/official/menu?session=${ session }`;
     }

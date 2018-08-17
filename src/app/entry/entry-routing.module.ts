@@ -2,12 +2,17 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthorizerGuard, LoginGuard} from '../services/authentication.service';
 import {WechatOfficialComponent} from './wechat-official/wechat-official.component';
-import {MiniprogramListResolver, WechatOfficialResolver} from '../services/resolver/wechat.resolver';
+import {
+    MiniprogramInfoResolver, MiniprogramListResolver,
+    WechatOfficialResolver
+} from '../services/resolver/wechat.resolver';
 import {OfficialBasicComponent} from './official-basic/official-basic.component';
 import {OfficialMenuComponent} from './official-menu/official-menu.component';
 import {BindOfficialComponent} from './bind-official/bind-official.component';
-import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic.component';
 import {RegisterMiniProgramComponent} from './register-mini-program/register-mini-program.component';
+import {MiniProgramListComponent} from './mini-program-list/mini-program-list.component';
+import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic.component';
+import {BindMiniProgramComponent} from './bind-mini-program/bind-mini-program.component';
 
 const __ENTRY_ROUTING__: Routes = [
     {
@@ -29,7 +34,7 @@ const __ENTRY_ROUTING__: Routes = [
             },
             {
                 path: 'miniprogram',
-                component: MiniProgramBasicComponent,
+                component: MiniProgramListComponent,
                 resolve: {
                     miniprogramListResolver: MiniprogramListResolver
                 }
@@ -40,24 +45,28 @@ const __ENTRY_ROUTING__: Routes = [
                 component: RegisterMiniProgramComponent
             },
             {
+                path: 'miniprogram/info',
+                component: MiniProgramBasicComponent,
+                resolve: {
+                    miniprogramInfoResolver: MiniprogramInfoResolver
+                }
+            },
+            {
                 path: 'bind',
                 component: BindOfficialComponent
             }
         ]
     },
-    // {
-    //     path: 'entry/wechat/miniprogram',
-    //     canActivate: [LoginGuard],
-    //     children: [
-    //         {
-    //             path: 'basic',
-    //             component: MiniProgramBasicComponent,
-    //             resolve: {
-    //                 miniprogramListResolver: MiniprogramListResolver
-    //             }
-    //         }
-    //     ]
-    // }
+    {
+        path: 'entry/wechat/miniprogram',
+        canActivate: [LoginGuard],
+        children: [
+            {
+                path: 'bind',
+                component: BindMiniProgramComponent,
+            }
+        ]
+    }
 ];
 
 /**
@@ -72,7 +81,8 @@ const __ENTRY_ROUTING__: Routes = [
     exports: [RouterModule],
     providers: [
         WechatOfficialResolver,
-        MiniprogramListResolver
+        MiniprogramListResolver,
+        MiniprogramInfoResolver
     ]
 })
 export class EntryRoutingModule {

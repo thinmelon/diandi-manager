@@ -15,15 +15,8 @@ export class MiniProgramBasicComponent implements OnInit {
     ngOnInit() {
         const that = this;
         this.route.data
-            .subscribe((data: { miniprogramListResolver: any }) => {
-                let index = 0;
-                that.miniprograms = data.miniprogramListResolver.map(item => {
-                    return {
-                        index: ++index,
-                        appid: item.appid,
-                        funcInfo: item.funcInfo
-                    };
-                });
+            .subscribe((data: { miniprogramInfoResolver: any }) => {
+                console.log(data);
             });
     }
 

@@ -22,3 +22,13 @@ export class MiniprogramListResolver implements Resolve<any> {
         return this.backbone.fetchFastRegisterMiniprogramList(this.backbone.session, route.paramMap.get('type'));
     }
 }
+
+@Injectable()
+export class MiniprogramInfoResolver implements Resolve<any> {
+    constructor(private backbone: BackboneService) {
+    }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this.backbone.fetchMiniprogramInfo(this.backbone.session, route.paramMap.get('appid'));
+    }
+}

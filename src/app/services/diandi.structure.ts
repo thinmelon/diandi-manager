@@ -195,6 +195,52 @@ export class Menu {
 }
 
 /**
+ *      公众号及小程序账号
+ */
+export class Account {
+    constructor(public appid: string,
+                public accountType: string,
+                public headImageUrl: string,
+                public nickName: string,
+                public principalName: string,
+                public principalType: string,
+                public realNameStatus: string,
+                public signature: string,
+                public qualificationVerify: boolean,
+                public namingVerify: boolean) {
+    }
+}
+
+/**
+ *      账号类型
+ */
+export const AccountTypeEnum = [
+    '',
+    '订阅号',
+    '服务号',
+    '小程序'
+];
+
+/**
+ *      实名验证状态
+ */
+export const realnameStatusEnum = [
+    '',
+    '实名验证成功',
+    '实名验证中',
+    '实名验证失败'
+];
+
+/**
+ *      企业类型
+ */
+export const principalTypeEnum = [
+    '',
+    '企业'
+];
+
+
+/**
  *      订单状态
  */
 export const OrderStatusEnum = [

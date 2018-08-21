@@ -19,6 +19,6 @@ export class ListEntryComponent implements OnInit {
     }
 
     miniprogram() {
-        this.router.navigate(['entry/wechat/miniprogram/bind']);
+        this.router.navigate(['entry/wechat/miniprogram/list', {type: 1}]);
     }
 }

@@ -27,7 +27,7 @@ export class WechatOfficialComponent implements OnInit {
     }
 
     miniprogram() {
-        this.router.navigate(['entry/wechat/official/miniprogram', {type: 1}]);
-        // this.router.navigate(['entry/wechat/official/miniprogram']);
+        // this.router.navigate(['entry/wechat/official/miniprogram', {type: 1}]);
+        this.router.navigate(['entry/wechat/official/miniprogram/new']);
     }
 }

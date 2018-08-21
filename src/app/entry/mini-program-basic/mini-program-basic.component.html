@@ -1,1 +1,41 @@
-<p>BASIC</p>
+<div class="container">
+    <img src="{{ info.headImageUrl }}"/>
+    <div class="row">
+        <div class="col-lg-2">APPID:</div>
+        <div class="col-lg-2">{{ info.appid }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">帐号类型:</div>
+        <div class="col-lg-2">{{ info.accountType }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">名称:</div>
+        <div class="col-lg-2">{{ info.nickName }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">功能介绍:</div>
+        <div class="col-lg-2">{{ info.signature }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">主体名称:</div>
+        <div class="col-lg-4">{{ info.principalName }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">主体类型:</div>
+        <div class="col-lg-2">{{ info.principalType }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">实名验证状态:</div>
+        <div class="col-lg-2">{{ info.realNameStatus }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">是否资质认证:</div>
+        <div class="col-lg-2" *ngIf="info.qualificationVerify">是</div>
+        <div class="col-lg-2" *ngIf="!info.qualificationVerify">否</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">是否名称认证:</div>
+        <div class="col-lg-2" *ngIf="info.namingVerify">是</div>
+        <div class="col-lg-2" *ngIf="!info.namingVerify">否</div>
+    </div>
+</div>

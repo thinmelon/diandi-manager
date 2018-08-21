@@ -12,7 +12,6 @@ import {BindOfficialComponent} from './bind-official/bind-official.component';
 import {RegisterMiniProgramComponent} from './register-mini-program/register-mini-program.component';
 import {MiniProgramListComponent} from './mini-program-list/mini-program-list.component';
 import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic.component';
-import {BindMiniProgramComponent} from './bind-mini-program/bind-mini-program.component';
 
 const __ENTRY_ROUTING__: Routes = [
     {
@@ -33,23 +32,9 @@ const __ENTRY_ROUTING__: Routes = [
                 component: OfficialMenuComponent
             },
             {
-                path: 'miniprogram',
-                component: MiniProgramListComponent,
-                resolve: {
-                    miniprogramListResolver: MiniprogramListResolver
-                }
-            },
-            {
                 path: 'miniprogram/new',
                 canActivate: [AuthorizerGuard],
                 component: RegisterMiniProgramComponent
-            },
-            {
-                path: 'miniprogram/info',
-                component: MiniProgramBasicComponent,
-                resolve: {
-                    miniprogramInfoResolver: MiniprogramInfoResolver
-                }
             },
             {
                 path: 'bind',
@@ -62,9 +47,19 @@ const __ENTRY_ROUTING__: Routes = [
         canActivate: [LoginGuard],
         children: [
             {
-                path: 'bind',
-                component: BindMiniProgramComponent,
-            }
+                path: 'list',
+                component: MiniProgramListComponent,
+                resolve: {
+                    miniprogramListResolver: MiniprogramListResolver
+                }
+            },
+            {
+                path: 'info',
+                component: MiniProgramBasicComponent,
+                resolve: {
+                    miniprogramInfoResolver: MiniprogramInfoResolver
+                }
+            },
         ]
     }
 ];

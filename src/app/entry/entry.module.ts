@@ -11,7 +11,6 @@ import {AuthorizerGuard} from '../services/authentication.service';
 import {RegisterMiniProgramComponent} from './register-mini-program/register-mini-program.component';
 import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic.component';
 import {MiniProgramListComponent} from './mini-program-list/mini-program-list.component';
-import {BindMiniProgramComponent} from './bind-mini-program/bind-mini-program.component';
 
 @NgModule({
     imports: [
@@ -27,8 +26,7 @@ import {BindMiniProgramComponent} from './bind-mini-program/bind-mini-program.co
         BindOfficialComponent,
         MiniProgramBasicComponent,
         MiniProgramListComponent,
-        RegisterMiniProgramComponent,
-        BindMiniProgramComponent
+        RegisterMiniProgramComponent
     ],
     providers: [
         AuthorizerGuard

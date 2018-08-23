@@ -3,15 +3,17 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuthorizerGuard, LoginGuard} from '../services/authentication.service';
 import {WechatOfficialComponent} from './wechat-official/wechat-official.component';
 import {
-    MiniprogramInfoResolver, MiniprogramListResolver,
+    MiniprogramInfoResolver, MiniprogramListResolver, TemplateListResolver,
     WechatOfficialResolver
 } from '../services/resolver/wechat.resolver';
 import {OfficialBasicComponent} from './official-basic/official-basic.component';
 import {OfficialMenuComponent} from './official-menu/official-menu.component';
 import {BindOfficialComponent} from './bind-official/bind-official.component';
 import {RegisterMiniProgramComponent} from './register-mini-program/register-mini-program.component';
-import {MiniProgramListComponent} from './mini-program-list/mini-program-list.component';
 import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic.component';
+import {WechatMiniProgramComponent} from './wechat-mini-program/wechat-mini-program.component';
+import {ListMiniProgramComponent} from '../list/list-mini-program/list-mini-program.component';
+import {ListTemplateComponent} from '../list/list-template/list-template.component';
 
 const __ENTRY_ROUTING__: Routes = [
     {
@@ -45,10 +47,11 @@ const __ENTRY_ROUTING__: Routes = [
     {
         path: 'entry/wechat/miniprogram',
         canActivate: [LoginGuard],
+        component: WechatMiniProgramComponent,
         children: [
             {
                 path: 'list',
-                component: MiniProgramListComponent,
+                component: ListMiniProgramComponent,
                 resolve: {
                     miniprogramListResolver: MiniprogramListResolver
                 }
@@ -60,6 +63,13 @@ const __ENTRY_ROUTING__: Routes = [
                     miniprogramInfoResolver: MiniprogramInfoResolver
                 }
             },
+            {
+                path: 'template',
+                component: ListTemplateComponent,
+                resolve: {
+                    templateListResolver: TemplateListResolver
+                }
+            }
         ]
     }
 ];
@@ -77,7 +87,8 @@ const __ENTRY_ROUTING__: Routes = [
     providers: [
         WechatOfficialResolver,
         MiniprogramListResolver,
-        MiniprogramInfoResolver
+        MiniprogramInfoResolver,
+        TemplateListResolver
     ]
 })
 export class EntryRoutingModule {

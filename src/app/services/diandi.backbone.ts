@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs/index';
 import {UrlService} from './url.service';
 import {catchError} from 'rxjs/internal/operators';
-import {AttributeSet, Business, Product, Refund} from './diandi.structure';
+import {AttributeSet, Business, Product, Refund, Template} from './diandi.structure';
 
 // const httpOptions = {
 //     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -84,7 +84,7 @@ export class BackboneService {
     }
 
     /**
-     *  APPID
+     *  授权公众号的 APPID
      */
     get authorizerAppId(): string {
         return sessionStorage.getItem('_authorizerAppId');
@@ -93,6 +93,18 @@ export class BackboneService {
     set authorizerAppId(value: string) {
         sessionStorage.removeItem('_authorizerAppId');
         sessionStorage.setItem('_authorizerAppId', value);
+    }
+
+    /**
+     *  授权小程序的 APPID
+     */
+    get authorizerMiniProgramAppId(): string {
+        return sessionStorage.getItem('_authorizerMiniProgramAppId');
+    }
+
+    set authorizerMiniProgramAppId(value: string) {
+        sessionStorage.removeItem('_authorizerMiniProgramAppId');
+        sessionStorage.setItem('_authorizerMiniProgramAppId', value);
     }
 
     /**
@@ -558,6 +570,59 @@ export class BackboneService {
             .pipe(
                 catchError(this.handleError('changeBusinessStatus', {errMsg: '#changeBusinessStatus#调整商户状态失败'}))
             );
+    }
+
+    /**
+     * 获取代码模版库中的所有小程序代码模版
+     * @returns {Observable<A>}
+     */
+    public fetchTemplateList(): Observable<any> {
+        return this.http
+            .get<any>(UrlService.FetchTemplateList())
+            .pipe(
+                catchError(this.handleError('fetchTemplateList',
+                    {errMsg: '#fetchTemplateList#获取小程序模版列表失败'}))
+            );
+    }
+
+    /**
+     * 获取小程序模板库标题列表
+     * @param session
+     * @param appid
+     * @returns {Observable<A>}
+     */
+    public fetchAuthorizerTemplateList(session: string, appid: string): Observable<any> {
+        return this.http
+            .get<any>(UrlService.FetchAuthorizerTemplateList(session, appid))
+            .pipe(
+                catchError(this.handleError('fetchAuthorizerTemplateList',
+                    {errMsg: '#fetchAuthorizerTemplateList#获取授权方所用的小程序模版列表失败'}))
+            );
+    }
+
+    /**
+     * 为授权的小程序帐号上传小程序代码
+     * @param session
+     * @param appid
+     * @param template
+     * @returns {Observable<A>}
+     */
+    public commitSourceCode(session: string, appid: string, template: Template): Observable<any> {
+        return this.http
+            .post(UrlService.CommitSourceCode(session, appid), {
+                template_id: template.templateId,
+                ext_json: template.extJson,
+                user_version: template.userVersion,
+                user_desc: template.userDescription
+            })
+            .pipe(
+                catchError(this.handleError('commitSourceCode',
+                    {errMsg: '#commitSourceCode#为授权的小程序帐号上传小程序代码失败'}))
+            );
+    }
+
+    public fetchTrialQRCode(session: string, appid: string): string {
+        return UrlService.FetchTrialQRCode(session, appid);
     }
 
     /**

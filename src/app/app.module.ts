@@ -17,9 +17,12 @@ import {ListUserComponent} from './list/list-user/list-user.component';
 import {ListCardComponent} from './list/list-card/list-card.component';
 import {ListBusinessComponent} from './list/list-business/list-business.component';
 import {ListEntryComponent} from './list/list-entry/list-entry.component';
+import {ListMiniProgramComponent} from './list/list-mini-program/list-mini-program.component';
+import {ListTemplateComponent} from './list/list-template/list-template.component';
 import {RichTextModalComponent} from './modal/rich-text-modal/rich-text-modal.component';
 import {AttributeModalComponent} from './modal/attribute-modal/attribute-modal.component';
 import {ProgressBarModalComponent} from './modal/progress-bar-modal/progress-bar-modal.component';
+import {FormModalComponent} from './modal/form-modal/form-modal.component';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
 
@@ -32,17 +35,21 @@ import {EditBusinessComponent} from './edit/edit-business/edit-business.componen
         ListCardComponent,
         ListBusinessComponent,
         ListEntryComponent,
+        ListMiniProgramComponent,
+        ListTemplateComponent,
         EditProductComponent,
         EditBusinessComponent,
         RichTextModalComponent,
         AttributeModalComponent,
         ProgressBarModalComponent,
+        FormModalComponent,
         LoginComponent,
     ],
     entryComponents: [
         RichTextModalComponent,
         AttributeModalComponent,
-        ProgressBarModalComponent
+        ProgressBarModalComponent,
+        FormModalComponent
     ],
     imports: [
         BrowserModule,

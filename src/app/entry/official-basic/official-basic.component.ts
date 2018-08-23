@@ -15,7 +15,7 @@ export class OfficialBasicComponent implements OnInit {
     public alias = '';
     public signature = '';
     public funcInfo = [];
-    public reauthorization = `https://www.pusudo.cn/platform/authority/wechat?session=${ this.backbone.session }`;
+    public reauthorization = `https://www.pusudo.cn/platform/authority/wechat?auth_type=1&session=${ this.backbone.session }`;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,

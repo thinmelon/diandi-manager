@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MiniProgramListComponent } from './mini-program-list.component';
+import { FormModalComponent } from './form-modal.component';
 
-describe('MiniProgramListComponent', () => {
-  let component: MiniProgramListComponent;
-  let fixture: ComponentFixture<MiniProgramListComponent>;
+describe('FormModalComponent', () => {
+  let component: FormModalComponent;
+  let fixture: ComponentFixture<FormModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MiniProgramListComponent ]
+      declarations: [ FormModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MiniProgramListComponent);
+    fixture = TestBed.createComponent(FormModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

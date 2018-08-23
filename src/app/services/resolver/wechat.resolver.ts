@@ -32,3 +32,13 @@ export class MiniprogramInfoResolver implements Resolve<any> {
         return this.backbone.fetchMiniprogramInfo(this.backbone.session, route.paramMap.get('appid'));
     }
 }
+
+@Injectable()
+export class TemplateListResolver implements Resolve<any> {
+    constructor(private backbone: BackboneService) {
+    }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this.backbone.fetchTemplateList();
+    }
+}

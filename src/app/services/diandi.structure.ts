@@ -212,6 +212,17 @@ export class Account {
 }
 
 /**
+ *      代码模版
+ */
+export class Template {
+    constructor(public templateId: number, /* 代码库中的代码模版ID */
+                public extJson: string, /* 第三方自定义的配置 */
+                public userVersion: string, /* 代码版本号 */
+                public userDescription: string/* 代码描述 */) {
+    }
+}
+
+/**
  *      账号类型
  */
 export const AccountTypeEnum = [

@@ -1,41 +1,67 @@
 <div class="container">
-    <img src="{{ info.headImageUrl }}"/>
-    <div class="row">
-        <div class="col-lg-2">APPID:</div>
-        <div class="col-lg-2">{{ info.appid }}</div>
+    <div class="d-flex flex-row justify-content-center align-items-center">
+        <img src="{{ info.headImageUrl }}"/>
+        <button class="btn btn-sm btn-outline-primary">上传头像</button>
     </div>
-    <div class="row">
-        <div class="col-lg-2">帐号类型:</div>
-        <div class="col-lg-2">{{ info.accountType }}</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">名称:</div>
-        <div class="col-lg-2">{{ info.nickName }}</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">功能介绍:</div>
-        <div class="col-lg-2">{{ info.signature }}</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">主体名称:</div>
-        <div class="col-lg-4">{{ info.principalName }}</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">主体类型:</div>
-        <div class="col-lg-2">{{ info.principalType }}</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">实名验证状态:</div>
-        <div class="col-lg-2">{{ info.realNameStatus }}</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">是否资质认证:</div>
-        <div class="col-lg-2" *ngIf="info.qualificationVerify">是</div>
-        <div class="col-lg-2" *ngIf="!info.qualificationVerify">否</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">是否名称认证:</div>
-        <div class="col-lg-2" *ngIf="info.namingVerify">是</div>
-        <div class="col-lg-2" *ngIf="!info.namingVerify">否</div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <tbody>
+            <tr>
+                <td>APPID:</td>
+                <td>{{ info.appid }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>帐号类型:</td>
+                <td>{{ info.accountType }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>名称:</td>
+                <td>{{ info.nickName }}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary" (click)="setNickname()">设置名称</button>
+                </td>
+            </tr>
+            <tr>
+                <td>功能介绍:</td>
+                <td>{{ info.signature }}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary">修改签名</button>
+                </td>
+            </tr>
+            <tr>
+                <td>主体名称:</td>
+                <td>{{ info.principalName }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>主体类型:</td>
+                <td>{{ info.principalType }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>实名验证状态:</td>
+                <td>{{ info.realNameStatus }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>是否资质认证:</td>
+                <td>
+                    <div class="col-lg-2" *ngIf="info.qualificationVerify">是</div>
+                    <div class="col-lg-2" *ngIf="!info.qualificationVerify">否</div>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>是否名称认证:</td>
+                <td>
+                    <div class="col-lg-2" *ngIf="info.namingVerify">是</div>
+                    <div class="col-lg-2" *ngIf="!info.namingVerify">否</div>
+                </td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>

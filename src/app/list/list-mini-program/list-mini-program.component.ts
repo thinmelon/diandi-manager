@@ -3,13 +3,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BackboneService} from '../../services/diandi.backbone';
 
 @Component({
-    selector: 'app-mini-program-list',
-    templateUrl: './mini-program-list.component.html',
-    styleUrls: ['./mini-program-list.component.less']
+    selector: 'app-list-mini-program',
+    templateUrl: './list-mini-program.component.html',
+    styleUrls: ['./list-mini-program.component.less']
 })
-export class MiniProgramListComponent implements OnInit {
+export class ListMiniProgramComponent implements OnInit {
     public bindMiniprogram = '';
     public miniprograms = [];
+    public defaultAuthorizerAppid;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -20,6 +21,7 @@ export class MiniProgramListComponent implements OnInit {
         const that = this;
 
         this.bindMiniprogram = `https://www.pusudo.cn/platform/authority/wechat?auth_type=2&session=${ this.backbone.session }`;
+        this.defaultAuthorizerAppid = this.backbone.authorizerMiniProgramAppId;
         this.route.data
             .subscribe((data: { miniprogramListResolver: any }) => {
                 let index = 0;
@@ -35,5 +37,10 @@ export class MiniProgramListComponent implements OnInit {
 
     accountInfo(appid) {
         this.router.navigate(['entry/wechat/miniprogram/info', {appid: appid}]);
+    }
+
+    setDefaultAuthorizer(appid) {
+        this.backbone.authorizerMiniProgramAppId = appid;
+        this.defaultAuthorizerAppid = appid;
     }
 }

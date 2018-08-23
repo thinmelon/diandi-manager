@@ -115,6 +115,10 @@ export class UrlService {
         return `${ PREFIX }/wechat/official?session=${ session }&type=${ type }`;
     }
 
+    static CreateMenu(session: string): string {
+        return `${ PREFIX }/wechat/official/menu?session=${ session }`;
+    }
+
     static FetchFastRegisterMiniprogramList(session: string, type: string): string {
         return `${ PREFIX }/wechat/miniprogram/list?session=${ session }&type=${ type }`;
     }
@@ -123,8 +127,20 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/info?session=${ session }&appid=${ appid }`;
     }
 
-    static CreateMenu(session: string): string {
-        return `${ PREFIX }/wechat/official/menu?session=${ session }`;
+    static FetchTemplateList(): string {
+        return `${ PREFIX }/wechat/miniprogram/template/list`;
+    }
+
+    static FetchAuthorizerTemplateList(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/template/authorizer?session=${ session }&appid=${ appid }`;
+    }
+
+    static CommitSourceCode(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/template/authorizer?session=${ session }&appid=${ appid }`;
+    }
+
+    static FetchTrialQRCode(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/grcode?session=${ session }&appid=${ appid }`;
     }
 
     static Login(): string {

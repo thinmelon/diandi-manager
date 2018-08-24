@@ -621,8 +621,69 @@ export class BackboneService {
             );
     }
 
+    /**
+     * 获取小程序的体验二维码
+     * @param session
+     * @param appid
+     * @returns {string}
+     */
     public fetchTrialQRCode(session: string, appid: string): string {
         return UrlService.FetchTrialQRCode(session, appid);
+    }
+
+    /**
+     * 设置昵称
+     * @param session
+     * @param appid
+     * @param name
+     * @param type
+     * @param mediaId
+     * @returns {Observable<A>}
+     */
+    public setNickname(session: string, appid: string, name: string, type: string, mediaId: string): Observable<any> {
+        return this.http
+            .post(UrlService.SetNickname(session, appid), {
+                nick_name: name,
+                type: type,
+                media_id: mediaId
+            })
+            .pipe(
+                catchError(this.handleError('setNickname', {errMsg: '#setNickname#设置昵称失败'}))
+            );
+    }
+
+    /**
+     * 修改签名
+     * @param session
+     * @param appid
+     * @param signature
+     * @returns {Observable<A>}
+     */
+    public modifySignature(session: string, appid: string, signature: string): Observable<any> {
+        return this.http
+            .post(UrlService.ModifySignature(session, appid), {
+                signature: signature
+            })
+            .pipe(
+                catchError(this.handleError('modifySignature', {errMsg: '#modifySignature#设置签名失败'}))
+            );
+    }
+
+    /**
+     * 修改头像
+     * @param session
+     * @param appid
+     * @param mediaId
+     * @returns {Observable<A>}
+     */
+    public modifyHeadImage(session: string, appid: string, mediaId: string): Observable<any> {
+        return this.http
+            .post(UrlService.ModifyHeadImage(session, appid), {
+                head_img_media_id: mediaId
+            })
+            .pipe(
+                catchError(this.handleError('modifyHeadImage', {errMsg: '#modifyHeadImage#更换头像失败'}))
+            );
     }
 
     /**

@@ -8,11 +8,12 @@
     <div [hidden]="hint === ''" class="alert alert-danger"> {{hint}}</div>
     <div *ngFor="let item of keyValues">
         <div>{{ item.key }}</div>
-        <input *ngIf="item.type === 'text'" type="text" class="form-control" title="昵称" placeholder="请输入昵称"/>
-        <div *ngIf="item.type === 'file'" class="d-flex flex-row">
+        <input *ngIf="item.type === 'text'" type="text" class="form-control" title="昵称" placeholder="请输入昵称"
+               [(ngModel)]="item.src"/>
+        <div *ngIf="item.type === 'file'" class="d-flex flex-column">
             <input type="file" class="form-control" title="上传文件"
-                   ng2FileSelect [uploader]="fileUploader" (change)="selectedFileOnChanged()"/>
-            <button class="btn btn-sm btn-outline-primary" (click)="upload()">上传</button>
+                   ng2FileSelect [uploader]="fileUploader" (change)="selectedFileOnChanged(item.index)"/>
+            <img src="{{ item.src }}" style="width: 50px; height: 50px;"/>
         </div>
     </div>
 </div>

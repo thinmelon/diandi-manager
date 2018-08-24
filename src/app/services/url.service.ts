@@ -143,6 +143,26 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/grcode?session=${ session }&appid=${ appid }`;
     }
 
+    static AddMaterial(session: string, type: number): string {
+        return `${ PREFIX }/wechat/official/material?session=${ session }&type=${ type }`;
+    }
+
+    static UploadTempMaterial(session: string, type: number): string {
+        return `${ PREFIX }/wechat/official/tmp/material?session=${ session }&type=${ type }`;
+    }
+
+    static SetNickname(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/name?session=${ session }&appid=${ appid }`;
+    }
+
+    static ModifySignature(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/signature?session=${ session }&appid=${ appid }`;
+    }
+
+    static ModifyHeadImage(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/headimage?session=${ session }&appid=${ appid }`;
+    }
+
     static Login(): string {
         return `${ PREFIX }/login`;
     }

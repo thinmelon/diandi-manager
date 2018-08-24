@@ -1,7 +1,8 @@
 <div class="container">
+    <div [hidden]="errorMessage === ''" class="alert alert-danger"> {{errorMessage}}</div>
     <div class="d-flex flex-row justify-content-center align-items-center">
         <img src="{{ info.headImageUrl }}"/>
-        <button class="btn btn-sm btn-outline-primary">上传头像</button>
+        <button class="btn btn-sm btn-outline-primary" (click)="modifyHeadImage()">上传头像</button>
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover">
@@ -25,9 +26,14 @@
             </tr>
             <tr>
                 <td>功能介绍:</td>
-                <td>{{ info.signature }}</td>
                 <td>
-                    <button class="btn btn-sm btn-outline-primary">修改签名</button>
+                    <input type="text" class="form-control"
+                           title="修改签名"
+                           [(ngModel)]="info.signature"/>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary" (click)="modifySignature(info.signature)">修改签名
+                    </button>
                 </td>
             </tr>
             <tr>

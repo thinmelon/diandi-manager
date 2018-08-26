@@ -195,6 +195,29 @@ export class Menu {
 }
 
 /**
+ *      审核状态
+ */
+export const AuditStatusEnum = [
+    '',
+    '审核中',
+    '审核不通过',
+    '审核通过'
+];
+
+/**
+ *      小程序类目
+ */
+export class Category {
+    constructor(public firstId: number,
+                public firstName: string,
+                public secondId: number,
+                public secondName: string,
+                public auditStatus: string,
+                public auditReason: string) {
+    }
+}
+
+/**
  *      公众号及小程序账号
  */
 export class Account {
@@ -202,6 +225,7 @@ export class Account {
                 public accountType: string,
                 public headImageUrl: string,
                 public nickName: string,
+                public categories: Category[],
                 public principalName: string,
                 public principalType: string,
                 public realNameStatus: string,

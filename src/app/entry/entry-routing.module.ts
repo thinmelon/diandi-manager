@@ -3,7 +3,9 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuthorizerGuard, LoginGuard} from '../services/authentication.service';
 import {WechatOfficialComponent} from './wechat-official/wechat-official.component';
 import {
-    MiniprogramInfoResolver, MiniprogramListResolver, TemplateListResolver,
+    MiniprogramInfoResolver,
+    MiniprogramListResolver,
+    TemplateListResolver,
     WechatOfficialResolver
 } from '../services/resolver/wechat.resolver';
 import {OfficialBasicComponent} from './official-basic/official-basic.component';
@@ -14,6 +16,14 @@ import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic
 import {WechatMiniProgramComponent} from './wechat-mini-program/wechat-mini-program.component';
 import {ListMiniProgramComponent} from '../list/list-mini-program/list-mini-program.component';
 import {ListTemplateComponent} from '../list/list-template/list-template.component';
+import {ListUserResolver} from '../services/resolver/user.resolver';
+import {ListUserComponent} from '../list/list-user/list-user.component';
+import {ListProductResolver} from '../services/resolver/product.resolver';
+import {ListProductComponent} from '../list/list-product/list-product.component';
+import {ListOrderResolver} from '../services/resolver/order.resolver';
+import {ListOrderComponent} from '../list/list-order/list-order.component';
+import {ListCardComponent} from '../list/list-card/list-card.component';
+import {ListCardResolver} from '../services/resolver/card.resolver';
 
 const __ENTRY_ROUTING__: Routes = [
     {
@@ -68,6 +78,34 @@ const __ENTRY_ROUTING__: Routes = [
                 component: ListTemplateComponent,
                 resolve: {
                     templateListResolver: TemplateListResolver
+                }
+            },
+            {
+                path: 'order',
+                component: ListOrderComponent,
+                resolve: {
+                    listOrderResolver: ListOrderResolver
+                }
+            },
+            {
+                path: 'product',
+                component: ListProductComponent,
+                resolve: {
+                    listProductResolver: ListProductResolver
+                }
+            },
+            {
+                path: 'user',
+                component: ListUserComponent,
+                resolve: {
+                    listUserResolver: ListUserResolver
+                }
+            },
+            {
+                path: 'card/:pid',
+                component: ListCardComponent,
+                resolve: {
+                    listCardResolver: ListCardResolver
                 }
             }
         ]

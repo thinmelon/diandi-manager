@@ -687,6 +687,93 @@ export class BackboneService {
     }
 
     /**
+     * 账号已经设置的所有类目
+     * @param session
+     * @param appid
+     * @returns {Observable<A>}
+     */
+    public fetchAuthorizerCategory(session: string, appid: string): Observable<any> {
+        return this.http
+            .get<any>(UrlService.FetchAuthorizerCategory(session, appid))
+            .pipe(
+                catchError(this.handleError('fetchAuthorizerCategory',
+                    {errMsg: '#fetchAuthorizerCategory#获取账号已经设置的所有类目失败'}))
+            );
+    }
+
+    /**
+     * 获取账号可以设置的所有类目
+     * @param session
+     * @param appid
+     * @returns {Observable<A>}
+     */
+    public fetchAllCategories(session: string, appid: string): Observable<any> {
+        return this.http
+            .get<any>(UrlService.FetchAllCategories(session, appid))
+            .pipe(
+                catchError(this.handleError('fetchAllCategories',
+                    {errMsg: '#fetchAllCategories#获取账号可以设置的所有类目失败'}))
+            );
+    }
+
+    /**
+     * 添加类目
+     * @param session
+     * @param appid
+     * @param first
+     * @param second
+     * @returns {Observable<A>}
+     */
+    public addCategory(session: string, appid: string, first: number, second: number): Observable<any> {
+        return this.http
+            .post(UrlService.AddCategory(session, appid), {
+                first: first,
+                second: second,
+                certicates: JSON.stringify([])
+            })
+            .pipe(
+                catchError(this.handleError('AddCategory', {errMsg: '#AddCategory#新增类目失败'}))
+            );
+    }
+
+    /**
+     * 移除类目
+     * @param session
+     * @param appid
+     * @param first
+     * @param second
+     * @returns {Observable<A>}
+     */
+    public removeCategory(session: string, appid: string, first: number, second: number): Observable<any> {
+        return this.http
+            .delete(UrlService.RemoveCategory(), {
+                params: {
+                    session: session,
+                    appid: appid,
+                    first: first.toString(),
+                    second: second.toString()
+                }
+            })
+            .pipe(
+                catchError(this.handleError('RemoveCategory', {errMsg: '#RemoveCategory#移除类目失败'}))
+            );
+    }
+
+    public modifyDomain(session: string, appid: string, config: any): Observable<any> {
+        return this.http
+            .post(UrlService.ModifyDomain(session, appid), {
+                action: 'set',
+                requestdomain: JSON.stringify(config[0]),
+                wsrequestdomain: JSON.stringify(config[1]),
+                uploaddomain: JSON.stringify(config[2]),
+                downloaddomain: JSON.stringify(config[3])
+            })
+            .pipe(
+                catchError(this.handleError('modifyDomain', {errMsg: '#modifyDomain#修改域名失败'}))
+            );
+    }
+
+    /**
      * Handle Http operation that failed.
      * Let the app continue.
      * @param operation - name of the operation that failed

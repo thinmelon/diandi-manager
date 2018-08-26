@@ -9,12 +9,14 @@ import {ProgressBarModalComponent} from '../progress-bar-modal/progress-bar-moda
     styleUrls: ['./form-modal.component.less']
 })
 export class FormModalComponent implements OnInit, OnDestroy {
-    @Input() title: string;
-    @Input() hint: string;
-    @Input() keyValues = [];
-    @Input() uploadUrl = '';
-    @Input() submitBtnText = '保存';
-    @Output() uploadFileEvt = new EventEmitter<any>();
+    @Input() title: string;                                 //  模式框标题
+    @Input() hint: string;                                  //  提示信息
+    @Input() keyValues = [];                                //  控件列表
+    @Input() uploadUrl = '';                                //  文件上传地址
+    @Input() maxFileSize = 5 * 1024 * 1024;                 //  上传文件大小上限
+    @Input() submitBtnText = '保存';                         //  提交按键名
+    @Output() submitEvt = new EventEmitter<any>();      //  文件上传后回传事件
+    @Output() dropdownSelectedEvt = new EventEmitter<any>();    //  文件上传后回传事件
     public fileUploader: FileUploader;
 
     constructor(public activeModal: NgbActiveModal,
@@ -24,10 +26,10 @@ export class FormModalComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.fileUploader = new FileUploader({
             url: this.uploadUrl,                   //  上传至公众号的临时素材库
-            // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
-            method: 'POST',                         //  上传文件的方式
-            maxFileSize: 2 * 1024 * 1024,           //  最大可上传的文件大小
-            queueLimit: 1,                          //  最大可上传的文件数量
+            // allowedFileType: ['image/jpeg'],    //  允许上传的文件类型
+            method: 'POST',                        //  上传文件的方式
+            maxFileSize: this.maxFileSize,         //  最大可上传的文件大小
+            queueLimit: 1,                         //  最大可上传的文件数量
             removeAfterUpload: true                //  是否在上传完成后从队列中移除
         });
         console.log(this.fileUploader);
@@ -42,7 +44,7 @@ export class FormModalComponent implements OnInit, OnDestroy {
      */
     onSubmit() {
         this.activeModal.dismiss('Completed');
-        this.uploadFileEvt.emit(this.keyValues);
+        this.submitEvt.emit(this.keyValues);
     }
 
     /**
@@ -102,7 +104,11 @@ export class FormModalComponent implements OnInit, OnDestroy {
             console.log('===========> onCompleteItem ');
             console.log(response);
             const res = JSON.parse(response);
-            that.keyValues[index].mediaId = res.media_id;
+            if (res.hasOwnProperty('media_id')) {
+                that.keyValues[index].mediaId = res.media_id;           //  对于素材类型为image的情况
+            } else if (res.hasOwnProperty('thumb_media_id')) {
+                that.keyValues[index].mediaId = res.thumb_media_id;     //  对于素材类型为thumb的情况
+            }
             const reader = new FileReader();
             // 生成base64图片地址，实现本地预览
             reader.readAsDataURL(item._file);
@@ -121,6 +127,17 @@ export class FormModalComponent implements OnInit, OnDestroy {
          *  开始上传
          */
         this.fileUploader.uploadAll();
+    }
+
+    /**
+     * 选中下拉列表项
+     * @param index
+     * @param category
+     */
+    selectedItemOnChanged(index, category) {
+        this.keyValues[index].categoryId = category.id;
+        this.keyValues[index].value = category.name;
+        this.dropdownSelectedEvt.emit(category);
     }
 }
 

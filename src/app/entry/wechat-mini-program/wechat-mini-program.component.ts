@@ -25,4 +25,20 @@ export class WechatMiniProgramComponent implements OnInit {
     template() {
         this.router.navigate(['entry/wechat/miniprogram/template']);
     }
+
+    products() {
+        this.router.navigate(['entry/wechat/miniprogram/product']);
+    }
+
+    orders() {
+        this.router.navigate(['entry/wechat/miniprogram/order']);
+    }
+
+    users() {
+        this.router.navigate(['entry/wechat/miniprogram/user']);
+    }
+
+    cards(pid) {
+        this.router.navigate(['entry/wechat/miniprogram/card', {pid: pid}]);
+    }
 }

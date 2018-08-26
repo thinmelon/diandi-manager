@@ -8,7 +8,7 @@ import {BackboneService} from '../../services/diandi.backbone';
 })
 export class BindOfficialComponent implements OnInit {
     public wechatOfficialAccount = '';
-    
+
     constructor(private backbone: BackboneService) {
     }
 

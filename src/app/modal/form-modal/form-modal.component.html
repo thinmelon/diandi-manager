@@ -8,12 +8,20 @@
     <div [hidden]="hint === ''" class="alert alert-danger"> {{hint}}</div>
     <div *ngFor="let item of keyValues">
         <div>{{ item.key }}</div>
-        <input *ngIf="item.type === 'text'" type="text" class="form-control" title="昵称" placeholder="请输入昵称"
+        <input *ngIf="item.type === 'text'" type="text" class="form-control" title="text-input" placeholder=""
                [(ngModel)]="item.src"/>
         <div *ngIf="item.type === 'file'" class="d-flex flex-column">
             <input type="file" class="form-control" title="上传文件"
                    ng2FileSelect [uploader]="fileUploader" (change)="selectedFileOnChanged(item.index)"/>
             <img src="{{ item.src }}" style="width: 50px; height: 50px;"/>
+        </div>
+        <div *ngIf="item.type === 'dropdown'" ngbDropdown>
+            <button class="btn btn-outline-primary" ngbDropdownToggle>{{ item.value }}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+                <button *ngFor="let category of item.src" class="dropdown-item"
+                        (click)="selectedItemOnChanged(item.index, category)">{{ category.name }}
+                </button>
+            </div>
         </div>
     </div>
 </div>

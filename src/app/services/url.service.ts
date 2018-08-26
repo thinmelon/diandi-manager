@@ -143,12 +143,12 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/grcode?session=${ session }&appid=${ appid }`;
     }
 
-    static AddMaterial(session: string, type: number): string {
-        return `${ PREFIX }/wechat/official/material?session=${ session }&type=${ type }`;
+    static AddMaterial(session: string, appid: string, media_type: string): string {
+        return `${ PREFIX }/wechat/official/material?session=${ session }&appid=${ appid }&media_type=${ media_type }`;
     }
 
-    static UploadTempMaterial(session: string, type: number): string {
-        return `${ PREFIX }/wechat/official/tmp/material?session=${ session }&type=${ type }`;
+    static UploadTempMaterial(session: string, appid: string, media_type: string): string {
+        return `${ PREFIX }/wechat/official/tmp/material?session=${ session }&appid=${ appid }&media_type=${ media_type }`;
     }
 
     static SetNickname(session: string, appid: string): string {
@@ -161,6 +161,26 @@ export class UrlService {
 
     static ModifyHeadImage(session: string, appid: string): string {
         return `${ PREFIX }/wechat/miniprogram/headimage?session=${ session }&appid=${ appid }`;
+    }
+
+    static FetchAuthorizerCategory(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/categories?session=${ session }&appid=${ appid }`;
+    }
+
+    static FetchAllCategories(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/categories/all?session=${ session }&appid=${ appid }`;
+    }
+
+    static AddCategory(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/category?session=${ session }&appid=${ appid }`;
+    }
+
+    static RemoveCategory(): string {
+        return `${ PREFIX }/wechat/miniprogram/category`;
+    }
+
+    static ModifyDomain(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/domain?session=${ session }&appid=${ appid }`;
     }
 
     static Login(): string {

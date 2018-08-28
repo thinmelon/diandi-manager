@@ -32,7 +32,7 @@ export class FormModalComponent implements OnInit, OnDestroy {
             queueLimit: 1,                         //  最大可上传的文件数量
             removeAfterUpload: true                //  是否在上传完成后从队列中移除
         });
-        console.log(this.fileUploader);
+        console.log(this.keyValues);
     }
 
     ngOnDestroy() {

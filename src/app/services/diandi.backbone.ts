@@ -591,14 +591,14 @@ export class BackboneService {
      * @param appid
      * @returns {Observable<A>}
      */
-    public fetchAuthorizerTemplateList(session: string, appid: string): Observable<any> {
-        return this.http
-            .get<any>(UrlService.FetchAuthorizerTemplateList(session, appid))
-            .pipe(
-                catchError(this.handleError('fetchAuthorizerTemplateList',
-                    {errMsg: '#fetchAuthorizerTemplateList#获取授权方所用的小程序模版列表失败'}))
-            );
-    }
+    // public fetchAuthorizerTemplateList(session: string, appid: string): Observable<any> {
+    //     return this.http
+    //         .get<any>(UrlService.FetchAuthorizerTemplateList(session, appid))
+    //         .pipe(
+    //             catchError(this.handleError('fetchAuthorizerTemplateList',
+    //                 {errMsg: '#fetchAuthorizerTemplateList#获取授权方所用的小程序模版列表失败'}))
+    //         );
+    // }
 
     /**
      * 为授权的小程序帐号上传小程序代码
@@ -759,6 +759,13 @@ export class BackboneService {
             );
     }
 
+    /**
+     * 修改域名
+     * @param session
+     * @param appid
+     * @param config
+     * @returns {Observable<A>}
+     */
     public modifyDomain(session: string, appid: string, config: any): Observable<any> {
         return this.http
             .post(UrlService.ModifyDomain(session, appid), {
@@ -770,6 +777,120 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('modifyDomain', {errMsg: '#modifyDomain#修改域名失败'}))
+            );
+    }
+
+    /**
+     * 获取授权方所有版本
+     * @param session
+     * @param appid
+     * @returns {Observable<A>}
+     */
+    public fetchAuthorizerAllVersions(session: string, appid: string): Observable<any> {
+        return this.http
+            .get(UrlService.FetchAuthorizerAllVersions(session, appid))
+            .pipe(
+                catchError(this.handleError('fetchAuthorizerAllVersions', {errMsg: '#fetchAuthorizerAllVersions#获取授权方所有版本失败'}))
+            );
+    }
+
+    /**
+     * 获取授权方所有类目
+     * @param session
+     * @param appid
+     * @returns {Observable<A>}
+     */
+    public fetchAuthorizerCategories(session: string, appid: string): Observable<any> {
+        return this.http
+            .get(UrlService.FetchAuthorizerCategories(session, appid))
+            .pipe(
+                catchError(this.handleError('fetchAuthorizerCategories', {errMsg: '#fetchAuthorizerCategories#获取授权方所有类目失败'}))
+            );
+    }
+
+    /**
+     * 获取授权方所有页面配置
+     * @param session
+     * @param appid
+     * @returns {Observable<A>}
+     */
+    public fetchAuthorizerPages(session: string, appid: string): Observable<any> {
+        return this.http
+            .get(UrlService.FetchAuthorizerPages(session, appid))
+            .pipe(
+                catchError(this.handleError('fetchAuthorizerPages', {errMsg: '#fetchAuthorizerPages#获取授权方所有页面配置失败'}))
+            );
+    }
+
+    /**
+     * 提交审核
+     * @param session
+     * @param appid
+     * @param itemList
+     * @param templateId
+     * @returns {Observable<A>}
+     */
+    public submitAudit(session: string, appid: string, itemList: any, templateId: number): Observable<any> {
+        return this.http
+            .post(UrlService.SubmitAudit(session, appid), {
+                item_list: JSON.stringify(itemList),
+                template_id: templateId
+            })
+            .pipe(
+                catchError(this.handleError('submitAudit', {errMsg: '#submitAudit#提交审核失败'}))
+            );
+    }
+
+    /**
+     * 撤消审核
+     * @param session
+     * @param appid
+     * @param templateId
+     * @returns {Observable<A>}
+     */
+    public undoCodeAudit(session: string, appid: string, templateId: number): Observable<any> {
+        return this.http
+            .delete(UrlService.UndoCodeAudit(), {
+                params: {
+                    session: session,
+                    appid: appid,
+                    template_id: templateId.toString()
+                }
+            })
+            .pipe(
+                catchError(this.handleError('undoCodeAudit', {errMsg: '#undoCodeAudit#撤消审核失败'}))
+            );
+    }
+
+    /**
+     * 查询审核状态
+     * @param session
+     * @param appid
+     * @param auditid
+     * @returns {Observable<A>}
+     */
+    public queryAudit(session: string, appid: string, auditid: number): Observable<any> {
+        return this.http
+            .get(UrlService.QueryAudit(session, appid, auditid))
+            .pipe(
+                catchError(this.handleError('queryAudit', {errMsg: '#queryAudit#查询审核状态失败'}))
+            );
+    }
+
+    /**
+     * 发布版本
+     * @param session
+     * @param appid
+     * @param templateId
+     * @returns {Observable<A>}
+     */
+    public releaseVersion(session: string, appid: string, templateId: number): Observable<any> {
+        return this.http
+            .post(UrlService.ReleaseVersion(session, appid), {
+                template_id: templateId
+            })
+            .pipe(
+                catchError(this.handleError('releaseVersion', {errMsg: '#releaseVersion#发布版本失败'}))
             );
     }
 

@@ -131,9 +131,9 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/template/list`;
     }
 
-    static FetchAuthorizerTemplateList(session: string, appid: string): string {
-        return `${ PREFIX }/wechat/miniprogram/template/authorizer?session=${ session }&appid=${ appid }`;
-    }
+    // static FetchAuthorizerTemplateList(session: string, appid: string): string {
+    //     return `${ PREFIX }/wechat/miniprogram/template/authorizer?session=${ session }&appid=${ appid }`;
+    // }
 
     static CommitSourceCode(session: string, appid: string): string {
         return `${ PREFIX }/wechat/miniprogram/template/authorizer?session=${ session }&appid=${ appid }`;
@@ -181,6 +181,34 @@ export class UrlService {
 
     static ModifyDomain(session: string, appid: string): string {
         return `${ PREFIX }/wechat/miniprogram/domain?session=${ session }&appid=${ appid }`;
+    }
+
+    static FetchAuthorizerAllVersions(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/version/all?session=${ session }&appid=${ appid }`;
+    }
+
+    static FetchAuthorizerCategories(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/categories/available?session=${ session }&appid=${ appid }`;
+    }
+
+    static FetchAuthorizerPages(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/page?session=${ session }&appid=${ appid }`;
+    }
+
+    static SubmitAudit(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/audit?session=${ session }&appid=${ appid }`;
+    }
+
+    static UndoCodeAudit(): string {
+        return `${ PREFIX }/wechat/miniprogram/audit`;
+    }
+
+    static QueryAudit(session: string, appid: string, auditid: number): string {
+        return `${ PREFIX }/wechat/miniprogram/audit?session=${ session }&appid=${ appid }&auditid=${ auditid }`;
+    }
+
+    static ReleaseVersion(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/release?session=${ session }&appid=${ appid }`;
     }
 
     static Login(): string {

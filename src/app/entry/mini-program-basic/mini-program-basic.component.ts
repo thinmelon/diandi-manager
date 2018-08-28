@@ -322,6 +322,9 @@ export class MiniProgramBasicComponent implements OnInit {
             });
     }
 
+    /**
+     * 修改域名
+     */
     modifyDomain() {
         const that = this;
         const modalRef = this.modalService.open(FormModalComponent);

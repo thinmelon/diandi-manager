@@ -15,7 +15,6 @@ import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {LoginGuard} from './services/authentication.service';
 import {LoginComponent} from './login/login.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
-import {WechatOfficialComponent} from './entry/wechat-official/wechat-official.component';
 import {WechatOfficialResolver} from './services/resolver/wechat.resolver';
 
 const __ROUTES__: Routes = [

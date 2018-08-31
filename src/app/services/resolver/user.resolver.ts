@@ -10,6 +10,6 @@ export class ListUserResolver implements Resolve<any> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         // return this.backbone.fetchProducts(this.backbone.session, moment().format(), 100);
-        return this.backbone.fetchUserList(this.backbone.session, 'ALL');
+        return this.backbone.fetchUserList(this.backbone.session, this.backbone.authorizerMiniProgramAppId);
     }
 }

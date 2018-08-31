@@ -127,9 +127,9 @@ export class BackboneService {
             );
     }
 
-    public fetchPartialProducts(session: string, offset: number, amount: number) {
+    public fetchPartialProducts(session: string, businessId: string, offset: number, amount: number) {
         return this.http
-            .get<any>(UrlService.FetchPartialProductList(session, offset, amount))
+            .get<any>(UrlService.FetchPartialProductList(session, businessId, offset, amount))
             .pipe(
                 catchError(this.handleError('fetchPartialProducts', {errMsg: '#fetchPartialProducts#获取商品列表失败'}))
             );
@@ -183,15 +183,12 @@ export class BackboneService {
     /**
      *  获取用户列表
      * @param session
-     * @param queryType
+     * @param appid
      * @returns {Observable<A>}
      */
-    public fetchUserList(session: string, queryType: string): Observable<any> {
+    public fetchUserList(session: string, appid: string): Observable<any> {
         return this.http
-            .post(UrlService.FetchUserList(), {
-                session: session,
-                queryType: queryType
-            })
+            .get(UrlService.FetchUserList(session, appid))
             .pipe(
                 catchError(this.handleError('fetchUserList', {errMsg: '#fetchUserList#获取用户列表失败'}))
             );
@@ -268,13 +265,19 @@ export class BackboneService {
 
     /**
      * 移除商品
+     * @param session
+     * @param bid
      * @param pid
      * @returns {Observable<A>}
      */
-    public removeProduct(pid: string): Observable<any> {
+    public removeProduct(session: string, bid: string, pid: string): Observable<any> {
         return this.http
             .delete(UrlService.RemoveProduct(), {
-                params: new HttpParams().set('productid', pid),
+                params: {
+                    session: session,
+                    businessId: bid,
+                    productId: pid
+                }
             })
             .pipe(
                 catchError(this.handleError('removeProduct', {errMsg: '#removeProduct#移除商品失败'}))
@@ -359,7 +362,7 @@ export class BackboneService {
         return this.http
             .get<any>(UrlService.QueryCardDetail(session, card_id))
             .pipe(
-                catchError(this.handleError('queryCardDetail', {errMsg: '#queryCardDetail#获取卡券列表失败'}))
+                catchError(this.handleError('queryCardDetail', {errMsg: '#queryCardDetail#获取卡券详情失败'}))
             );
     }
 
@@ -399,11 +402,12 @@ export class BackboneService {
     /**
      * 查询商户列表
      * @param session
+     * @param appid
      * @returns {Observable<A>}
      */
-    public fetchBusinessList(session: string): Observable<any> {
+    public fetchBusinessList(session: string, appid: string): Observable<any> {
         return this.http
-            .get<any>(UrlService.FetchBusinessList(session))
+            .get<any>(UrlService.FetchBusinessList(session, appid))
             .pipe(
                 catchError(this.handleError('fetchBusinessList', {errMsg: '#fetchBusinessList#获取商户列表失败'}))
             );
@@ -426,13 +430,15 @@ export class BackboneService {
     /**
      * 添加商户
      * @param session
+     * @param appid
      * @param business
      * @returns {Observable<A>}
      */
-    public addBusiness(session: string, business: Business): Observable<any> {
+    public addBusiness(session: string, appid: string, business: Business): Observable<any> {
         return this.http
             .post<any>(UrlService.AddBusiness(), {
                 session: session,
+                appid: appid,
                 business: JSON.stringify(business)
             })
             .pipe(

@@ -26,6 +26,10 @@ export class WechatMiniProgramComponent implements OnInit {
         this.router.navigate(['entry/wechat/miniprogram/template']);
     }
 
+    business() {
+        this.router.navigate(['entry/wechat/miniprogram/business']);
+    }
+
     products() {
         this.router.navigate(['entry/wechat/miniprogram/product']);
     }

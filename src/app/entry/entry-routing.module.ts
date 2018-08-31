@@ -24,6 +24,8 @@ import {ListOrderResolver} from '../services/resolver/order.resolver';
 import {ListOrderComponent} from '../list/list-order/list-order.component';
 import {ListCardComponent} from '../list/list-card/list-card.component';
 import {ListCardResolver} from '../services/resolver/card.resolver';
+import {ListBusinessComponent} from '../list/list-business/list-business.component';
+import {ListBusinessResolver} from '../services/resolver/business.resolver';
 
 const __ENTRY_ROUTING__: Routes = [
     {
@@ -81,6 +83,13 @@ const __ENTRY_ROUTING__: Routes = [
                 }
             },
             {
+                path: 'business',
+                component: ListBusinessComponent,
+                resolve: {
+                    listBusinessResolver: ListBusinessResolver
+                }
+            },
+            {
                 path: 'order',
                 component: ListOrderComponent,
                 resolve: {
@@ -91,7 +100,7 @@ const __ENTRY_ROUTING__: Routes = [
                 path: 'product',
                 component: ListProductComponent,
                 resolve: {
-                    listProductResolver: ListProductResolver
+                    listBusinessResolver: ListBusinessResolver
                 }
             },
             {

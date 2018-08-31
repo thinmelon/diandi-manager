@@ -52,9 +52,9 @@ export class EditBusinessComponent implements OnInit {
                         this.business.phone = result.msg.business[0].phone;
                         this.business.consumptionPerPerson = result.msg.business[0].consumptionPerPerson;
                         this.business.remark = result.msg.business[0].remark;
-                        if (result.msg.product.length > 0) {
-                            this.business.associatedProductPid = result.msg.product[0].productId;
-                        }
+                        // if (result.msg.product.length > 0) {
+                        //     this.business.associatedProductPid = result.msg.product[0].productId;
+                        // }
                         if (result.msg.material.length > 0) {
                             this.business.associatedMaterialId = result.msg.material[0].mediaId;
                         }
@@ -81,7 +81,7 @@ export class EditBusinessComponent implements OnInit {
                 zoom: zoom                  // 地图的中心地理坐标
             });
 
-        this.fetchProductList();
+        // this.fetchProductList();
         this.fetchMaterialList();
     }
 
@@ -99,9 +99,9 @@ export class EditBusinessComponent implements OnInit {
      * 选择要关联的商品
      * @param pid
      */
-    chooseProduct(pid) {
-        this.business.associatedProductPid = pid;
-    }
+    // chooseProduct(pid) {
+    //     this.business.associatedProductPid = pid;
+    // }
 
     /**
      * 选择要关联的软文
@@ -115,38 +115,38 @@ export class EditBusinessComponent implements OnInit {
     /**
      * 获取商品列表
      */
-    fetchProductList() {
-        this.backbone
-            .fetchPartialProducts(
-                this.backbone.session, this.curProductOffset, this.itemsPerPage)
-            .subscribe(response => {
-                console.log(response);
-                if (response.code === 0) {
-                    this.products = response.msg.map(item => {
-                        item.name = decodeURIComponent(item.name);
-                        return item;
-                    });
-                }
-            });
-    }
+    // fetchProductList() {
+    //     this.backbone
+    //         .fetchPartialProducts(
+    //             this.backbone.session, this.curProductOffset, this.itemsPerPage)
+    //         .subscribe(response => {
+    //             console.log(response);
+    //             if (response.code === 0) {
+    //                 this.products = response.msg.map(item => {
+    //                     item.name = decodeURIComponent(item.name);
+    //                     return item;
+    //                 });
+    //             }
+    //         });
+    // }
 
     /**
      * 转页 -- 商品
      * @param direction
      */
-    turnProductPage(direction) {
-        if (direction < 0) {
-            if (this.curProductPage > 1) {
-                this.curProductPage = this.curProductPage + direction;
-                this.curProductOffset = (this.curProductPage - 1) * this.itemsPerPage;
-                this.fetchProductList();
-            }
-        } else {
-            this.curProductPage = this.curProductPage + direction;
-            this.curProductOffset = (this.curProductPage - 1) * this.itemsPerPage;
-            this.fetchProductList();
-        }
-    }
+    // turnProductPage(direction) {
+    //     if (direction < 0) {
+    //         if (this.curProductPage > 1) {
+    //             this.curProductPage = this.curProductPage + direction;
+    //             this.curProductOffset = (this.curProductPage - 1) * this.itemsPerPage;
+    //             this.fetchProductList();
+    //         }
+    //     } else {
+    //         this.curProductPage = this.curProductPage + direction;
+    //         this.curProductOffset = (this.curProductPage - 1) * this.itemsPerPage;
+    //         this.fetchProductList();
+    //     }
+    // }
 
     /**
      * 获取软文列表
@@ -221,11 +221,11 @@ export class EditBusinessComponent implements OnInit {
         }
         if (this.backbone.businessId === '') {
             this.backbone
-                .addBusiness(this.backbone.session, this.business)
+                .addBusiness(this.backbone.session, this.backbone.authorizerMiniProgramAppId, this.business)
                 .subscribe(response => {
                     console.log(response);
                     if (response.code === 0) {
-                        this.router.navigate(['/list/business']);
+                        this.router.navigate(['/entry/wechat/miniprogram/business']);
                     }
                 });
         } else {
@@ -234,7 +234,7 @@ export class EditBusinessComponent implements OnInit {
                 .subscribe(response => {
                     console.log(response);
                     if (response.code === 0) {
-                        this.router.navigate(['/list/business']);
+                        this.router.navigate(['/entry/wechat/miniprogram/business']);
                     }
                 });
         }

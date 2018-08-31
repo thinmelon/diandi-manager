@@ -9,6 +9,9 @@ export class ListBusinessResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchBusinessList(this.backbone.session);
+        return this.backbone.fetchBusinessList(
+            this.backbone.session,
+            this.backbone.authorizerMiniProgramAppId ? this.backbone.authorizerMiniProgramAppId : ''
+        );
     }
 }

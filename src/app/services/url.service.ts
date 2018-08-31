@@ -11,8 +11,8 @@ export class UrlService {
         return `${ PREFIX }/product/list?session=${ session }&startTime=${ startTime }&number=${ n }&queryType=FULL`;
     }
 
-    static FetchPartialProductList(session: string, offset: number, amount: number): string {
-        return `${ PREFIX }/product/partial?session=${ session }&offset=${ offset }&amount=${ amount }`;
+    static FetchPartialProductList(session: string, businessId: string, offset: number, amount: number): string {
+        return `${ PREFIX }/product/partial?session=${ session }&businessId=${ businessId }&offset=${ offset }&amount=${ amount }`;
     }
 
     static FetchOrderList(session: string, startTime: string, n: number): string {
@@ -39,8 +39,8 @@ export class UrlService {
         return `${ PREFIX }/user`;
     }
 
-    static FetchUserList(): string {
-        return `${ PREFIX }/user/manager`;
+    static FetchUserList(session: string, appid: string): string {
+        return `${ PREFIX }/user/list?session=${ session }&appid=${ appid }`;
     }
 
     static FetchRefundInfo(): string {
@@ -87,8 +87,8 @@ export class UrlService {
         return `${ PREFIX }/official/list/material?offset=${offset}&count=${count}`;
     }
 
-    static FetchBusinessList(session: string): string {
-        return `${ PREFIX }/business/list?session=${ session }`;
+    static FetchBusinessList(session: string, appid: string): string {
+        return `${ PREFIX }/business/list?session=${ session }&appid=${ appid }`;
     }
 
     static FetchBusinessDetail(session: string, bid: string): string {

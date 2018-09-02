@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BusinessList} from '../../services/diandi.structure';
 import {BackboneService} from '../../services/diandi.backbone';
+import {ConfirmModalComponent} from '../../modal/confirm-modal/confirm-modal.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-list-business',
@@ -13,6 +15,7 @@ export class ListBusinessComponent implements OnInit {
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
+                private modalService: NgbModal,
                 private backbone: BackboneService) {
     }
 
@@ -64,11 +67,38 @@ export class ListBusinessComponent implements OnInit {
      * @param bid
      */
     removeBusiness(bid) {
-        this.backbone
-            .removeBusiness(this.backbone.session, bid)
-            .subscribe(result => {
+        const modalRef = this.modalService.open(ConfirmModalComponent);
+        modalRef.componentInstance.title = '确认删除？';
+        modalRef.componentInstance.content = '删除后不可恢复，请再次确认';
+        modalRef.result.then(
+            /**
+             * close
+             * @param result
+             */
+            (result) => {
                 console.log(result);
+                if (result === 'YES') {
+                    this.backbone
+                        .removeBusiness(this.backbone.session, bid)
+                        .subscribe(res => {
+                            console.log(res);
+                            if (res.code === 0) {
+                                this.shops = this.shops.filter(shop => {
+                                    return shop.bid !== bid;
+                                });
+                            }
+                        });
+                }
+            },
+            /**
+             * dismiss
+             * @param reason
+             */
+            (reason) => {
+                console.log(reason);
             });
+
+
     }
 
 }

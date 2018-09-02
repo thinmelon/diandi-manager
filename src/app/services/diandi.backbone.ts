@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs/index';
 import {UrlService} from './url.service';
@@ -336,6 +336,29 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('login', {errMsg: '#login#登录失败'}))
+            );
+    }
+
+    /**
+     * 绑定手机号码
+     * @param session
+     * @param requestId
+     * @param bizId
+     * @param phone
+     * @param verificationCode
+     * @returns {Observable<A>}
+     */
+    public bindNewPhone(session: string, requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
+        return this.http
+            .post(UrlService.BindNewPhone(), {
+                session: session,
+                requestId: requestId,
+                bizId: bizId,
+                phone: phone,
+                verificationCode: verificationCode
+            })
+            .pipe(
+                catchError(this.handleError('bindNewPhone', {errMsg: '#bindNewPhone#绑定手机号失败'}))
             );
     }
 

@@ -120,7 +120,6 @@ export class ListTemplateComponent implements OnInit {
      * @param template
      */
     submitAudit(template) {
-        // TODO: 用 promise 的方式把执行过程串联起来
         this.backbone
             .fetchAuthorizerCategories(                     //  授权方所有可用的类目
                 this.backbone.session,

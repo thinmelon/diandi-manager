@@ -21,8 +21,8 @@ export class EditBusinessComponent implements OnInit {
     public products = [];
     public materials = [];
     public associatedMaterial = null;
-    public curProductPage = 1;
-    public curProductOffset = 0;
+    // public curProductPage = 1;
+    // public curProductOffset = 0;
     public curMaterialPage = 1;
     public curMaterialOffset = 0;
     public itemsPerPage = 5;

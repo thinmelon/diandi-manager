@@ -211,6 +211,10 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/release?session=${ session }&appid=${ appid }`;
     }
 
+    static BindNewPhone(): string {
+        return `${ PREFIX }/new/phone`;
+    }
+
     static Login(): string {
         return `${ PREFIX }/login`;
     }

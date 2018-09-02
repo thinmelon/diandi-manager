@@ -23,6 +23,7 @@ import {RichTextModalComponent} from './modal/rich-text-modal/rich-text-modal.co
 import {AttributeModalComponent} from './modal/attribute-modal/attribute-modal.component';
 import {ProgressBarModalComponent} from './modal/progress-bar-modal/progress-bar-modal.component';
 import {FormModalComponent} from './modal/form-modal/form-modal.component';
+import {ConfirmModalComponent} from './modal/confirm-modal/confirm-modal.component';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
 
@@ -43,13 +44,15 @@ import {EditBusinessComponent} from './edit/edit-business/edit-business.componen
         AttributeModalComponent,
         ProgressBarModalComponent,
         FormModalComponent,
+        ConfirmModalComponent,
         LoginComponent,
     ],
     entryComponents: [
         RichTextModalComponent,
         AttributeModalComponent,
         ProgressBarModalComponent,
-        FormModalComponent
+        FormModalComponent,
+        ConfirmModalComponent
     ],
     imports: [
         BrowserModule,

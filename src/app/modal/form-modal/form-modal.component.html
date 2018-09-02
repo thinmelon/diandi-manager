@@ -23,8 +23,15 @@
                 </button>
             </div>
         </div>
+        <div *ngIf="item.type === 'verification'">
+            <app-verification-code
+                    [message]=""
+                    [btnConfirmText]="verificationBtnText"
+                    (gotoNext)="gotoNext($event)">
+            </app-verification-code>
+        </div>
     </div>
 </div>
-<div class="modal-footer">
+<div class="modal-footer" *ngIf="submitBtnText !== ''">
     <button type="submit" class="btn btn-outline-danger" (click)="onSubmit()">{{ submitBtnText }}</button>
 </div>

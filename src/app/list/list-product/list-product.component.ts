@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import * as moment from 'moment';
 import {BusinessList, ProductList} from '../../services/diandi.structure';
 import {BackboneService} from '../../services/diandi.backbone';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ConfirmModalComponent} from '../../modal/confirm-modal/confirm-modal.component';
 
 @Component({
     selector: 'app-list-product',
@@ -17,6 +19,7 @@ export class ListProductComponent implements OnInit {
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
+                private modalService: NgbModal,
                 private backbone: BackboneService) {
     }
 
@@ -97,16 +100,37 @@ export class ListProductComponent implements OnInit {
      * @param pid
      */
     removeProduct(pid) {
-        this.backbone
-            .removeProduct(this.backbone.session, this.businessId, pid)
-            .subscribe(res => {
-                console.log(res);
-                if (res.code === 0) {
-                    this.products = this.products.filter(product => {
-                        return product.pid !== pid;
-                    });
+        const modalRef = this.modalService.open(ConfirmModalComponent);
+        modalRef.componentInstance.title = '确认删除？';
+        modalRef.componentInstance.content = '删除后不可恢复，请再次确认';
+        modalRef.result.then(
+            /**
+             * close
+             * @param result
+             */
+            (result) => {
+                console.log(result);
+                if (result === 'YES') {
+                    this.backbone
+                        .removeProduct(this.backbone.session, this.businessId, pid)
+                        .subscribe(res => {
+                            console.log(res);
+                            if (res.code === 0) {
+                                this.products = this.products.filter(product => {
+                                    return product.pid !== pid;
+                                });
+                            }
+                        });
                 }
+            },
+            /**
+             * dismiss
+             * @param reason
+             */
+            (reason) => {
+                console.log(reason);
             });
+
     }
 
     /**

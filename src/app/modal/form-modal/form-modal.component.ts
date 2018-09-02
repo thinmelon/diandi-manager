@@ -15,8 +15,10 @@ export class FormModalComponent implements OnInit, OnDestroy {
     @Input() uploadUrl = '';                                //  文件上传地址
     @Input() maxFileSize = 5 * 1024 * 1024;                 //  上传文件大小上限
     @Input() submitBtnText = '保存';                         //  提交按键名
+    @Input() verificationBtnText = '绑定';                   //  验证码模板的提交按键文字
     @Output() submitEvt = new EventEmitter<any>();      //  文件上传后回传事件
     @Output() dropdownSelectedEvt = new EventEmitter<any>();    //  文件上传后回传事件
+    @Output() verificationCodeEvt = new EventEmitter<any>();    //  输入手机号及验证码后回传事件
     public fileUploader: FileUploader;
 
     constructor(public activeModal: NgbActiveModal,
@@ -32,7 +34,7 @@ export class FormModalComponent implements OnInit, OnDestroy {
             queueLimit: 1,                         //  最大可上传的文件数量
             removeAfterUpload: true                //  是否在上传完成后从队列中移除
         });
-        console.log(this.keyValues);
+        // console.log(this.keyValues);
     }
 
     ngOnDestroy() {
@@ -138,6 +140,15 @@ export class FormModalComponent implements OnInit, OnDestroy {
         this.keyValues[index].categoryId = category.id;
         this.keyValues[index].value = category.name;
         this.dropdownSelectedEvt.emit(category);
+    }
+
+    /**
+     * 输入手机号及验证码后回传事件
+     * @param evt
+     */
+    gotoNext(evt) {
+        this.verificationCodeEvt.emit(evt);
+        this.activeModal.close('NEXT');
     }
 }
 

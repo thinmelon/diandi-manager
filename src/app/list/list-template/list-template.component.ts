@@ -23,8 +23,7 @@ export class ListTemplateComponent implements OnInit {
     private firstClass = [];            //  一级类目
     private secondClass = [];           //  二级类目
 
-    constructor(private router: Router,
-                private route: ActivatedRoute,
+    constructor(private route: ActivatedRoute,
                 private backbone: BackboneService,
                 private modalService: NgbModal) {
     }
@@ -61,7 +60,6 @@ export class ListTemplateComponent implements OnInit {
             )
             .subscribe(result => {
                 if (result.code === 0) {
-                    // console.log(result.msg);
                     result.msg.map(item => {
                         switch (item.status) {
                             case 0:         //  审核通过
@@ -79,6 +77,9 @@ export class ListTemplateComponent implements OnInit {
                             default:
                                 break;
                         }
+                        item.commitTime = moment(new Date(item.commitTime).getTime()).format('YYYY-MM-DD HH:mm:ss');        //  上传时间
+                        item.submitTime = moment(new Date(item.submitTime).getTime()).format('YYYY-MM-DD HH:mm:ss');        //  审核时间
+                        item.releaseTime = moment(new Date(item.releaseTime).getTime()).format('YYYY-MM-DD HH:mm:ss');      //  发布时间
                     });
                 } else {
                     this.errorMessage = result.msg;
@@ -108,10 +109,7 @@ export class ListTemplateComponent implements OnInit {
             ))
             .subscribe(result => {
                 console.log(result);
-                if (result.hasOwnProperty('errcode') && result.errcode === 0) {
-                    this.errorMessage = '成功应用此模版';
-                    this.versions();
-                }
+                this.showErrorMessage(result, '成功应用此模版');
             });
     }
 
@@ -128,6 +126,8 @@ export class ListTemplateComponent implements OnInit {
             .subscribe(response => {
                 console.log(response);
                 if (response.errcode === 0) {
+                    this.firstClass.splice(0, this.firstClass.length);
+                    this.secondClass.splice(0, this.secondClass.length);
                     response.category_list.map(category => {
                         this.firstClass.push({              //  生成一级类目
                             id: category.first_id,
@@ -229,7 +229,16 @@ export class ListTemplateComponent implements OnInit {
             this.backbone.authorizerMiniProgramAppId,
             template.auditid)
             .subscribe(status => {
-                console.log(status);
+                if (status.hasOwnProperty('auditid')) {
+                    this.errorMessage = '查询成功';
+                    this.audit = this.audit.map(item => {
+                        if (item.auditid === status.auditid) {
+                            item.status = status.status;
+                            item.reason = status.reason;
+                        }
+                        return item;
+                    });
+                }
             });
     }
 
@@ -265,65 +274,77 @@ export class ListTemplateComponent implements OnInit {
             });
     }
 
-    showErrorMessage(err, successMessage) {
-        switch (err.errcode) {
-            case 0:
+    showErrorMessage(result, successMessage) {
+        if (result.hasOwnProperty('errcode')) {
+            switch (result.errcode) {
+                case 0:
+                    this.errorMessage = successMessage;
+                    this.versions();
+                    break;
+                case 86000:
+                    this.errorMessage = '不是由第三方代小程序进行调用';
+                    break;
+                case 86001:
+                    this.errorMessage = '不存在第三方的已经提交的代码';
+                    break;
+                case 85006:
+                    this.errorMessage = '标签格式错误';
+                    break;
+                case 85007:
+                    this.errorMessage = '页面路径错误';
+                    break;
+                case 85008:
+                    this.errorMessage = '类目填写错误';
+                    break;
+                case 85009:
+                    this.errorMessage = '已经有正在审核的版本';
+                    break;
+                case 85010:
+                    this.errorMessage = 'item_list有项目为空';
+                    break;
+                case 85011:
+                    this.errorMessage = '标题填写错误';
+                    break;
+                case 85023:
+                    this.errorMessage = '审核列表填写的项目数不在1-5以内';
+                    break;
+                case 85077:
+                    this.errorMessage = '小程序类目信息失效（类目中含有官方下架的类目，请重新选择类目）';
+                    break;
+                case 86002:
+                    this.errorMessage = '小程序还未设置昵称、头像、简介。请先设置完后再重新提交';
+                    break;
+                case 85085:
+                    this.errorMessage = '近7天提交审核的小程序数量过多，请耐心等待审核完毕后再次提交';
+                    break;
+                case 85086:
+                    this.errorMessage = '提交代码审核之前需提前上传代码';
+                    break;
+                case 87013:
+                    this.errorMessage = '撤回次数达到上限（每天一次，每个月10次）';
+                    break;
+                case 85019:
+                    this.errorMessage = '没有审核版本';
+                    break;
+                case 85020:
+                    this.errorMessage = '审核状态未满足发布';
+                    break;
+                case -1:
+                    this.errorMessage = '系统繁忙';
+                    break;
+                default:
+                    this.errorMessage = result.errmsg;
+                    break;
+            }
+        } else if (result.hasOwnProperty('code')) {
+            if (result.code === 0) {
                 this.errorMessage = successMessage;
-                break;
-            case 86000:
-                this.errorMessage = '不是由第三方代小程序进行调用';
-                break;
-            case 86001:
-                this.errorMessage = '不存在第三方的已经提交的代码';
-                break;
-            case 85006:
-                this.errorMessage = '标签格式错误';
-                break;
-            case 85007:
-                this.errorMessage = '页面路径错误';
-                break;
-            case 85008:
-                this.errorMessage = '类目填写错误';
-                break;
-            case 85009:
-                this.errorMessage = '已经有正在审核的版本';
-                break;
-            case 85010:
-                this.errorMessage = 'item_list有项目为空';
-                break;
-            case 85011:
-                this.errorMessage = '标题填写错误';
-                break;
-            case 85023:
-                this.errorMessage = '审核列表填写的项目数不在1-5以内';
-                break;
-            case 85077:
-                this.errorMessage = '小程序类目信息失效（类目中含有官方下架的类目，请重新选择类目）';
-                break;
-            case 86002:
-                this.errorMessage = '小程序还未设置昵称、头像、简介。请先设置完后再重新提交';
-                break;
-            case 85085:
-                this.errorMessage = '近7天提交审核的小程序数量过多，请耐心等待审核完毕后再次提交';
-                break;
-            case 85086:
-                this.errorMessage = '提交代码审核之前需提前上传代码';
-                break;
-            case 87013:
-                this.errorMessage = '撤回次数达到上限（每天一次，每个月10次）';
-                break;
-            case 85019:
-                this.errorMessage = '没有审核版本';
-                break;
-            case 85020:
-                this.errorMessage = '审核状态未满足发布';
-                break;
-            case -1:
-                this.errorMessage = '系统繁忙';
-                break;
-            default:
-                this.errorMessage = err.errmsg;
-                break;
+                this.versions();
+            } else {
+                this.errorMessage = result.msg;
+            }
+        } else {
+            this.errorMessage = '未知错误';
         }
     }
 

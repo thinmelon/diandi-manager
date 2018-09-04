@@ -1,8 +1,8 @@
 <div class="container-fluid d-flex flex-row justify-content-start board">
     <div class="d-flex flex-column align-items-center justify-content-start panel">
-        <div class="d-flex flex-row justify-content-around align-items-center panel-subject" (click)="main()">
-            <img src="../../../assets/panel/main.png">
-            <div>回首页</div>
+        <div class="d-flex flex-column justify-content-center align-items-center personal" (click)="userInfo()">
+            <img src="{{ headImageUrl }}">
+            <div>{{ nickname }}</div>
         </div>
         <div class="d-flex flex-row justify-content-around align-items-center panel-subject">
             <img src="../../../assets/panel/basic.png">
@@ -18,6 +18,15 @@
         <div class="panel-subject panel-item" (click)="products()">商品管理（含卡券）</div>
         <div class="panel-subject panel-item" (click)="orders()">订单管理</div>
         <div class="panel-subject panel-item" (click)="users()">用户管理</div>
+        <hr>
+        <div class="d-flex flex-row justify-content-around align-items-center panel-subject" (click)="home()">
+            <img src="../../../assets/panel/home.png">
+            <div>回到首页</div>
+        </div>
+        <div class="d-flex flex-row justify-content-around align-items-center panel-subject" (click)="main()">
+            <img src="../../../assets/panel/exit.png">
+            <div>退出登录</div>
+        </div>
     </div>
     <router-outlet></router-outlet>
 </div>

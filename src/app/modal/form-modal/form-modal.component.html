@@ -27,7 +27,8 @@
             <app-verification-code
                     [message]=""
                     [btnConfirmText]="verificationBtnText"
-                    (gotoNext)="gotoNext($event)">
+                    (gotoNext)="gotoNext($event)"
+                    (blurEvt)="onBlur($event)"            >
             </app-verification-code>
         </div>
     </div>

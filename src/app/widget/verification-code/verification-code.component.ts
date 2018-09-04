@@ -17,6 +17,7 @@ export class VerificationCodeComponent implements OnDestroy {
     @Input() btnConfirmText = '下一步';
     // @Input() phone = '';
     @Input() message = '';
+    @Output() blurEvt = new EventEmitter<string>();
     @Output() gotoNext = new EventEmitter<VerificationCode>();
 
     public phone = '';
@@ -75,13 +76,6 @@ export class VerificationCodeComponent implements OnDestroy {
         }, 1000);
     }
 
-    // /**
-    //  *  输入手机号码
-    //  */
-    // onMobilePhoneBlur(value: string): void {
-    //     this.phone = value;
-    // }
-
     /**
      * 开始发送验证码
      */
@@ -100,6 +94,14 @@ export class VerificationCodeComponent implements OnDestroy {
                 });
         } else {
             this.message = '请输入正确的手机号码';
+        }
+    }
+
+    onBlur() {
+        if (!this.check(this.phone)) {
+            this.message = '请输入正确的手机号码';
+        } else {
+            this.blurEvt.emit(this.phone);
         }
     }
 

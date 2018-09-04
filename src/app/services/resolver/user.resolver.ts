@@ -13,3 +13,13 @@ export class ListUserResolver implements Resolve<any> {
         return this.backbone.fetchUserList(this.backbone.session, this.backbone.authorizerMiniProgramAppId);
     }
 }
+
+@Injectable()
+export class WechatUserInfoResolver implements Resolve<any> {
+    constructor(private backbone: BackboneService) {
+    }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this.backbone.fetchWechatUserInfo(this.backbone.session, this.backbone.diandiWebsiteAppId);
+    }
+}

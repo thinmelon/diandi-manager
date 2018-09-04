@@ -18,6 +18,7 @@ export class FormModalComponent implements OnInit, OnDestroy {
     @Input() verificationBtnText = '绑定';                   //  验证码模板的提交按键文字
     @Output() submitEvt = new EventEmitter<any>();      //  文件上传后回传事件
     @Output() dropdownSelectedEvt = new EventEmitter<any>();    //  文件上传后回传事件
+    @Output() phoneInputBlurEvt = new EventEmitter<any>();      //  手机输入框失去焦点后回传事件
     @Output() verificationCodeEvt = new EventEmitter<any>();    //  输入手机号及验证码后回传事件
     public fileUploader: FileUploader;
 
@@ -148,7 +149,16 @@ export class FormModalComponent implements OnInit, OnDestroy {
      */
     gotoNext(evt) {
         this.verificationCodeEvt.emit(evt);
-        this.activeModal.close('NEXT');
+        // this.activeModal.close('NEXT');
     }
+
+    /**
+     * 手机输入框失去焦点后回传事件
+     * @param evt
+     */
+    onBlur(evt) {
+        this.phoneInputBlurEvt.emit(evt);
+    }
+
 }
 

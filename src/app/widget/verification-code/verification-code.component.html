@@ -13,6 +13,7 @@
                    id="mobilePhone" name="mobilePhone" #mobilePhoneValue="ngModel"
                    placeholder="请输入手机号"
                    [(ngModel)]="phone"
+                   (blur)="onBlur()"
                    required/>
             <button type="button" class="btn btn-primary btn-send-code"
                     (click)="sendVerificationCode()" [disabled]="hasSent"> {{ btnSendText }}

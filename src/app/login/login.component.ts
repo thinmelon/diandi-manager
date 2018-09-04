@@ -4,7 +4,6 @@ import {BackboneService} from '../services/diandi.backbone';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormModalComponent} from '../modal/form-modal/form-modal.component';
 
-const __APP_ID_WEBSITE__ = 'wxbee73e9bdc02bfdc';
 const __REDIRECT_URI__ = encodeURIComponent('https://www.pusudo.cn/platform/website');
 const __SCOPE__ = 'snsapi_login';
 const __STATE__ = 'WECHAT';
@@ -15,14 +14,16 @@ const __STATE__ = 'WECHAT';
     styleUrls: ['./login.component.less']
 })
 export class LoginComponent implements OnInit {
-    wxLogin = `https://open.weixin.qq.com/connect/qrconnect?appid=${ __APP_ID_WEBSITE__ }&redirect_uri=${ __REDIRECT_URI__ }&response_type=code&scope=${ __SCOPE__ }&state=${ __STATE__ }#wechat_redirect`;
+    wxLogin = '';
     message = '';
     btnText = '登录';
+    // notExist = false;       //  微信账号首次登录，检查手机号码是否已绑定过
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private modalService: NgbModal,
                 private backbone: BackboneService) {
+        this.wxLogin = `https://open.weixin.qq.com/connect/qrconnect?appid=${ this.backbone.diandiWebsiteAppId }&redirect_uri=${ __REDIRECT_URI__ }&response_type=code&scope=${ __SCOPE__ }&state=${ __STATE__ }#wechat_redirect`;
     }
 
     ngOnInit() {
@@ -50,8 +51,9 @@ export class LoginComponent implements OnInit {
      *  -   与微信账号相关联
      */
     bindPhone(session) {
-        const modalRef = this.modalService.open(FormModalComponent);
         const that = this;
+        const modalRef = this.modalService.open(FormModalComponent);
+
         modalRef.componentInstance.title = '首次登录需要绑定您的手机号码';
         modalRef.componentInstance.hint = '';
         modalRef.componentInstance.keyValues = [
@@ -63,21 +65,37 @@ export class LoginComponent implements OnInit {
             }
         ];
         modalRef.componentInstance.submitBtnText = '';
+        // modalRef.componentInstance.phoneInputBlurEvt.subscribe(phone => {
+        //     that.backbone.checkPhone(
+        //         phone,
+        //         this.backbone.diandiWebsiteAppId
+        //     )
+        //         .subscribe(res => {
+        //             console.log(res);
+        //             if (res.code !== 0) {
+        //                 modalRef.componentInstance.hint = res.msg;
+        //             }
+        //         });
+        // });
         modalRef.componentInstance.verificationCodeEvt.subscribe(evt => {
             console.log(evt);
             that.backbone.bindNewPhone(
                 session,
+                this.backbone.diandiWebsiteAppId,
                 evt.requestId,
                 evt.bizId,
                 evt.phone,
                 evt.verificationCode
             )
                 .subscribe(res => {
-                    console.log(res);
                     if (res.code === 0) {
                         that.loginSuccess(session);
-                    } else {
-                        that.message = res.msg;
+                        modalRef.componentInstance.activeModal.close();
+                    } else if (res.code === -100) {
+                        modalRef.componentInstance.hint = '该账号已绑定公众号，请使用手机验证码方式快捷登录';
+                    }
+                    else {
+                        modalRef.componentInstance.hint = res.msg;
                     }
                 });
         });
@@ -85,23 +103,43 @@ export class LoginComponent implements OnInit {
 
     /**
      * 使用短信方式进行快捷登录
-     * @param evt
      */
-    login(evt) {
+    login() {
         const that = this;
+        const modalRef = this.modalService.open(FormModalComponent);
 
-        this.backbone.login(
-            evt.requestId,
-            evt.bizId,
-            evt.phone,
-            evt.verificationCode
-        )
-            .subscribe(res => {
-                console.log(res);
-                if (res.code === 0 && res.msg.length > 0) {
-                    that.loginSuccess(res.msg[0]['3rd_session']);
-                }
-            });
+        modalRef.componentInstance.title = '通过验证码快捷登录';
+        modalRef.componentInstance.hint = '';
+        modalRef.componentInstance.keyValues = [
+            {
+                index: 0,
+                key: '',
+                type: 'verification',
+                src: ''
+            }
+        ];
+        modalRef.componentInstance.submitBtnText = '';
+        modalRef.componentInstance.verificationBtnText = '登录';
+        modalRef.componentInstance.verificationCodeEvt.subscribe(evt => {
+            if (this.backbone.diandiWebsiteAppId && this.backbone.diandiWebsiteAppId !== '') {
+                that.backbone.login(
+                    this.backbone.diandiWebsiteAppId,
+                    evt.requestId,
+                    evt.bizId,
+                    evt.phone,
+                    evt.verificationCode
+                )
+                    .subscribe(res => {
+                        console.log(res);
+                        if (res.hasOwnProperty('s') && res.s !== '') {
+                            that.loginSuccess(res.s);
+                            modalRef.componentInstance.activeModal.close();
+                        } else {
+                            modalRef.componentInstance.hint = res.msg;
+                        }
+                    });
+            }
+        });
     }
 
     /**

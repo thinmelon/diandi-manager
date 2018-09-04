@@ -107,6 +107,10 @@ export class BackboneService {
         sessionStorage.setItem('_authorizerMiniProgramAppId', value);
     }
 
+    get diandiWebsiteAppId(): string {
+        return 'wxbee73e9bdc02bfdc';
+    }
+
     /**
      * 构造函数
      * 依赖注入 HttpClient 服务
@@ -177,6 +181,20 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('fetchUserInfo', {errMsg: '#fetchUserInfo#获取用户资料失败'}))
+            );
+    }
+
+    /**
+     * 获取微信用户信息
+     * @param session
+     * @param appid
+     * @returns {Observable<A>}
+     */
+    public fetchWechatUserInfo(session: string, appid: string): Observable<any> {
+        return this.http
+            .get(UrlService.FetchWechatUserInfo(session, appid))
+            .pipe(
+                catchError(this.handleError('fetchWechatUserInfo', {errMsg: '#fetchWechatUserInfo#获取微信用户信息失败'}))
             );
     }
 
@@ -319,16 +337,18 @@ export class BackboneService {
     }
 
     /**
-     * 登录
+     * 手机验证码登录
+     * @param appid
      * @param requestId
      * @param bizId
      * @param phone
      * @param verificationCode
      * @returns {Observable<A>}
      */
-    public login(requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
+    public login(appid: string, requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
         return this.http
             .post(UrlService.Login(), {
+                appid: appid,
                 requestId: requestId,
                 bizId: bizId,
                 phone: phone,
@@ -343,15 +363,17 @@ export class BackboneService {
      * 绑定手机号码
      * @param session
      * @param requestId
+     * @param appid
      * @param bizId
      * @param phone
      * @param verificationCode
      * @returns {Observable<A>}
      */
-    public bindNewPhone(session: string, requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
+    public bindNewPhone(session: string, appid: string, requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
         return this.http
             .post(UrlService.BindNewPhone(), {
                 session: session,
+                appid: appid,
                 requestId: requestId,
                 bizId: bizId,
                 phone: phone,
@@ -920,6 +942,20 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('releaseVersion', {errMsg: '#releaseVersion#发布版本失败'}))
+            );
+    }
+
+    /**
+     * 检验手机号码是否已绑定过
+     * @param phone
+     * @param appid
+     * @returns {Observable<A>}
+     */
+    public checkPhone(phone: string, appid: string): Observable<any> {
+        return this.http
+            .get(UrlService.CheckPhone(phone, appid))
+            .pipe(
+                catchError(this.handleError('checkPhone', {errMsg: '#checkPhone#检验手机号码是否已绑定过出错'}))
             );
     }
 

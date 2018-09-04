@@ -16,9 +16,8 @@ import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic
 import {WechatMiniProgramComponent} from './wechat-mini-program/wechat-mini-program.component';
 import {ListMiniProgramComponent} from '../list/list-mini-program/list-mini-program.component';
 import {ListTemplateComponent} from '../list/list-template/list-template.component';
-import {ListUserResolver} from '../services/resolver/user.resolver';
+import {ListUserResolver, WechatUserInfoResolver} from '../services/resolver/user.resolver';
 import {ListUserComponent} from '../list/list-user/list-user.component';
-import {ListProductResolver} from '../services/resolver/product.resolver';
 import {ListProductComponent} from '../list/list-product/list-product.component';
 import {ListOrderResolver} from '../services/resolver/order.resolver';
 import {ListOrderComponent} from '../list/list-order/list-order.component';
@@ -26,6 +25,7 @@ import {ListCardComponent} from '../list/list-card/list-card.component';
 import {ListCardResolver} from '../services/resolver/card.resolver';
 import {ListBusinessComponent} from '../list/list-business/list-business.component';
 import {ListBusinessResolver} from '../services/resolver/business.resolver';
+import {UserInfoComponent} from './user-info/user-info.component';
 
 const __ENTRY_ROUTING__: Routes = [
     {
@@ -60,6 +60,9 @@ const __ENTRY_ROUTING__: Routes = [
         path: 'entry/wechat/miniprogram',
         canActivate: [LoginGuard],
         component: WechatMiniProgramComponent,
+        resolve: {
+            wechatUserInfoResolver: WechatUserInfoResolver
+        },
         children: [
             {
                 path: 'list',
@@ -104,10 +107,17 @@ const __ENTRY_ROUTING__: Routes = [
                 }
             },
             {
-                path: 'user',
+                path: 'user/list',
                 component: ListUserComponent,
                 resolve: {
                     listUserResolver: ListUserResolver
+                }
+            },
+            {
+                path: 'user/info',
+                component: UserInfoComponent,
+                resolve: {
+                    wechatUserInfoResolver: WechatUserInfoResolver
                 }
             },
             {
@@ -135,7 +145,8 @@ const __ENTRY_ROUTING__: Routes = [
         WechatOfficialResolver,
         MiniprogramListResolver,
         MiniprogramInfoResolver,
-        TemplateListResolver
+        TemplateListResolver,
+        WechatUserInfoResolver
     ]
 })
 export class EntryRoutingModule {

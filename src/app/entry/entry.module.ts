@@ -11,6 +11,7 @@ import {AuthorizerGuard} from '../services/authentication.service';
 import {RegisterMiniProgramComponent} from './register-mini-program/register-mini-program.component';
 import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic.component';
 import {WechatMiniProgramComponent} from './wechat-mini-program/wechat-mini-program.component';
+import {UserInfoComponent} from './user-info/user-info.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import {WechatMiniProgramComponent} from './wechat-mini-program/wechat-mini-prog
         OfficialMenuComponent,
         BindOfficialComponent,
         MiniProgramBasicComponent,
-        RegisterMiniProgramComponent
+        RegisterMiniProgramComponent,
+        UserInfoComponent
     ],
     providers: [
         AuthorizerGuard

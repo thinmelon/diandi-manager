@@ -39,6 +39,10 @@ export class UrlService {
         return `${ PREFIX }/user`;
     }
 
+    static FetchWechatUserInfo(session: string, appid: string): string {
+        return `${ PREFIX }/user/wechat?session=${ session }&appid=${ appid }`;
+    }
+
     static FetchUserList(session: string, appid: string): string {
         return `${ PREFIX }/user/list?session=${ session }&appid=${ appid }`;
     }
@@ -213,6 +217,10 @@ export class UrlService {
 
     static BindNewPhone(): string {
         return `${ PREFIX }/new/phone`;
+    }
+
+    static CheckPhone(phone: string, appid: string): string {
+        return `${ PREFIX }/phone/uniqueness?phone=${ phone }&appid=${ appid }`;
     }
 
     static Login(): string {

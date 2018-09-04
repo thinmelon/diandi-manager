@@ -90,12 +90,16 @@
             <td>{{ template.userDescription }}</td>
             <td>{{ template.userVersion }}</td>
             <td>{{ template.submitTime }}</td>
-            <td>{{ template.status }}</td>
+            <td>
+                <div *ngIf="template.status === 0">审核通过</div>
+                <div *ngIf="template.status === 1">审核失败</div>
+                <div *ngIf="template.status === 2">审核中</div>
+            </td>
             <td>{{ template.reason }}</td>
             <td>
                 <button class="btn btn-sm btn-outline-danger" (click)="queryAudit(template)">查询结果</button>
-                <button class="btn btn-sm btn-outline-danger" (click)="undoCodeAudit(template)">摊销审核</button>
-                <button class="btn btn-sm btn-outline-danger" (click)="releaseVersion(template)">发布</button>
+                <button *ngIf="template.status === 2" class="btn btn-sm btn-outline-danger" (click)="undoCodeAudit(template)">摊销审核</button>
+                <button *ngIf="template.status === 0" class="btn btn-sm btn-outline-danger" (click)="releaseVersion(template)">发布</button>
             </td>
         </tr>
         </tbody>

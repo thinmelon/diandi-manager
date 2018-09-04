@@ -1,0 +1,25 @@
+<div class="table-responsive">
+    <table class="table">
+        <tbody>
+        <tr>
+            <th scope="row">手机号码</th>
+            <td>
+                <div>{{ phone }}</div>
+            </td>
+            <td>
+                <button class="btn btn-outline-primary">更换绑定手机</button>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">微信</th>
+            <td>
+                <div *ngIf="nickname !== ''">{{ nickname }}</div>
+            </td>
+            <td>
+                <a *ngIf="nickname === ''" class="btn btn-outline-primary" href="{{ bindWechat }}">绑定微信</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

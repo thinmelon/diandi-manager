@@ -12,6 +12,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class ListBusinessComponent implements OnInit {
     shops: BusinessList[];
+    errorMessage = '';
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -45,8 +46,12 @@ export class ListBusinessComponent implements OnInit {
      * @param bid
      */
     editBusiness(bid) {
-        this.backbone.businessId = bid;
-        this.router.navigate(['/edit/business']);
+        if (this.backbone.authorizerMiniProgramAppId && this.backbone.authorizerMiniProgramAppId !== '') {
+            this.backbone.businessId = bid;
+            this.router.navigate(['/edit/business']);
+        } else {
+            this.errorMessage = '请选择要设置的小程序';
+        }
     }
 
     /**

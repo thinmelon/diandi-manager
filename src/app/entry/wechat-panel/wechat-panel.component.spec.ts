@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WechatMiniProgramComponent } from './wechat-mini-program.component';
+import { WechatPanelComponent } from './wechat-panel.component';
 
-describe('WechatMiniProgramComponent', () => {
-  let component: WechatMiniProgramComponent;
-  let fixture: ComponentFixture<WechatMiniProgramComponent>;
+describe('WechatPanelComponent', () => {
+  let component: WechatPanelComponent;
+  let fixture: ComponentFixture<WechatPanelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WechatMiniProgramComponent ]
+      declarations: [ WechatPanelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WechatMiniProgramComponent);
+    fixture = TestBed.createComponent(WechatPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,7 +1,5 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {ListOrderComponent} from './list/list-order/list-order.component';
-import {ListOrderResolver} from './services/resolver/order.resolver';
 import {ListProductComponent} from './list/list-product/list-product.component';
 import {ListProductResolver} from './services/resolver/product.resolver';
 import {ListUserComponent} from './list/list-user/list-user.component';
@@ -22,13 +20,6 @@ const __ROUTES__: Routes = [
         path: 'list',
         canActivate: [LoginGuard],
         children: [
-            {
-                path: 'order',
-                component: ListOrderComponent,
-                resolve: {
-                    listOrderResolver: ListOrderResolver
-                }
-            },
             {
                 path: 'product',
                 component: ListProductComponent,
@@ -99,7 +90,6 @@ const __ROUTES__: Routes = [
     )],
     exports: [RouterModule],
     providers: [
-        ListOrderResolver,
         ListProductResolver,
         ListUserResolver,
         ListCardResolver,

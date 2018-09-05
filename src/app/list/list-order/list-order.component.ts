@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal, NgbPopover, NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
-import {Consignee, Order, OrderStatusEnum, Refund, SKU, User} from '../../services/diandi.structure';
+import {BusinessList, Consignee, Order, OrderStatusEnum, Refund, SKU, User} from '../../services/diandi.structure';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as moment from 'moment';
 import {BackboneService} from '../../services/diandi.backbone';
@@ -13,15 +13,17 @@ import {RichTextModalComponent} from '../../modal/rich-text-modal/rich-text-moda
     providers: [NgbPopoverConfig]
 })
 export class ListOrderComponent implements OnInit {
-    shown = false;
-    skuListShown: SKU[];
-    userShown: User;
-    orders: Order[];
-    target: Refund;
-    lastPopover: NgbPopover;
+    btnName = '--- 请选择商户 ---';
+    businessId = '';                    //  店铺ID
+    shown = false;                      //  是否显示
+    userShown: User;                    //  下单用户
+    target: Refund;                     //  退款
+    lastPopover: NgbPopover;            //  弹出窗口
+    skuListShown: SKU[];                //  SKU
+    orders: Order[];                    //  订单列表
+    shops: BusinessList[];              //  店铺列表
 
-    constructor(private router: Router,
-                private route: ActivatedRoute,
+    constructor(private route: ActivatedRoute,
                 private popoverConfig: NgbPopoverConfig,
                 private backbone: BackboneService,
                 private modalService: NgbModal) {
@@ -31,13 +33,49 @@ export class ListOrderComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.backbone.session);
         this.route.data
-            .subscribe((data: { listOrderResolver: any }) => {
-                console.log(data.listOrderResolver);
-                if (data.listOrderResolver.code === 0) {
+            .subscribe((data: { listBusinessResolver: any }) => {
+                console.log(data);
+                if (data.listBusinessResolver.code === 0 && data.listBusinessResolver.msg.length > 0) {
                     let index = 0;
-                    this.orders = data.listOrderResolver.msg.map(item => {
+                    this.shops = data.listBusinessResolver.msg.map(item => {
+                        return new BusinessList(++index,
+                            item.bid,
+                            item.name,
+                            item.longitude,
+                            item.latitude,
+                            item.shopHours,
+                            item.phone,
+                            item.status
+                        );
+                    });
+                    this.btnName = this.shops[0].name;          //  设置下拉框文字
+                    this.fetchOrderList(this.shops[0].bid);   //  获取商品列表
+                }
+            });
+    }
+
+    /**
+     * 点击下拉列表
+     * @param shop
+     */
+    onShopSelected(shop) {
+        this.fetchOrderList(shop.bid);
+    }
+
+    /**
+     * 获取授权方下某店铺的订单列表
+     * @param businessId
+     */
+    fetchOrderList(businessId) {
+        this.businessId = businessId;
+        this.backbone
+            .fetchOrders(this.backbone.session, businessId, 0, 10)
+            .subscribe(response => {
+                console.log(response);
+                if (response.code === 0) {
+                    let index = 0;
+                    this.orders = response.msg.map(item => {
                         return new Order(
                             ++index,
                             item.out_trade_no,
@@ -50,9 +88,6 @@ export class ListOrderComponent implements OnInit {
                             item.attach,
                             item.remark);
                     });
-                } else {
-                    sessionStorage.clear();
-                    this.router.navigate(['/login']);
                 }
             });
     }

@@ -3,19 +3,25 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BackboneService} from '../../services/diandi.backbone';
 
 @Component({
-    selector: 'app-wechat-mini-program',
-    templateUrl: './wechat-mini-program.component.html',
-    styleUrls: ['./wechat-mini-program.component.less']
+    selector: 'app-wechat-panel',
+    templateUrl: './wechat-panel.component.html',
+    styleUrls: ['./wechat-panel.component.less']
 })
-export class WechatMiniProgramComponent implements OnInit {
+export class WechatPanelComponent implements OnInit {
     headImageUrl: string;
     nickname: string;
+    channel: string;
+    boardHeight: string;
 
     constructor(private route: ActivatedRoute,
-                private router: Router) {
+                private router: Router,
+                private backbone: BackboneService) {
+        this.channel = this.backbone.channel;
     }
 
     ngOnInit() {
+        this.boardHeight = window.innerHeight.toString() + 'px';
+        console.log(this.boardHeight);
         this.route.data
             .subscribe((data: { wechatUserInfoResolver: any }) => {
                 console.log(data);
@@ -31,7 +37,6 @@ export class WechatMiniProgramComponent implements OnInit {
     main() {
         sessionStorage.clear();
         window.location.href = 'http://www.pusudo.cn';
-        // this.router.navigate(['list/entry']);
     }
 
     home() {
@@ -39,7 +44,11 @@ export class WechatMiniProgramComponent implements OnInit {
     }
 
     basic() {
-        this.router.navigate(['entry/wechat/miniprogram/list', {type: 1}]);
+        if (this.channel === 'official') {
+            this.router.navigate(['entry/wechat/official/basic', {type: 0}]);
+        } else if (this.channel === 'miniprogram') {
+            this.router.navigate(['entry/wechat/miniprogram/list', {type: 1}]);
+        }
     }
 
     template() {
@@ -66,7 +75,17 @@ export class WechatMiniProgramComponent implements OnInit {
         this.router.navigate(['entry/wechat/miniprogram/user/info']);
     }
 
-    cards(pid) {
-        this.router.navigate(['entry/wechat/miniprogram/card', {pid: pid}]);
+    // cards(pid) {
+    //     this.router.navigate(['entry/wechat/miniprogram/card', {pid: pid}]);
+    // }
+
+    menu() {
+        this.router.navigate(['entry/wechat/official/menu']);
     }
+
+    miniprogram() {
+        // this.router.navigate(['entry/wechat/official/miniprogram', {type: 1}]);
+        this.router.navigate(['entry/wechat/official/miniprogram/new']);
+    }
+
 }

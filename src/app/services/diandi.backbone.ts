@@ -48,6 +48,18 @@ export class BackboneService {
     }
 
     /**
+     * 渠道 （公众号、小程序、生活号）
+     */
+    get channel(): string {
+        return sessionStorage.getItem('_channel');
+    }
+
+    set channel(value: string) {
+        sessionStorage.removeItem('_channel');
+        sessionStorage.setItem('_channel', value);
+    }
+
+    /**
      *  菜单栏光标所在位置
      */
     get focusItem(): string {
@@ -140,12 +152,16 @@ export class BackboneService {
     }
 
     /**
-     * 获取订单列表
+     * 获取授权方的订单列表
+     * @param session
+     * @param businessId
+     * @param offset
+     * @param amount
      * @returns {Observable<A>}
      */
-    public fetchOrders(session: string, startTime: string, n: number): Observable<any> {
+    public fetchOrders(session: string, businessId: string, offset: number, amount: number): Observable<any> {
         return this.http
-            .get<any>(UrlService.FetchOrderList(session, startTime, n))
+            .get<any>(UrlService.FetchOrderList(session, businessId, offset, amount))
             .pipe(
                 catchError(this.handleError('fetchOrders', {errMsg: '#fetchOrders#获取订单列表失败'}))
             );

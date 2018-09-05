@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthorizerGuard, LoginGuard} from '../services/authentication.service';
-import {WechatOfficialComponent} from './wechat-official/wechat-official.component';
 import {
     MiniprogramInfoResolver,
     MiniprogramListResolver,
@@ -13,25 +12,27 @@ import {OfficialMenuComponent} from './official-menu/official-menu.component';
 import {BindOfficialComponent} from './bind-official/bind-official.component';
 import {RegisterMiniProgramComponent} from './register-mini-program/register-mini-program.component';
 import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic.component';
-import {WechatMiniProgramComponent} from './wechat-mini-program/wechat-mini-program.component';
 import {ListMiniProgramComponent} from '../list/list-mini-program/list-mini-program.component';
 import {ListTemplateComponent} from '../list/list-template/list-template.component';
 import {ListUserResolver, WechatUserInfoResolver} from '../services/resolver/user.resolver';
 import {ListUserComponent} from '../list/list-user/list-user.component';
 import {ListProductComponent} from '../list/list-product/list-product.component';
-import {ListOrderResolver} from '../services/resolver/order.resolver';
 import {ListOrderComponent} from '../list/list-order/list-order.component';
 import {ListCardComponent} from '../list/list-card/list-card.component';
 import {ListCardResolver} from '../services/resolver/card.resolver';
 import {ListBusinessComponent} from '../list/list-business/list-business.component';
 import {ListBusinessResolver} from '../services/resolver/business.resolver';
 import {UserInfoComponent} from './user-info/user-info.component';
+import {WechatPanelComponent} from './wechat-panel/wechat-panel.component';
 
 const __ENTRY_ROUTING__: Routes = [
     {
         path: 'entry/wechat/official',
         canActivate: [LoginGuard],
-        component: WechatOfficialComponent,
+        component: WechatPanelComponent,
+        resolve: {
+            wechatUserInfoResolver: WechatUserInfoResolver
+        },
         children: [
             {
                 path: 'basic',
@@ -59,7 +60,7 @@ const __ENTRY_ROUTING__: Routes = [
     {
         path: 'entry/wechat/miniprogram',
         canActivate: [LoginGuard],
-        component: WechatMiniProgramComponent,
+        component: WechatPanelComponent,
         resolve: {
             wechatUserInfoResolver: WechatUserInfoResolver
         },
@@ -96,7 +97,7 @@ const __ENTRY_ROUTING__: Routes = [
                 path: 'order',
                 component: ListOrderComponent,
                 resolve: {
-                    listOrderResolver: ListOrderResolver
+                    listBusinessResolver: ListBusinessResolver
                 }
             },
             {

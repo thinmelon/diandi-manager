@@ -15,8 +15,8 @@ export class UrlService {
         return `${ PREFIX }/product/partial?session=${ session }&businessId=${ businessId }&offset=${ offset }&amount=${ amount }`;
     }
 
-    static FetchOrderList(session: string, startTime: string, n: number): string {
-        return `${ PREFIX }/order/list?session=${ session }&startTime=${ startTime }&number=${ n }`;
+    static FetchOrderList(session: string, businessId: string, offset: number, amount: number): string {
+        return `${ PREFIX }/order/list?session=${ session }&businessId=${ businessId }&offset=${ offset }&amount=${ amount }`;
     }
 
     static FetchCardList(session: string): string {

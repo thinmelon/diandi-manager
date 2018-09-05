@@ -1,19 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @icon: 32px;
-@margin: 24px;
+@margin: 12px;
 @padding: 30px;
 
 .board {
   background-color: #f6f8f9;
-  height: 100vh;
+  position: relative;
+  height: 100%;
 }
 
 .panel {
-  img {
-    width: @icon;
-    height: @icon;
-    margin-right: @margin;
-  }
   font-family: 'Microsoft YaHei', sans-serif;
   font-size: 18pt;
   width: 20%;
@@ -21,6 +17,11 @@
 }
 
 .panel-subject {
+  img {
+    width: @icon;
+    height: @icon;
+    margin-right: @margin;
+  }
   padding-top: @padding;
 }
 

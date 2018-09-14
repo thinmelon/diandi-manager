@@ -15,12 +15,12 @@ export class VerificationCodeComponent implements OnDestroy {
     @Input() hasSent = false;
     @Input() btnSendText = '发送';
     @Input() btnConfirmText = '下一步';
-    // @Input() phone = '';
+    @Input() phone = '';
+    @Input() disablePhone = false;
     @Input() message = '';
     @Output() blurEvt = new EventEmitter<string>();
     @Output() gotoNext = new EventEmitter<VerificationCode>();
 
-    public phone = '';
     public verificationCode = '';
     /**
      *  内部属性

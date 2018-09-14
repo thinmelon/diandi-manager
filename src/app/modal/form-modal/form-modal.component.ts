@@ -15,6 +15,8 @@ export class FormModalComponent implements OnInit, OnDestroy {
     @Input() uploadUrl = '';                                //  文件上传地址
     @Input() maxFileSize = 5 * 1024 * 1024;                 //  上传文件大小上限
     @Input() submitBtnText = '保存';                         //  提交按键名
+    @Input() phone = '';                                     //  发送验证码的手机号
+    @Input() disablePhone = false;                          //  手机号是否可以修改
     @Input() verificationBtnText = '绑定';                   //  验证码模板的提交按键文字
     @Output() submitEvt = new EventEmitter<any>();      //  文件上传后回传事件
     @Output() dropdownSelectedEvt = new EventEmitter<any>();    //  文件上传后回传事件

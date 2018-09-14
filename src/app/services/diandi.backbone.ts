@@ -120,7 +120,7 @@ export class BackboneService {
     }
 
     get diandiWebsiteAppId(): string {
-        return 'wxbee73e9bdc02bfdc';
+        return 'wxf0e807f315d28d5b';
     }
 
     /**
@@ -972,6 +972,48 @@ export class BackboneService {
             .get(UrlService.CheckPhone(phone, appid))
             .pipe(
                 catchError(this.handleError('checkPhone', {errMsg: '#checkPhone#检验手机号码是否已绑定过出错'}))
+            );
+    }
+
+    /**
+     * 获取授权方名下的银行卡
+     * @param session
+     * @returns {Observable<A>}
+     */
+    public fetchBankCards(session: string): Observable<any> {
+        return this.http
+            .get(UrlService.FetchBankCards(session))
+            .pipe(
+                catchError(this.handleError('fetchBankCards', {errMsg: '#fetchBankCards#获取授权方名下的银行卡出错'}))
+            );
+    }
+
+    /**
+     * 绑定银行卡
+     * @param session
+     * @param requestId
+     * @param bizId
+     * @param phone
+     * @param verificationCode
+     * @param bank_no
+     * @param bank_code
+     * @param name
+     * @returns {Observable<A>}
+     */
+    public bindBankCard(session: string, requestId: string, bizId: string, phone: string, verificationCode: string, bank_no: string, bank_code: string, name: string): Observable<any> {
+        return this.http
+            .post(UrlService.BindBankCard(), {
+                session: session,
+                requestId: requestId,
+                bizId: bizId,
+                phone: phone,
+                verificationCode: verificationCode,
+                bank_no: bank_no,
+                bank_code: bank_code,
+                name: name
+            })
+            .pipe(
+                catchError(this.handleError('bindNewPhone', {errMsg: '#bindNewPhone#绑定手机号失败'}))
             );
     }
 

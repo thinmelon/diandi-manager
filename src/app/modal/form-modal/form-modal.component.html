@@ -26,9 +26,11 @@
         <div *ngIf="item.type === 'verification'">
             <app-verification-code
                     [message]=""
+                    [phone]="phone"
+                    [disablePhone]="disablePhone"
                     [btnConfirmText]="verificationBtnText"
                     (gotoNext)="gotoNext($event)"
-                    (blurEvt)="onBlur($event)"            >
+                    (blurEvt)="onBlur($event)">
             </app-verification-code>
         </div>
     </div>

@@ -223,6 +223,14 @@ export class UrlService {
         return `${ PREFIX }/phone/uniqueness?phone=${ phone }&appid=${ appid }`;
     }
 
+    static FetchBankCards(session: string): string {
+        return `${ PREFIX }/authorizer/bank?session=${ session }`;
+    }
+
+    static BindBankCard(): string {
+        return `${ PREFIX }/authorizer/bank`;
+    }
+
     static Login(): string {
         return `${ PREFIX }/login`;
     }

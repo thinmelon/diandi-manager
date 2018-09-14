@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
         const modalRef = this.modalService.open(FormModalComponent);
 
         modalRef.componentInstance.title = '首次登录需要绑定您的手机号码';
-        modalRef.componentInstance.hint = '';
+        modalRef.componentInstance.hint = '应《网络安全法要求》，我们将进一步强化账号实名认证机制，请绑定手机号。我们将不会向任何第三方泄露你的个人信息。';
         modalRef.componentInstance.keyValues = [
             {
                 index: 0,
@@ -65,18 +65,6 @@ export class LoginComponent implements OnInit {
             }
         ];
         modalRef.componentInstance.submitBtnText = '';
-        // modalRef.componentInstance.phoneInputBlurEvt.subscribe(phone => {
-        //     that.backbone.checkPhone(
-        //         phone,
-        //         this.backbone.diandiWebsiteAppId
-        //     )
-        //         .subscribe(res => {
-        //             console.log(res);
-        //             if (res.code !== 0) {
-        //                 modalRef.componentInstance.hint = res.msg;
-        //             }
-        //         });
-        // });
         modalRef.componentInstance.verificationCodeEvt.subscribe(evt => {
             console.log(evt);
             that.backbone.bindNewPhone(
@@ -93,8 +81,7 @@ export class LoginComponent implements OnInit {
                         modalRef.componentInstance.activeModal.close();
                     } else if (res.code === -100) {
                         modalRef.componentInstance.hint = '该账号已绑定公众号，请使用手机验证码方式快捷登录';
-                    }
-                    else {
+                    } else {
                         modalRef.componentInstance.hint = res.msg;
                     }
                 });

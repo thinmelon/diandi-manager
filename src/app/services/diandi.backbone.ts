@@ -989,6 +989,23 @@ export class BackboneService {
     }
 
     /**
+     * 设置为默认卡
+     * @param session
+     * @param bank_id
+     * @returns {Observable<A>}
+     */
+    public setAsDefaultBankCard(session: string, bank_id: string): Observable<any> {
+        return this.http
+            .post(UrlService.SetAsDefaultBankCard(), {
+                session: session,
+                bank_id: bank_id
+            })
+            .pipe(
+                catchError(this.handleError('setAsDefaultBankCard', {errMsg: '#setAsDefaultBankCard#设置为默认卡失败'}))
+            );
+    }
+
+    /**
      * 绑定银行卡
      * @param session
      * @param requestId
@@ -1013,7 +1030,72 @@ export class BackboneService {
                 name: name
             })
             .pipe(
-                catchError(this.handleError('bindNewPhone', {errMsg: '#bindNewPhone#绑定手机号失败'}))
+                catchError(this.handleError('bindBankCard', {errMsg: '#bindBankCard#绑定银行卡失败'}))
+            );
+    }
+
+    /**
+     * 解绑银行卡
+     * @param session
+     * @param requestId
+     * @param bizId
+     * @param phone
+     * @param verificationCode
+     * @param bank_id
+     * @returns {Observable<A>}
+     */
+    public unbindBankCard(session: string, requestId: string, bizId: string, phone: string, verificationCode: string, bank_id: string): Observable<any> {
+        return this.http
+            .delete(UrlService.UnbindBankCard(), {
+                params: {
+                    session: session,
+                    requestId: requestId,
+                    bizId: bizId,
+                    phone: phone,
+                    verificationCode: verificationCode,
+                    bank_id: bank_id
+                }
+            })
+            .pipe(
+                catchError(this.handleError('unbindBankCard', {errMsg: '#unbindBankCard#解绑银行卡失败'}))
+            );
+    }
+
+    /**
+     * 获取授权方名下的资产
+     * @param session
+     * @returns {Observable<A>}
+     */
+    public fetchCapitalInfo(session: string): Observable<any> {
+        return this.http
+            .get(UrlService.FetchCapitalInfo(session))
+            .pipe(
+                catchError(this.handleError('fetchCapitalInfo', {errMsg: '#fetchCapitalInfo#获取授权方名下的资产出错'}))
+            );
+    }
+
+    /**
+     * 申请提现
+     * @param session
+     * @param requestId
+     * @param bizId
+     * @param phone
+     * @param verificationCode
+     * @param withdraw
+     * @returns {Observable<A>}
+     */
+    public withdrawCash(session: string, requestId: string, bizId: string, phone: string, verificationCode: string, withdraw: number): Observable<any> {
+        return this.http
+            .post(UrlService.WithdrawCash(), {
+                session: session,
+                requestId: requestId,
+                bizId: bizId,
+                phone: phone,
+                verificationCode: verificationCode,
+                withdraw: withdraw,
+            })
+            .pipe(
+                catchError(this.handleError('withdrawCash', {errMsg: '#withdrawCash#申请提现失败'}))
             );
     }
 

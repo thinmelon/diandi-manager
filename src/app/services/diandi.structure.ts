@@ -434,3 +434,94 @@ export const MenuType = [
         hint: '用户点击view_limited类型按钮后，微信客户端将打开开发者在按钮中填写的永久素材id对应的图文消息URL，永久素材类型只支持图文消息。请注意：永久素材id必须是在“素材管理/新增永久素材”接口上传后获得的合法id'
     }
 ];
+
+/**
+ *      银行ID
+ */
+export const BankID = [
+    {
+        index: 0,
+        id: 1002,
+        name: '工商银行'
+    },
+    {
+        index: 1,
+        id: 1005,
+        name: '农业银行'
+    },
+    {
+        index: 2,
+        id: 1026,
+        name: '中国银行'
+    },
+    {
+        index: 3,
+        id: 1003,
+        name: '建设银行'
+    },
+    {
+        index: 4,
+        id: 1001,
+        name: '招商银行'
+    },
+    {
+        index: 5,
+        id: 1066,
+        name: '邮储银行'
+    },
+    {
+        index: 6,
+        id: 1020,
+        name: '交通银行'
+    },
+    {
+        index: 7,
+        id: 1004,
+        name: '浦发银行'
+    },
+    {
+        index: 8,
+        id: 1006,
+        name: '民生银行'
+    },
+    {
+        index: 9,
+        id: 1009,
+        name: '兴业银行'
+    },
+    {
+        index: 10,
+        id: 1010,
+        name: '平安银行'
+    },
+    {
+        index: 11,
+        id: 1021,
+        name: '中信银行'
+    },
+    {
+        index: 12,
+        id: 1025,
+        name: '华夏银行'
+    },
+    {
+        index: 13,
+        id: 1027,
+        name: '广发银行'
+    },
+    {
+        index: 14,
+        id: 1022,
+        name: '光大银行'
+    },
+    {
+        index: 15,
+        id: 1032,
+        name: '北京银行'
+    },
+    {
+        index: 16,
+        id: 1056,
+        name: '宁波银行'
+    }
+];

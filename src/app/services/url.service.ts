@@ -227,8 +227,24 @@ export class UrlService {
         return `${ PREFIX }/authorizer/bank?session=${ session }`;
     }
 
+    static SetAsDefaultBankCard(): string {
+        return `${ PREFIX }/authorizer/default/bank`;
+    }
+
     static BindBankCard(): string {
         return `${ PREFIX }/authorizer/bank`;
+    }
+
+    static UnbindBankCard(): string {
+        return `${ PREFIX }/authorizer/bank`;
+    }
+
+    static FetchCapitalInfo(session: string): string {
+        return `${ PREFIX }/authorizer/capital?session=${ session }`;
+    }
+
+    static WithdrawCash(): string {
+        return `${ PREFIX }/authorizer/capital/available`;
     }
 
     static Login(): string {

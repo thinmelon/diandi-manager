@@ -150,6 +150,7 @@ export class FormModalComponent implements OnInit, OnDestroy {
      * @param evt
      */
     gotoNext(evt) {
+        evt.keyValues = this.keyValues;         //  带上键值数组
         this.verificationCodeEvt.emit(evt);
         // this.activeModal.close('NEXT');
     }

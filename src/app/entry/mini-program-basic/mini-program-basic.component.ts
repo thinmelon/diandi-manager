@@ -46,7 +46,7 @@ export class MiniProgramBasicComponent implements OnInit {
                         AccountTypeEnum[rawData.account_type],
                         rawData.head_image_info.head_image_url,
                         rawData.nickname,
-                        null,
+                        [],
                         rawData.principal_name,
                         principalTypeEnum[rawData.principal_type],
                         realnameStatusEnum[rawData.realname_status],
@@ -61,7 +61,7 @@ export class MiniProgramBasicComponent implements OnInit {
             .fetchAuthorizerCategory(this.backbone.session, this.info.appid)
             .subscribe(result => {
                 console.log(result);
-                if (result.errcode === 0 && result.categories.length > 0) {
+                if (result.errcode === 0) {
                     this.info.categories = result.categories.map(category => {
                         return new Category(
                             category.first,

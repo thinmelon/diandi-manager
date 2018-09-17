@@ -92,25 +92,26 @@ export class ListTemplateComponent implements OnInit {
      * @param template
      */
     apply(template) {
-        this.backbone.commitSourceCode(
-            this.backbone.session,
-            this.backbone.authorizerMiniProgramAppId,
-            new Template(
-                template.template_id,
-                JSON.stringify({
-                    extEnable: true,
-                    extAppid: this.backbone.authorizerMiniProgramAppId,
-                    ext: {
-                        appid: this.backbone.authorizerMiniProgramAppId
-                    }
-                }),
-                template.user_version,
-                template.user_desc
-            ))
-            .subscribe(result => {
-                console.log(result);
-                this.showErrorMessage(result, '成功应用此模版');
-            });
+        console.log(template);
+        // this.backbone.commitSourceCode(
+        //     this.backbone.session,
+        //     this.backbone.authorizerMiniProgramAppId,
+        //     new Template(
+        //         template.template_id,
+        //         JSON.stringify({
+        //             extEnable: true,
+        //             extAppid: this.backbone.authorizerMiniProgramAppId,
+        //             ext: {
+        //                 appid: this.backbone.authorizerMiniProgramAppId
+        //             }
+        //         }),
+        //         template.user_version,
+        //         template.user_desc
+        //     ))
+        //     .subscribe(result => {
+        //         console.log(result);
+        //         this.showErrorMessage(result, '成功应用此模版');
+        //     });
     }
 
     /**

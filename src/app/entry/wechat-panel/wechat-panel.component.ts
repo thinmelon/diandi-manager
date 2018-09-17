@@ -51,6 +51,10 @@ export class WechatPanelComponent implements OnInit {
         }
     }
 
+    scenario() {
+        this.router.navigate(['entry/wechat/miniprogram/scenario']);
+    }
+
     template() {
         this.router.navigate(['entry/wechat/miniprogram/template']);
     }

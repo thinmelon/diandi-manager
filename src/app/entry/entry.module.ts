@@ -11,6 +11,8 @@ import {RegisterMiniProgramComponent} from './register-mini-program/register-min
 import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic.component';
 import {UserInfoComponent} from './user-info/user-info.component';
 import {WechatPanelComponent} from './wechat-panel/wechat-panel.component';
+import {ScenarioComponent} from './scenario/scenario.component';
+import {ScenarioIntroComponent} from './scenario-intro/scenario-intro.component';
 
 @NgModule({
     imports: [
@@ -26,6 +28,8 @@ import {WechatPanelComponent} from './wechat-panel/wechat-panel.component';
         BindOfficialComponent,
         MiniProgramBasicComponent,
         RegisterMiniProgramComponent,
+        ScenarioComponent,
+        ScenarioIntroComponent,
         UserInfoComponent
     ],
     providers: [

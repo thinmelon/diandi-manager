@@ -24,6 +24,8 @@ import {ListBusinessComponent} from '../list/list-business/list-business.compone
 import {ListBusinessResolver} from '../services/resolver/business.resolver';
 import {UserInfoComponent} from './user-info/user-info.component';
 import {WechatPanelComponent} from './wechat-panel/wechat-panel.component';
+import {ScenarioComponent} from './scenario/scenario.component';
+import {ScenarioIntroComponent} from './scenario-intro/scenario-intro.component';
 
 const __ENTRY_ROUTING__: Routes = [
     {
@@ -127,6 +129,14 @@ const __ENTRY_ROUTING__: Routes = [
                 resolve: {
                     listCardResolver: ListCardResolver
                 }
+            },
+            {
+                path: 'scenario',
+                component: ScenarioComponent,
+            },
+            {
+                path: 'scenario/intro',
+                component: ScenarioIntroComponent,
             }
         ]
     }

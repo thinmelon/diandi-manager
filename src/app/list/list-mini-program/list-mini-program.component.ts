@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BackboneService} from '../../services/diandi.backbone';
+import {PrivilegeSet} from '../../services/diandi.structure';
 
 @Component({
     selector: 'app-list-mini-program',
@@ -18,20 +19,29 @@ export class ListMiniProgramComponent implements OnInit {
     }
 
     ngOnInit() {
-        const that = this;
-
         this.bindMiniprogram = `https://www.pusudo.cn/platform/authority/wechat?auth_type=2&session=${ this.backbone.session }`;
         this.defaultAuthorizerAppid = this.backbone.authorizerMiniProgramAppId;
         this.route.data
             .subscribe((data: { miniprogramListResolver: any }) => {
                 let index = 0;
-                that.miniprograms = data.miniprogramListResolver.map(item => {
+                this.miniprograms = data.miniprogramListResolver.map(item => {
+                    console.log(item.funcInfo.split(','));
+                    let funcInfo = '';
+                    item.funcInfo.split(',').map(func => {
+                        const value = parseInt(func);
+                        if (value) {
+                            funcInfo += PrivilegeSet[value] ? PrivilegeSet[value] + ';' : value;
+                        }
+                    })
                     return {
                         index: ++index,
                         appid: item.appid,
-                        funcInfo: item.funcInfo
+                        funcInfo: funcInfo
                     };
                 });
+                if (this.miniprograms.length > 0) {
+                    this.setDefaultAuthorizer(this.miniprograms[0].appid);  //  默认使用第一个小程序appid
+                }
             });
     }
 

@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import {Template} from '../../services/diandi.structure';
 import {BackboneService} from '../../services/diandi.backbone';
 import {FormModalComponent} from '../../modal/form-modal/form-modal.component';
 
@@ -13,8 +12,6 @@ import {FormModalComponent} from '../../modal/form-modal/form-modal.component';
 })
 export class ListTemplateComponent implements OnInit {
     public errorMessage = '';           //  错误提示信息
-    public templates = [];              //  所有可用小程序版本
-    public authorizerAppId;             //  授权小程序的 appid
     public trialQRCode = '';            //  体验二维码 URL
     public applied = [];                //  已应用的模版列表
     public audit = [];                  //  审核模版列表
@@ -23,28 +20,15 @@ export class ListTemplateComponent implements OnInit {
     private firstClass = [];            //  一级类目
     private secondClass = [];           //  二级类目
 
-    constructor(private route: ActivatedRoute,
-                private backbone: BackboneService,
+    constructor(private backbone: BackboneService,
                 private modalService: NgbModal) {
     }
 
     ngOnInit() {
-        this.authorizerAppId = this.backbone.authorizerMiniProgramAppId;        //  当前授权方的appid
         this.trialQRCode = this.backbone.fetchTrialQRCode(                      //  获取检验二维码URL
             this.backbone.session,
             this.backbone.authorizerMiniProgramAppId
         );
-
-        this.route.data
-            .subscribe((data: { templateListResolver: any }) => {
-                // console.log(data.templateListResolver);
-                if (data.templateListResolver.errcode === 0) {
-                    this.templates = data.templateListResolver.template_list.map(item => {
-                        item.create_time = moment(item.create_time * 1000).format('YYYY-MM-DD HH:mm:ss');   //  转换下时间
-                        return item;
-                    });
-                }
-            });
 
         this.versions();
     }
@@ -85,33 +69,6 @@ export class ListTemplateComponent implements OnInit {
                     this.errorMessage = result.msg;
                 }
             });
-    }
-
-    /**
-     *  应用模版
-     * @param template
-     */
-    apply(template) {
-        console.log(template);
-        // this.backbone.commitSourceCode(
-        //     this.backbone.session,
-        //     this.backbone.authorizerMiniProgramAppId,
-        //     new Template(
-        //         template.template_id,
-        //         JSON.stringify({
-        //             extEnable: true,
-        //             extAppid: this.backbone.authorizerMiniProgramAppId,
-        //             ext: {
-        //                 appid: this.backbone.authorizerMiniProgramAppId
-        //             }
-        //         }),
-        //         template.user_version,
-        //         template.user_desc
-        //     ))
-        //     .subscribe(result => {
-        //         console.log(result);
-        //         this.showErrorMessage(result, '成功应用此模版');
-        //     });
     }
 
     /**

@@ -247,6 +247,15 @@ export class Template {
 }
 
 /**
+ *      场景应用的前置条件
+ */
+export class Precondition {
+    constructor(public scenario: number,
+                public shouldHavaBusiness: boolean) {
+    }
+}
+
+/**
  *      账号类型
  */
 export const AccountTypeEnum = [
@@ -370,8 +379,22 @@ export const PrivilegeSet = [
     '城市服务接口权限',
     '广告管理权限',
     '开放平台帐号管理权限',
-    '开放平台帐号管理权限（小程序）',
-    '微信电子发票权限'
+    '开放平台帐号管理权限（小程序）',  // 25
+    '微信电子发票权限',
+    '',
+    '',
+    '',
+    '小程序基本信息设置权限',          //  30
+    '小程序认证权限',
+    '',
+    '',
+    '',
+    '',
+    '微信卡路里权限',
+    '附近地点权限',
+    '',
+    '',
+    '插件管理权限'                     //  40
 ];
 
 /**
@@ -525,3 +548,14 @@ export const BankID = [
         name: '宁波银行'
     }
 ];
+
+/**
+ *      场景值
+ */
+export const ENUM_SCENARIO = {
+    COMMERCE: 0,
+    MAP: 1,
+    COUPON: 2,
+    STATISTICS: 3,
+    DEVELOPMENT: 4
+};

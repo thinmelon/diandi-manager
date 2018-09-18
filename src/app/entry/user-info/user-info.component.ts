@@ -14,6 +14,7 @@ const __STATE__ = 'WECHAT';
     styleUrls: ['./user-info.component.less']
 })
 export class UserInfoComponent implements OnInit {
+    public boardWidth = '';            //  内容区域宽度
     public message = '';                //  提示
     public phone = '';                  //  关联的电话号码
     public nickname = '';               //  关联的微信号昵称
@@ -29,6 +30,9 @@ export class UserInfoComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('window.innerWidth', window.innerWidth);
+        this.boardWidth = (window.innerWidth * 0.8).toString() + 'px';
+        console.log(this.boardWidth);
         this.route.data
             .subscribe((data: { wechatUserInfoResolver: any }) => {
                 if (data.wechatUserInfoResolver.code === 0 && data.wechatUserInfoResolver.msg.length > 0) {

@@ -30,6 +30,9 @@ export class ListProductComponent implements OnInit {
                 if (data.listBusinessResolver.code === 0 && data.listBusinessResolver.msg.length > 0) {
                     let index = 0;
                     this.shops = data.listBusinessResolver.msg.map(item => {
+                        if (this.backbone.businessId && this.backbone.businessId === item.bid) {
+                            this.btnName = item.name;
+                        }
                         return new BusinessList(++index,
                             item.bid,
                             item.name,
@@ -40,8 +43,11 @@ export class ListProductComponent implements OnInit {
                             item.status
                         );
                     });
-                    this.btnName = this.shops[0].name;          //  设置下拉框文字
-                    this.fetchProductList(this.shops[0].bid);   //  获取商品列表
+                    if (!this.backbone.businessId) {
+                        this.btnName = this.shops[0].name;                          //  设置下拉框文字
+                        this.backbone.businessId = this.shops[0].bid;               //  获取商品列表
+                    }
+                    this.fetchProductList(this.backbone.businessId);                //  获取商品列表
                 }
             });
     }
@@ -66,7 +72,7 @@ export class ListProductComponent implements OnInit {
                 console.log(response);
                 if (response.code === 0) {
                     let index = 0;
-                    this.products = response.msg.map(item => {
+                    this.products = response.msg.product.map(item => {
                         return new ProductList(++index,
                             item.pid,
                             decodeURIComponent(item.name),

@@ -11,6 +11,7 @@ import {ProgressBarModalComponent} from '../progress-bar-modal/progress-bar-moda
 export class FormModalComponent implements OnInit, OnDestroy {
     @Input() title: string;                                 //  模式框标题
     @Input() hint: string;                                  //  提示信息
+    @Input() extra: string;                                //  额外说明
     @Input() keyValues = [];                                //  控件列表
     @Input() uploadUrl = '';                                //  文件上传地址
     @Input() maxFileSize = 5 * 1024 * 1024;                 //  上传文件大小上限

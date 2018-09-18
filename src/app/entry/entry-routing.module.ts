@@ -83,10 +83,7 @@ const __ENTRY_ROUTING__: Routes = [
             },
             {
                 path: 'template',
-                component: ListTemplateComponent,
-                resolve: {
-                    templateListResolver: TemplateListResolver
-                }
+                component: ListTemplateComponent
             },
             {
                 path: 'business',
@@ -132,11 +129,14 @@ const __ENTRY_ROUTING__: Routes = [
             },
             {
                 path: 'scenario',
-                component: ScenarioComponent,
+                component: ScenarioComponent
             },
             {
                 path: 'scenario/intro',
                 component: ScenarioIntroComponent,
+                resolve: {
+                    templateListResolver: TemplateListResolver
+                }
             }
         ]
     }

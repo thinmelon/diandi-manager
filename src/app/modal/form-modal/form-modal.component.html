@@ -34,6 +34,9 @@
             </app-verification-code>
         </div>
     </div>
+    <p *ngIf="extra">
+        {{ extra }}
+    </p>
 </div>
 <div class="modal-footer" *ngIf="submitBtnText !== ''">
     <button type="submit" class="btn btn-outline-danger" (click)="onSubmit()">{{ submitBtnText }}</button>

@@ -1,47 +1,9 @@
 <script src="list-template.component.ts"></script>
 <div [hidden]="errorMessage === ''" class="alert alert-danger"> {{errorMessage}}</div>
-<div class="alert alert-primary d-flex flex-row justify-content-between" role="alert">
-    <div>
-        1. 请从以下列表中选择一个模板应用到当前小程序
-    </div>
-    <div>
-        APPID: {{ authorizerAppId }}
-    </div>
-</div>
-
-
-<div class="table-responsive">
-    <table class="table table-striped table-hover">
-        <thead class="thead-light">
-        <tr>
-            <th scope="col">模版ID</th>
-            <th scope="col">描述</th>
-            <th scope="col">版本</th>
-            <th scope="col">创建时间</th>
-            <th scope="col">源</th>
-            <th scope="col">开发者</th>
-            <th scope="col">操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let template of templates">
-            <th scope="row">{{ template.template_id }}</th>
-            <td>{{ template.user_desc }}</td>
-            <td>{{ template.user_version }}</td>
-            <td>{{ template.create_time }}</td>
-            <td>{{ template.source_miniprogram }}</td>
-            <td>{{ template.developer }}</td>
-            <td>
-                <button class="btn btn-sm btn-outline-danger" (click)="apply(template)">应用</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 
 <div class="alert alert-primary d-flex flex-row justify-content-between" role="alert">
-    <div>2. 请从以下已应用的模版中选择并提交微信审核</div>
-    <a class="btn btn-outline-primary" href="{{ trialQRCode }}" target="_blank">体验版二维码</a>
+    <div>1. 请从以下已应用的模版中选择并提交微信审核</div>
+    <a class="btn btn-sm btn-outline-primary" href="{{ trialQRCode }}" target="_blank">体验最近上传的小程序模版</a>
 </div>
 <div class="table-responsive">
     <table class="table table-striped table-hover">
@@ -69,7 +31,7 @@
 </div>
 
 <div class="alert alert-primary" role="alert">
-    3. 查看提交模版的审核状态，审核通过后可全网发布
+    2. 查看提交模版的审核状态，审核通过后可全网发布
 </div>
 <div class="table-responsive">
     <table class="table table-striped table-hover">
@@ -107,7 +69,7 @@
 </div>
 
 <div class="alert alert-primary" role="alert">
-    4. 版本管理，在此设置已发布版本的状态
+    3. 版本管理，在此设置已发布版本的状态
 </div>
 <div class="table-responsive">
     <table class="table table-striped table-hover">

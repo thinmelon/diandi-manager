@@ -3,13 +3,18 @@
     <div class="alert alert-primary" role="alert">
         {{ stepOneHint }}
     </div>
-    <div class="d-flex flex-row justify-content-center align-items-center">
-        <img class=" head-image" src="{{ info.headImageUrl }}"/>
-        <button class="btn btn-sm btn-outline-primary" (click)="modifyHeadImage()">上传头像</button>
-    </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <tbody>
+            <tr>
+                <td>头像:</td>
+                <td>
+                    <img class=" head-image" src="{{ info.headImageUrl }}"/>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary" (click)="modifyHeadImage()">上传头像</button>
+                </td>
+            </tr>
             <tr>
                 <td>APPID:</td>
                 <td>{{ info.appid }}</td>

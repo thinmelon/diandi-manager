@@ -21,9 +21,9 @@ import {BackboneService} from '../../services/diandi.backbone';
 export class MiniProgramBasicComponent implements OnInit {
     public info: Account;
     public errorMessage = '';
-    public stepOneHint = '1. 设置基本信息（头像、名称、类目为必需项）';
-    public stepTwoHint = '2. 设置小程序服务器域名';
-    public stepThreeHint = '3. 应用小程序模版';
+    public stepOneHint = '首先，设置基本信息（头像、名称、类目为必需项）';
+    public stepTwoHint = '其次，设置小程序服务器域名';
+    public stepThreeHint = '最后，开始使用小程序模版';
     private levelOneCategories = [];
     private levelTwoCategories = [];
 
@@ -380,7 +380,7 @@ export class MiniProgramBasicComponent implements OnInit {
      */
     applyTemplate() {
         this.backbone.authorizerMiniProgramAppId = this.info.appid;
-        this.router.navigate(['entry/wechat/miniprogram/template']);
+        this.router.navigate(['entry/wechat/miniprogram/scenario']);
     }
 
     showErrorMessage(err, successMessage) {

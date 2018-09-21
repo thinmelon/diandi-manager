@@ -1100,6 +1100,41 @@ export class BackboneService {
     }
 
     /**
+     * 获取授权方关联的支付账号
+     * @param session
+     * @param appid
+     * @returns {Observable<A>}
+     */
+    public fetchAuthorizerPay(session: string, appid: string): Observable<any> {
+        return this.http
+            .get(UrlService.FetchAuthorizerPay(session, appid))
+            .pipe(
+                catchError(this.handleError('fetchAuthorizerPay', {errMsg: '#fetchAuthorizerPay#获取授权方关联的支付账号出错'}))
+            );
+    }
+
+    /**
+     * 绑定支付
+     * @param session
+     * @param appid
+     * @param mchid
+     * @param apiKey
+     * @returns {Observable<A>}
+     */
+    public bindAuthorizerPay(session: string, appid: string, mchid: string, apiKey: string): Observable<any> {
+        return this.http
+            .post(UrlService.BindAuthorizerPay(), {
+                session: session,
+                appid: appid,
+                mchid: mchid,
+                apiKey: apiKey
+            })
+            .pipe(
+                catchError(this.handleError('bindAuthorizerPay', {errMsg: '#bindAuthorizerPay#绑定支付失败'}))
+            );
+    }
+
+    /**
      * Handle Http operation that failed.
      * Let the app continue.
      * @param operation - name of the operation that failed

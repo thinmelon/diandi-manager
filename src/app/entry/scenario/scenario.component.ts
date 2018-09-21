@@ -33,8 +33,6 @@ export class ScenarioComponent implements OnInit {
     }
 
     intro(scenario) {
-
-
         if (!this.backbone.authorizerMiniProgramAppId) {
             const modalRef = this.modalService.open(FormModalComponent);
             modalRef.componentInstance.title = '请选择要进行配置的小程序';
@@ -47,7 +45,7 @@ export class ScenarioComponent implements OnInit {
                     value: '请选择小程序',
                     src: this.miniprograms,
                     categoryId: 0
-                },
+                }
             ];
             modalRef.componentInstance.submitBtnText = '确定';
             modalRef.componentInstance.dropdownSelectedEvt.subscribe(res => {

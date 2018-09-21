@@ -16,6 +16,9 @@ export class ScenarioIntroComponent implements OnInit {
     btnName = '--- 请选择商户 ---';
     businesses = [];
     appliedTemplate = null;              //  应用模版
+    appid = '';                         //  当前appid
+    mchid = '';
+    apiKey = '';
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -23,6 +26,7 @@ export class ScenarioIntroComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.precondition = JSON.parse(params.precondition);
         });
+        this.appid = this.backbone.authorizerMiniProgramAppId;
     }
 
     ngOnInit() {
@@ -59,7 +63,39 @@ export class ScenarioIntroComponent implements OnInit {
                         this.link = 'entry/wechat/miniprogram/business';
                     }
                 });
+            //  获取授权方的支付账号信息
+            this.backbone
+                .fetchAuthorizerPay(
+                    this.backbone.session,
+                    this.backbone.authorizerMiniProgramAppId
+                )
+                .subscribe(res => {
+                    console.log(res);
+                    if (res.code === 0 && res.msg.length > 0) {
+                        this.mchid = res.msg[0].mchid;
+                        this.apiKey = res.msg[0].apiKey;
+                    }
+                });
         }
+    }
+
+    /**
+     *  绑定授权方支付
+     */
+    bindAuthorizerPay() {
+        this.backbone.bindAuthorizerPay(
+            this.backbone.session,
+            this.appid,
+            this.mchid,
+            this.apiKey
+        )
+            .subscribe(res => {
+                if (res.code === 0) {
+                    this.errorMessage = '设置成功';
+                } else {
+                    this.errorMessage = '设置失败';
+                }
+            });
     }
 
     /**
@@ -78,14 +114,14 @@ export class ScenarioIntroComponent implements OnInit {
         //  上传代码
         this.backbone.commitSourceCode(
             this.backbone.session,
-            this.backbone.authorizerMiniProgramAppId,
+            this.appid,
             new Template(
                 this.appliedTemplate.template_id,
                 JSON.stringify({
                     extEnable: true,
-                    extAppid: this.backbone.authorizerMiniProgramAppId,
+                    extAppid: this.appid,
                     ext: {
-                        appid: this.backbone.authorizerMiniProgramAppId,
+                        appid: this.appid,
                         businessid: this.backbone.businessId || ''
                     }
                 }),

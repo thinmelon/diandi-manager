@@ -247,6 +247,14 @@ export class UrlService {
         return `${ PREFIX }/authorizer/capital/available`;
     }
 
+    static FetchAuthorizerPay(session: string, appid: string): string {
+        return `${ PREFIX }/authorizer/pay?session=${ session }&appid=${ appid }`;
+    }
+
+    static BindAuthorizerPay(): string {
+        return `${ PREFIX }/authorizer/pay`;
+    }
+
     static Login(): string {
         return `${ PREFIX }/login`;
     }

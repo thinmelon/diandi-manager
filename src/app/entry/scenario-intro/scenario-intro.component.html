@@ -66,9 +66,21 @@
                 >
                 <small class="form-text text-muted">登录微信支付商户平台 - 帐户中心 - 帐户设置 - API安全中查看</small>
             </div>
-            <button class="btn btn-primary" [disabled]="!bindWechatPayForm.form.valid" (click)="bindAuthorizerPay()">设置</button>
+            <button class="btn btn-primary" [disabled]="!bindWechatPayForm.form.valid" (click)="bindAuthorizerPay()">
+                设置
+            </button>
         </form>
-        <p class="lead">3. APPID绑定授权申请</p>
+        <p class="lead">3. 设置商户证书路径</p>
+        <div class="form-group">
+            <label for="inputAPIClientCert" class="font-weight-bold">上传API证书：</label>
+            <input type="file" class="form-control" id="inputAPIClientCert" name="inputAPIClientCert"
+                   placeholder="上传API证书" ng2FileSelect [uploader]="certUploader" (change)="uploadAPIClientCert()"/>
+            <small class="form-text text-muted">
+                API证书下载地址：https://pay.weixin.qq.com/index.php/account/api_cert，下载之前需要安装商户操作证书
+            </small>
+        </div>
+        <button class="btn btn-primary" (click)="saveAPIClientCert()">上传</button>
+        <p class="lead">4. APPID绑定授权申请</p>
         <small class="form-text text-muted">登录微信支付商户平台 - 产品中心 - APPID绑定授权申请进行设置</small>
         <hr class="my-4">
         <p>注意事项：</p>

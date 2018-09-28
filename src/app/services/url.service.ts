@@ -255,6 +255,10 @@ export class UrlService {
         return `${ PREFIX }/authorizer/pay`;
     }
 
+    static UploadWxPayAPIClientCert(session: string, appid: string): string {
+        return `${ PREFIX }/authorizer/pay/wxchat/api_client_cert?session=${ session }&appid=${ appid }`;
+    }
+
     static Login(): string {
         return `${ PREFIX }/login`;
     }

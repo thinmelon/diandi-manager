@@ -1,7 +1,11 @@
-import {ActivatedRoute, Router} from '@angular/router';
+import {FileUploader} from 'ng2-file-upload';
 import {Component, OnInit} from '@angular/core';
-import {ENUM_SCENARIO, Precondition, Template} from '../../services/diandi.structure';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {UrlService} from '../../services/url.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BackboneService} from '../../services/diandi.backbone';
+import {ENUM_SCENARIO, Precondition, Template} from '../../services/diandi.structure';
+import {ProgressBarModalComponent} from '../../modal/progress-bar-modal/progress-bar-modal.component';
 
 @Component({
     selector: 'app-scenario-intro',
@@ -15,13 +19,15 @@ export class ScenarioIntroComponent implements OnInit {
     precondition: Precondition;
     btnName = '--- 请选择商户 ---';
     businesses = [];
-    appliedTemplate = null;              //  应用模版
-    appid = '';                         //  当前appid
+    appliedTemplate = null;                    //  应用模版
+    appid = '';                                 //  当前appid
     mchid = '';
     apiKey = '';
+    certUploader: FileUploader;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
+                private modalService: NgbModal,
                 private backbone: BackboneService) {
         this.route.params.subscribe(params => {
             this.precondition = JSON.parse(params.precondition);
@@ -30,13 +36,25 @@ export class ScenarioIntroComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.certUploader = new FileUploader({
+            url: UrlService.UploadWxPayAPIClientCert(
+                this.backbone.session,
+                this.appid
+            ),
+            // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
+            method: 'POST',                         //  上传文件的方式
+            maxFileSize: 1024 * 1024,               //  最大可上传的文件大小
+            queueLimit: 1,                          //  最大可上传的文件数量
+            removeAfterUpload: true                //  是否在上传完成后从队列中移除
+        });
+
         this.route.data
             .subscribe((data: { templateListResolver: any }) => {
                 console.log(data.templateListResolver);
                 if (data.templateListResolver.errcode === 0) {
                     data.templateListResolver.template_list.map(item => {
                         // 判断场景值，根据开发源的appid，确定相应的小程序模版
-                        if (item.source_miniprogram_appid === 'wxdca47cfe34b88cad'
+                        if (item.source_miniprogram_appid === 'wxdca47cfe34b88cad'                  //  线上商城
                             && this.precondition.scenario === ENUM_SCENARIO.COMMERCE) {
                             this.appliedTemplate = item;
                         } else if (item.source_miniprogram_appid === 'wx54710fd1373c1ce8'
@@ -138,5 +156,74 @@ export class ScenarioIntroComponent implements OnInit {
                     this.link = 'entry/wechat/miniprogram/template';
                 }
             });
+    }
+
+    /**
+     *  上传API证书
+     */
+    uploadAPIClientCert() {
+        console.log('===== uploadAPIClientCert =====');
+        this.certUploader.queue.forEach((fileItem, index) => {
+            console.log(fileItem);
+            console.log(index);
+            fileItem.withCredentials = false;
+        });
+
+        const modalRef = this.modalService.open(ProgressBarModalComponent);
+        modalRef.componentInstance.progress = 0;
+        modalRef.result.then(
+            /**
+             * close
+             * @param result
+             */
+            (result) => {
+                console.log(result);
+            },
+            /**
+             * dismiss
+             * @param reason
+             */
+            (reason) => {
+                console.log(reason);
+            });
+        /**
+         * 整体的上传进度的回调（开始上传后调用非常频繁）
+         * @param progress          - 整体的上传文件的进度
+         */
+        this.certUploader.onProgressAll = function (progress) {
+            console.log('===========>   onProgressAll');
+            console.log(progress);
+            modalRef.componentInstance.progress = progress;
+        };
+        /**
+         *  完成上传一个文件的回调
+         * @param item              - 上传成功的文件
+         * @param response          - 上传成功后服务器的返回
+         * @param status            - 状态码
+         * @param headers            上传成功后服务器的返回的返回头
+         */
+        this.certUploader.onCompleteItem = function (item, response, status, headers) {
+            console.log('===========> onCompleteItem ');
+            // const res = JSON.parse(response);
+            console.log(response);
+            // currentTarget = currentTarget.map(target => {
+            //     if (target.originalName === item._file.name) {
+            //         target.imageId = res.imageId;
+            //     }
+            //     return target;
+            // });
+        };
+        /**
+         *  完成上传所有文件的回调
+         */
+        this.certUploader.onCompleteAll = function () {
+            console.log('===========> Completed ');
+            modalRef.close('Completed');
+        };
+        this.certUploader.uploadAll();
+    }
+
+    saveAPIClientCert() {
+
     }
 }

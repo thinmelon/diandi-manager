@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import {FileUploadModule} from 'ng2-file-upload';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {EntryRoutingModule} from './entry-routing.module';
 import {OfficialBasicComponent} from './official-basic/official-basic.component';
@@ -14,12 +15,14 @@ import {WechatPanelComponent} from './wechat-panel/wechat-panel.component';
 import {ScenarioComponent} from './scenario/scenario.component';
 import {ScenarioIntroComponent} from './scenario-intro/scenario-intro.component';
 
+
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         EntryRoutingModule,
-        NgbModule.forRoot()
+        NgbModule.forRoot(),
+        FileUploadModule
     ],
     declarations: [
         WechatPanelComponent,

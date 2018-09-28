@@ -1134,6 +1134,19 @@ export class BackboneService {
             );
     }
 
+    // public UploadWxPayAPIClientCert(session: string, appid: string): Observable<any> {
+    //     return this.http
+    //         .post(UrlService.UploadWxPayAPIClientCert(), {
+    //             session: session,
+    //             appid: appid,
+    //             mchid: mchid,
+    //             apiKey: apiKey
+    //         })
+    //         .pipe(
+    //             catchError(this.handleError('bindAuthorizerPay', {errMsg: '#bindAuthorizerPay#绑定支付失败'}))
+    //         );
+    // }
+
     /**
      * Handle Http operation that failed.
      * Let the app continue.

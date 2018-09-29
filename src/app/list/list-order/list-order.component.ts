@@ -22,6 +22,7 @@ export class ListOrderComponent implements OnInit {
     skuListShown: SKU[];                //  SKU
     orders: Order[];                    //  订单列表
     shops: BusinessList[];              //  店铺列表
+    errorMessage = '';                  //  错误信息
 
     constructor(private route: ActivatedRoute,
                 private popoverConfig: NgbPopoverConfig,
@@ -233,10 +234,21 @@ export class ListOrderComponent implements OnInit {
 
     }
 
+    /**
+     *  发起退款
+     */
     refund() {
-        this.backbone.refund(this.backbone.session, this.target)
+        this.backbone.refund(
+            this.backbone.session,
+            this.backbone.authorizerMiniProgramAppId,
+            this.target)
             .subscribe((res) => {
                 console.log(res);
+                if (res.return_code === 'SUCCESS' && res.result_code === 'SUCCESS') {
+                    this.errorMessage = '发起退款成功';
+                } else {
+                    this.errorMessage = res.err_code_des ? res.err_code_des : '发起退款失败';
+                }
             });
     }
 }

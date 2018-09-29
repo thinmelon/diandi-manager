@@ -1,3 +1,7 @@
+<div [hidden]="errorMessage === ''" class="alert alert-danger">
+    {{errorMessage}}
+</div>
+
 <div ngbDropdown>
     <button class="btn btn-outline-primary" ngbDropdownToggle> {{ btnName }} </button>
     <div ngbDropdownMenu aria-labelledby="dropdownBasic">

@@ -23,6 +23,7 @@ export class ScenarioIntroComponent implements OnInit {
     appid = '';                                 //  当前appid
     mchid = '';
     apiKey = '';
+    certFile = '';
     certUploader: FileUploader;
 
     constructor(private route: ActivatedRoute,
@@ -92,6 +93,7 @@ export class ScenarioIntroComponent implements OnInit {
                     if (res.code === 0 && res.msg.length > 0) {
                         this.mchid = res.msg[0].mchid;
                         this.apiKey = res.msg[0].apiKey;
+                        this.certFile = res.msg[0].certFilePath ? res.msg[0].certFilePath : '';
                     }
                 });
         }
@@ -221,9 +223,5 @@ export class ScenarioIntroComponent implements OnInit {
             modalRef.close('Completed');
         };
         this.certUploader.uploadAll();
-    }
-
-    saveAPIClientCert() {
-
     }
 }

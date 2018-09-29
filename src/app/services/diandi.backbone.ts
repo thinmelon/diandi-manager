@@ -246,15 +246,17 @@ export class BackboneService {
     }
 
     /**
-     *  发起退款
+     * 发起退款
      * @param session
+     * @param appid
      * @param refund
      * @returns {Observable<A>}
      */
-    public refund(session: string, refund: Refund): Observable<any> {
+    public refund(session: string, appid: string, refund: Refund): Observable<any> {
         return this.http
             .post(UrlService.Refund(), {
                 session: session,
+                appid: appid,
                 out_trade_no: refund.out_trade_no,
                 out_refund_no: refund.out_refund_no,
                 total_fee: refund.total_fee,

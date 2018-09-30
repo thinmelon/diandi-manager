@@ -55,6 +55,9 @@ export class UserInfoComponent implements OnInit {
         this.fetchCapitalInfo();
     }
 
+    /**
+     *  获取用户的所有银行卡
+     */
     fetchBankCards() {
         this.backbone
             .fetchBankCards(this.backbone.session)
@@ -146,6 +149,7 @@ export class UserInfoComponent implements OnInit {
             console.log(evt);
             this.backbone.bindBankCard(
                 this.backbone.session,
+                this.backbone.authorizerMiniProgramAppId,
                 evt.requestId,
                 evt.bizId,
                 evt.phone,
@@ -250,6 +254,7 @@ export class UserInfoComponent implements OnInit {
             ) {
                 this.backbone.withdrawCash(
                     this.backbone.session,
+                    this.backbone.authorizerMiniProgramAppId,
                     evt.requestId,
                     evt.bizId,
                     evt.phone,

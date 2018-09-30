@@ -244,7 +244,7 @@ export class ListOrderComponent implements OnInit {
             this.target)
             .subscribe((res) => {
                 console.log(res);
-                if (res.return_code === 'SUCCESS' && res.result_code === 'SUCCESS') {
+                if (res.hasOwnProperty('code') && res.code === 0) {
                     this.errorMessage = '发起退款成功';
                 } else {
                     this.errorMessage = res.err_code_des ? res.err_code_des : '发起退款失败';

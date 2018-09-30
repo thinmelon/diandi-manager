@@ -1010,6 +1010,7 @@ export class BackboneService {
     /**
      * 绑定银行卡
      * @param session
+     * @param appid
      * @param requestId
      * @param bizId
      * @param phone
@@ -1019,10 +1020,11 @@ export class BackboneService {
      * @param name
      * @returns {Observable<A>}
      */
-    public bindBankCard(session: string, requestId: string, bizId: string, phone: string, verificationCode: string, bank_no: string, bank_code: string, name: string): Observable<any> {
+    public bindBankCard(session: string, appid: string, requestId: string, bizId: string, phone: string, verificationCode: string, bank_no: string, bank_code: string, name: string): Observable<any> {
         return this.http
             .post(UrlService.BindBankCard(), {
                 session: session,
+                appid: appid,
                 requestId: requestId,
                 bizId: bizId,
                 phone: phone,
@@ -1079,6 +1081,7 @@ export class BackboneService {
     /**
      * 申请提现
      * @param session
+     * @param appid
      * @param requestId
      * @param bizId
      * @param phone
@@ -1086,10 +1089,11 @@ export class BackboneService {
      * @param withdraw
      * @returns {Observable<A>}
      */
-    public withdrawCash(session: string, requestId: string, bizId: string, phone: string, verificationCode: string, withdraw: number): Observable<any> {
+    public withdrawCash(session: string, appid: string, requestId: string, bizId: string, phone: string, verificationCode: string, withdraw: number): Observable<any> {
         return this.http
             .post(UrlService.WithdrawCash(), {
                 session: session,
+                appid: appid,
                 requestId: requestId,
                 bizId: bizId,
                 phone: phone,

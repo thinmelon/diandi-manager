@@ -26,6 +26,7 @@ import {FormModalComponent} from './modal/form-modal/form-modal.component';
 import {ConfirmModalComponent} from './modal/confirm-modal/confirm-modal.component';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
+import {ServiceContactComponent} from './service-contact/service-contact.component';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import {EditBusinessComponent} from './edit/edit-business/edit-business.componen
         FormModalComponent,
         ConfirmModalComponent,
         LoginComponent,
+        ServiceContactComponent
     ],
     entryComponents: [
         RichTextModalComponent,

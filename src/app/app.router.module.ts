@@ -14,6 +14,7 @@ import {LoginGuard} from './services/authentication.service';
 import {LoginComponent} from './login/login.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
 import {WechatOfficialResolver} from './services/resolver/wechat.resolver';
+import {ServiceContactComponent} from './service-contact/service-contact.component';
 
 const __ROUTES__: Routes = [
     {
@@ -68,10 +69,13 @@ const __ROUTES__: Routes = [
             }
         ]
     },
-
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+        path: 'contact',
+        component: ServiceContactComponent
     },
     {
         path: '',

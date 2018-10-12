@@ -1,16 +1,24 @@
-<div class="d-flex flex-row justify-content-around align-items-center wrapper">
-    <div class="login-method">
-        <a href="{{ wxLogin }}">
-            <img src="../../assets/public/wechat.png">
-        </a>
-        <div>微信登录</div>
+<div class="container d-flex flex-column justify-content-center wrapper">
+    <div [hidden]="errorMessage === ''" class="alert alert-danger"> {{errorMessage}}</div>
+    <div>
+        <input title="用户协议" type="checkbox" [(ngModel)]="isAgreeWithContact" (click)="checkServiceContact()"/>
+        我已阅读并同意<a routerLink="/contact">《点滴用户使用协议》</a>
+        <hr>
     </div>
-    <div class="login-method" (click)="login()">
-        <img src="../../assets/public/code.png">
-        <div>手机验证码</div>
+    <div class="d-flex flex-row justify-content-around align-items-center">
+        <div class="login-method">
+            <div (click)="wechatLogin()">
+                <img src="../../assets/public/wechat.png">
+            </div>
+            <div>微信登录</div>
+        </div>
+        <div class="login-method" (click)="mobileLogin()">
+            <img src="../../assets/public/code.png">
+            <div>手机验证码</div>
+        </div>
+        <div class="login-method" (click)="testLogin()">
+            <img src="../../assets/public/test.png">
+            <div>测试账号</div>
+        </div>
     </div>
 </div>
-<div>
-    <a routerLink="/contact">用户协议</a>
-</div>
-

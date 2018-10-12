@@ -15,9 +15,10 @@ const __STATE__ = 'WECHAT';
 })
 export class LoginComponent implements OnInit {
     wxLogin = '';
-    message = '';
+    errorMessage = '';
+    hint = '在使用点滴服务前，请遵循用户使用协议';
     btnText = '登录';
-    // notExist = false;       //  微信账号首次登录，检查手机号码是否已绑定过
+    isAgreeWithContact = true;  //   明示用户默认同意用户使用协议
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -88,10 +89,23 @@ export class LoginComponent implements OnInit {
         });
     }
 
+    wechatLogin() {
+        if (this.isAgreeWithContact) {
+            window.location.href = this.wxLogin;
+        } else {
+            this.errorMessage = this.hint;
+        }
+    }
+
     /**
      * 使用短信方式进行快捷登录
      */
-    login() {
+    mobileLogin() {
+        if (!this.isAgreeWithContact) {
+            this.errorMessage = this.hint;
+            return;
+        }
+
         const that = this;
         const modalRef = this.modalService.open(FormModalComponent);
 
@@ -130,6 +144,58 @@ export class LoginComponent implements OnInit {
     }
 
     /**
+     *  测试账号
+     */
+    testLogin() {
+        if (!this.isAgreeWithContact) {
+            this.errorMessage = this.hint;
+            return;
+        }
+
+        const that = this;
+        const modalRef = this.modalService.open(FormModalComponent);
+
+        modalRef.componentInstance.title = '内部测试';
+        modalRef.componentInstance.hint = '';
+        modalRef.componentInstance.keyValues = [
+            {
+                index: 0,
+                key: '账号',
+                type: 'text',
+                src: ''
+            },
+            {
+                index: 1,
+                key: '密码',
+                type: 'text',
+                src: ''
+            }
+        ];
+        modalRef.componentInstance.submitBtnText = '登录';
+        modalRef.componentInstance.submitEvt.subscribe(evt => {
+            console.log(evt);
+            // this.backbone.submitAudit(
+            //     this.backbone.session,
+            //     this.backbone.authorizerMiniProgramAppId,
+            //     [{
+            //         address: evt[0].value,
+            //         tag: evt[1].src,
+            //         first_class: evt[2].value,
+            //         second_class: evt[3].value,
+            //         first_id: evt[2].categoryId,
+            //         second_id: evt[3].categoryId,
+            //         title: evt[4].src
+            //     }],
+            //     template.templateid
+            // )
+            //     .subscribe(audit => {
+            //         console.log(audit);
+            //         this.showErrorMessage(audit, '提交审核成功');
+            //     });
+        });
+    }
+
+    /**
      * 登录成功
      * @param session
      */
@@ -149,5 +215,12 @@ export class LoginComponent implements OnInit {
         typeof(this.backbone.redirectUrl) !== 'undefined' && this.backbone.redirectUrl ?
             this.router.navigate([this.backbone.redirectUrl]) :
             this.router.navigate(['/list/entry']);                      //  默认： 订单页
+    }
+
+    /**
+     * 同意用户协议
+     */
+    checkServiceContact() {
+        this.errorMessage = '';
     }
 }

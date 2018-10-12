@@ -377,6 +377,22 @@ export class BackboneService {
             );
     }
 
+
+    public testLogin(): Observable<any> {
+        // TODO 测试用户
+        return this.http
+            .post(UrlService.Login(), {
+                appid: appid,
+                requestId: requestId,
+                bizId: bizId,
+                phone: phone,
+                verificationCode: verificationCode
+            })
+            .pipe(
+                catchError(this.handleError('login', {errMsg: '#login#登录失败'}))
+            );
+    }
+
     /**
      * 绑定手机号码
      * @param session

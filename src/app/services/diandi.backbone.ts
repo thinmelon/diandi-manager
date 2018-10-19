@@ -377,19 +377,20 @@ export class BackboneService {
             );
     }
 
-
-    public testLogin(): Observable<any> {
-        // TODO 测试用户
+    /**
+     *  测试账户登录
+     * @param account
+     * @param password
+     * @returns {Observable<A>}
+     */
+    public testLogin(account: string, password: string): Observable<any> {
         return this.http
-            .post(UrlService.Login(), {
-                appid: appid,
-                requestId: requestId,
-                bizId: bizId,
-                phone: phone,
-                verificationCode: verificationCode
+            .post(UrlService.TestLogin(), {
+                account: account,
+                password: password
             })
             .pipe(
-                catchError(this.handleError('login', {errMsg: '#login#登录失败'}))
+                catchError(this.handleError('testLogin', {errMsg: '#testLogin#测试账户登录'}))
             );
     }
 

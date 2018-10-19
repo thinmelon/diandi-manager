@@ -262,5 +262,9 @@ export class UrlService {
     static Login(): string {
         return `${ PREFIX }/login`;
     }
+
+    static TestLogin():string{
+        return `${ PREFIX }/dev/login`;
+    }
 }
 

@@ -173,25 +173,21 @@ export class LoginComponent implements OnInit {
         ];
         modalRef.componentInstance.submitBtnText = '登录';
         modalRef.componentInstance.submitEvt.subscribe(evt => {
-            console.log(evt);
-            // this.backbone.submitAudit(
-            //     this.backbone.session,
-            //     this.backbone.authorizerMiniProgramAppId,
-            //     [{
-            //         address: evt[0].value,
-            //         tag: evt[1].src,
-            //         first_class: evt[2].value,
-            //         second_class: evt[3].value,
-            //         first_id: evt[2].categoryId,
-            //         second_id: evt[3].categoryId,
-            //         title: evt[4].src
-            //     }],
-            //     template.templateid
-            // )
-            //     .subscribe(audit => {
-            //         console.log(audit);
-            //         this.showErrorMessage(audit, '提交审核成功');
-            //     });
+            this.backbone.testLogin(
+                evt[0].src,
+                evt[1].src
+            )
+                .subscribe(result => {
+                    console.log(result);
+                    if (result.hasOwnProperty('s') && result.s) {
+                        that.loginSuccess(result.s);
+                    } else if (result.hasOwnProperty('code') && result.code === -800) {
+                        that.errorMessage = result.msg;
+                    }
+                    else {
+                        that.errorMessage = result;
+                    }
+                });
         });
     }
 

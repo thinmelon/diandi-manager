@@ -179,8 +179,8 @@ export class LoginComponent implements OnInit {
             )
                 .subscribe(result => {
                     console.log(result);
-                    if (result.hasOwnProperty('s') && result.s) {
-                        that.loginSuccess(result.s);
+                    if (result.hasOwnProperty('code') && result.code === 0) {
+                        that.loginSuccess(result.session);
                     } else if (result.hasOwnProperty('code') && result.code === -800) {
                         that.errorMessage = result.msg;
                     }

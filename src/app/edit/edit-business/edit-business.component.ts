@@ -21,8 +21,6 @@ export class EditBusinessComponent implements OnInit {
     public products = [];
     public materials = [];
     public associatedMaterial = null;
-    // public curProductPage = 1;
-    // public curProductOffset = 0;
     public curMaterialPage = 1;
     public curMaterialOffset = 0;
     public itemsPerPage = 5;
@@ -34,31 +32,26 @@ export class EditBusinessComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.backbone.businessId);
         if ('' !== this.backbone.businessId) {
             this.backbone
                 .fetchBusinessDetail(this.backbone.session, this.backbone.businessId)
                 .subscribe(result => {
                     console.log(result);
                     if (result.code === 0) {
-                        this.business.bid = result.msg.business[0].bid;
-                        this.business.type = result.msg.business[0].type;
+                        this.business.bid = result.data._id;
+                        this.business.type = result.data.type;
                         this.businessTypeHint = BusinessType[this.business.type];
-                        this.business.name = result.msg.business[0].name;
-                        this.business.address = result.msg.business[0].address;
-                        this.business.longitude = result.msg.business[0].longitude;
-                        this.business.latitude = result.msg.business[0].latitude;
-                        this.business.shopHours = result.msg.business[0].shopHours;
-                        this.business.phone = result.msg.business[0].phone;
-                        this.business.consumptionPerPerson = result.msg.business[0].consumptionPerPerson;
-                        this.business.remark = result.msg.business[0].remark;
-                        // if (result.msg.product.length > 0) {
-                        //     this.business.associatedProductPid = result.msg.product[0].productId;
-                        // }
-                        if (result.msg.material.length > 0) {
-                            this.business.associatedMaterialId = result.msg.material[0].mediaId;
+                        this.business.name = result.data.name;
+                        this.business.address = result.data.address;
+                        this.business.longitude = result.data.longitude;
+                        this.business.latitude = result.data.latitude;
+                        this.business.shopHours = result.data.shopHours;
+                        this.business.phone = result.data.phone;
+                        this.business.consumptionPerPerson = result.data.consumptionPerPerson;
+                        this.business.remark = result.data.remark;
+                        if (result.data.hasOwnProperty('material') && result.data.material.length > 0) {
+                            this.business.associatedMaterialId = result.data.material[0];
                         }
-                        console.log(this.business);
                     }
                 });
         }
@@ -212,8 +205,6 @@ export class EditBusinessComponent implements OnInit {
      * 添加商户
      */
     onSubmit() {
-        console.log(this.business);
-        console.log(this.backbone.businessId);
         this.errorMessage = '';
         if (!this.business.longitude || !this.business.latitude) {
             this.errorMessage = '请点击按键获取商户地址的经纬度';

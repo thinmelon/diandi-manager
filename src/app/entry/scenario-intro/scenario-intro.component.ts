@@ -54,8 +54,9 @@ export class ScenarioIntroComponent implements OnInit {
                 console.log(data.templateListResolver);
                 if (data.templateListResolver.errcode === 0) {
                     data.templateListResolver.template_list.map(item => {
+                        console.log(item)
                         // 判断场景值，根据开发源的appid，确定相应的小程序模版
-                        if (item.source_miniprogram_appid === 'wxdca47cfe34b88cad'                  //  线上商城
+                        if (item.source_miniprogram_appid === 'wxc91180e424549fbf'                  //  线上商城
                             && this.precondition.scenario === ENUM_SCENARIO.COMMERCE) {
                             this.appliedTemplate = item;
                         } else if (item.source_miniprogram_appid === 'wx54710fd1373c1ce8'
@@ -73,9 +74,9 @@ export class ScenarioIntroComponent implements OnInit {
                 .fetchBusinessList(this.backbone.session, this.backbone.authorizerMiniProgramAppId)
                 .subscribe(res => {
                     console.log(res);
-                    if (res.code === 0 && res.msg.length > 0) {
-                        this.businesses = res.msg;
-                        this.onBusinessSelected(res.msg[0]);
+                    if (res.code === 0 && res.data.length > 0) {
+                        this.businesses = res.data;
+                        this.onBusinessSelected(res.data[0]);
                     } else {
                         this.errorMessage = '请先创建店铺后，再应用该模版';
                         this.linkName = '创建店铺';

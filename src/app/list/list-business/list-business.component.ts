@@ -26,9 +26,9 @@ export class ListBusinessComponent implements OnInit {
                 console.log(data);
                 if (data.listBusinessResolver.code === 0) {
                     let index = 0;
-                    this.shops = data.listBusinessResolver.msg.map(item => {
+                    this.shops = data.listBusinessResolver.data.map(item => {
                         return new BusinessList(++index,
-                            item.bid,
+                            item._id,
                             item.name,
                             item.longitude,
                             item.latitude,

@@ -21,15 +21,11 @@ export class WechatPanelComponent implements OnInit {
 
     ngOnInit() {
         this.boardHeight = window.innerHeight.toString() + 'px';
-        console.log(this.boardHeight);
         this.route.data
             .subscribe((data: { wechatUserInfoResolver: any }) => {
-                console.log(data);
-                if (data.wechatUserInfoResolver.code === 0 && data.wechatUserInfoResolver.msg.length > 0) {
-                    this.headImageUrl = data.wechatUserInfoResolver.msg[0].headimgurl
-                        ? data.wechatUserInfoResolver.msg[0].headimgurl : '../../../assets/public/foot.png';
-                    this.nickname = data.wechatUserInfoResolver.msg[0].nickname
-                        ? data.wechatUserInfoResolver.msg[0].nickname : '个人中心';
+                if (data.wechatUserInfoResolver.code === 0) {
+                    this.headImageUrl = data.wechatUserInfoResolver.headimgurl ? data.wechatUserInfoResolver.headimgurl : '../../../assets/public/foot.png';
+                    this.nickname = data.wechatUserInfoResolver.nickname ? data.wechatUserInfoResolver.nickname : '个人中心';
                 }
             });
     }

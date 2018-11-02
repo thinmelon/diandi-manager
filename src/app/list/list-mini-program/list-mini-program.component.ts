@@ -24,15 +24,14 @@ export class ListMiniProgramComponent implements OnInit {
         this.route.data
             .subscribe((data: { miniprogramListResolver: any }) => {
                 let index = 0;
-                this.miniprograms = data.miniprogramListResolver.map(item => {
-                    console.log(item.funcInfo.split(','));
+                this.miniprograms = data.miniprogramListResolver.authorizerList.map(item => {
                     let funcInfo = '';
-                    item.funcInfo.split(',').map(func => {
+                    item.funcInfo.map(func => {
                         const value = parseInt(func);
                         if (value) {
                             funcInfo += PrivilegeSet[value] ? PrivilegeSet[value] + ';' : value;
                         }
-                    })
+                    });
                     return {
                         index: ++index,
                         appid: item.appid,

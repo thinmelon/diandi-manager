@@ -572,8 +572,7 @@ export class BackboneService {
      */
     public changeBusinessStatus(session: string, status: number, bid: string): Observable<any> {
         return this.http
-            .post(UrlService.ChangeBusinessStatus(), {
-                session: session,
+            .post(UrlService.ChangeBusinessStatus(session), {
                 status: status,
                 bid: bid
             })

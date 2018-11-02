@@ -20,15 +20,17 @@ export class ScenarioComponent implements OnInit {
 
     ngOnInit() {
         this.backbone.fetchFastRegisterMiniprogramList(this.backbone.session, '1')
-            .subscribe(list => {
-                let index = 0;
-                this.miniprograms = list.map(item => {
-                    return {
-                        index: index++,
-                        id: item.appid,
-                        name: item.appid
-                    };
-                });
+            .subscribe(result => {
+                if (result.code === 0) {
+                    let index = 0;
+                    this.miniprograms = result.authorizerList.map(item => {
+                        return {
+                            index: index++,
+                            id: item.appid,
+                            name: item.appid
+                        };
+                    });
+                }
             });
     }
 

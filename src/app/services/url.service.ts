@@ -111,8 +111,8 @@ export class UrlService {
         return `${ PREFIX }/business`;
     }
 
-    static ChangeBusinessStatus(): string {
-        return `${ PREFIX }/business/status`;
+    static ChangeBusinessStatus(session: string): string {
+        return `${ PREFIX }/business/status?session=${ session }`;
     }
 
     static FetchAuthorizerInfo(session: string, type: string): string {
@@ -263,7 +263,7 @@ export class UrlService {
         return `${ PREFIX }/login`;
     }
 
-    static TestLogin():string{
+    static TestLogin(): string {
         return `${ PREFIX }/dev/login`;
     }
 }

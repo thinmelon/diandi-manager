@@ -1,7 +1,5 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {ListProductComponent} from './list/list-product/list-product.component';
-import {ListProductResolver} from './services/resolver/product.resolver';
 import {ListUserComponent} from './list/list-user/list-user.component';
 import {ListUserResolver} from './services/resolver/user.resolver';
 import {ListCardComponent} from './list/list-card/list-card.component';
@@ -15,19 +13,13 @@ import {LoginComponent} from './login/login.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
 import {WechatOfficialResolver} from './services/resolver/wechat.resolver';
 import {ServiceContactComponent} from './service-contact/service-contact.component';
+import {DetailsProductResolver} from './services/resolver/product.resolver';
 
 const __ROUTES__: Routes = [
     {
         path: 'list',
         canActivate: [LoginGuard],
         children: [
-            {
-                path: 'product',
-                component: ListProductComponent,
-                resolve: {
-                    listProductResolver: ListProductResolver
-                }
-            },
             {
                 path: 'user',
                 component: ListUserComponent,
@@ -43,13 +35,6 @@ const __ROUTES__: Routes = [
                 }
             },
             {
-                path: 'business',
-                component: ListBusinessComponent,
-                resolve: {
-                    listBusinessResolver: ListBusinessResolver
-                }
-            },
-            {
                 path: 'entry',
                 component: ListEntryComponent
             }
@@ -61,7 +46,10 @@ const __ROUTES__: Routes = [
         children: [
             {
                 path: 'product',
-                component: EditProductComponent
+                component: EditProductComponent,
+                resolve: {
+                    detailsProductResolver: DetailsProductResolver
+                }
             },
             {
                 path: 'business',
@@ -94,10 +82,10 @@ const __ROUTES__: Routes = [
     )],
     exports: [RouterModule],
     providers: [
-        ListProductResolver,
         ListUserResolver,
         ListCardResolver,
         ListBusinessResolver,
+        DetailsProductResolver,
         WechatOfficialResolver
     ]
 })

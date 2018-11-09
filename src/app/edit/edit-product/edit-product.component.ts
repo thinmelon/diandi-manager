@@ -1,4 +1,4 @@
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnDestroy} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FileUploader} from 'ng2-file-upload';
@@ -10,8 +10,8 @@ import {BackboneService} from '../../services/diandi.backbone';
 import {AttributeModalComponent} from '../../modal/attribute-modal/attribute-modal.component';
 import {ProgressBarModalComponent} from '../../modal/progress-bar-modal/progress-bar-modal.component';
 
-const IMAGE = UrlService.UploadProductThumbnails();
-const VIDEO = UrlService.UploadProductVideo();
+const IMAGE = UrlService.UploadProductThumbnails();     //  图片上传地址
+const VIDEO = UrlService.UploadProductVideo();          //  视频上传地址
 
 @Component({
     selector: 'app-edit-product',
@@ -26,9 +26,19 @@ export class EditProductComponent implements OnDestroy {
     details = [];
     videos = [];
     type = '0';
+    pid = '';
     name = '';
     introduce = '';
-    public imageUploader: FileUploader = new FileUploader({
+    errorMessage = '';
+    public thumbnailUploader: FileUploader = new FileUploader({
+        url: IMAGE,
+        // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
+        method: 'POST',                         //  上传文件的方式
+        maxFileSize: 2 * 1024 * 1024,           //  最大可上传的文件大小
+        queueLimit: 9,                          //  最大可上传的文件数量
+        removeAfterUpload: true                //  是否在上传完成后从队列中移除
+    });
+    public detailsUploader: FileUploader = new FileUploader({
         url: IMAGE,
         // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
         method: 'POST',                         //  上传文件的方式
@@ -44,12 +54,35 @@ export class EditProductComponent implements OnDestroy {
     });
 
     constructor(private router: Router,
+                private route: ActivatedRoute,
                 private modalService: NgbModal,
                 private backbone: BackboneService) {
+        this.route.data
+            .subscribe((data: { detailsProductResolver: any }) => {
+                console.log(data);
+                if (data.detailsProductResolver && data.detailsProductResolver.code === 0) {
+                    const product = data.detailsProductResolver.data;
+                    this.pid = product._id;
+                    this.name = decodeURIComponent(product.name);
+                    this.introduce = decodeURIComponent(product.description);
+                    this.type = product.type.toString();
+                    this.attributes = product.attributes;
+                    this.sku = product.sku;
+                    this.thumbnails = product.thumbnails;
+                    this.details = product.details;
+                    this.videos = product.videos;
+
+                    //  赋值属性名数组
+                    for (let i = 0; i < this.attributes.length; i++) {
+                        this.head.push(this.attributes[i].name);
+                    }
+                }
+            });
     }
 
     ngOnDestroy() {
-        this.imageUploader.destroy();
+        this.thumbnailUploader.destroy();
+        this.detailsUploader.destroy();
         this.videoUploader.destroy();
     }
 
@@ -63,6 +96,7 @@ export class EditProductComponent implements OnDestroy {
             //  初始化属性名数组，以及属性键值数组
             this.head = [];
             this.attributes = [];
+
             //  对返回的数据进行加工处理
             response.map(item => {
                 let isHit = false;
@@ -81,17 +115,13 @@ export class EditProductComponent implements OnDestroy {
                     ));
                 }
             });
-            //  保存属性键值
-            this.backbone.saveProductAttributes(this.attributes)
-                .subscribe(res => {
-                    this.attributes = res;
-                    //  赋值属性名数组
-                    for (let i = 0; i < this.attributes.length; i++) {
-                        this.head.push(this.attributes[i].name);
-                    }
-                    //  赋值SKU数组
-                    this.sku = this.generateSKU(this.attributes.length - 1);
-                });
+
+            //  赋值属性名数组
+            for (let i = 0; i < this.attributes.length; i++) {
+                this.head.push(this.attributes[i].name);
+            }
+
+            this.sku = this.generateSKU(this.attributes.length - 1);
         });
     }
 
@@ -105,9 +135,9 @@ export class EditProductComponent implements OnDestroy {
         //  当递归至最底层时，对属性数组的第一个元素进行加工后直接返回
         if (n <= 0) {
             for (let i = 0; i < this.attributes[0].values.length; i++) {
-                const item = {unit: 0, amount: 0, vids: ''};
-                item[this.attributes[0].name] = this.attributes[0].values[i].value;
-                item['vids'] += this.attributes[0].values[i].vid + ',';
+                const item = {unit: 0, amount: 0};
+                item[this.attributes[0].name] = this.attributes[0].values[i];
+                // item['vids'] += this.attributes[0].values[i].vid + ',';
                 tmp.push(item);
             }
             return tmp;
@@ -117,8 +147,8 @@ export class EditProductComponent implements OnDestroy {
         //  整合下一层的结果与该层的数组元素
         for (let j = 0, length = result.length; j < length; j++) {
             for (let k = 0; k < this.attributes[n].values.length; k++) {
-                result[j][this.attributes[n].name] = this.attributes[n].values[k].value;
-                result[j]['vids'] += this.attributes[n].values[k].vid + ',';
+                result[j][this.attributes[n].name] = this.attributes[n].values[k];
+                // result[j]['vids'] += this.attributes[n].values[k].vid + ',';
                 tmp.push(JSON.parse(JSON.stringify(result[j])));        //  实现对象的深拷贝
             }
         }
@@ -129,13 +159,13 @@ export class EditProductComponent implements OnDestroy {
      * 本地预览
      * 文件选择完成后的操作处理
      */
-    selectedFileOnChanged(currentTarget: Array<any>) {
+    selectedFileOnChanged(currentTarget: Array<any>, uploader: FileUploader) {
         //  清空currentTarget数组
         while (currentTarget.length > 0) {
             currentTarget.pop();
         }
         // 遍历所选择的文件
-        this.imageUploader.queue.forEach((fileItem, index) => {
+        uploader.queue.forEach((fileItem, index) => {
             console.log(fileItem);
             fileItem.withCredentials = false;
             const reader = new FileReader();
@@ -146,7 +176,7 @@ export class EditProductComponent implements OnDestroy {
                     index: index,
                     originalName: fileItem._file.name,
                     src: this.result,
-                    imageId: ''
+                    url: ''
                 });
             };
         });
@@ -161,12 +191,11 @@ export class EditProductComponent implements OnDestroy {
             currentTarget.pop();
         }
         this.videoUploader.queue.forEach((fileItem, index) => {
-            console.log(fileItem);
             fileItem.withCredentials = false;
             currentTarget.push({
                 index: index,
                 originalName: fileItem._file.name,
-                imageId: ''
+                url: ''
             });
         });
     }
@@ -175,9 +204,6 @@ export class EditProductComponent implements OnDestroy {
      *  上传文件
      */
     uploadAll(currentTarget: Array<any>, uploader: FileUploader) {
-        console.log(uploader);
-        console.log(currentTarget);
-
         const modalRef = this.modalService.open(ProgressBarModalComponent);
         modalRef.componentInstance.progress = 0;
         modalRef.result.then(
@@ -200,8 +226,8 @@ export class EditProductComponent implements OnDestroy {
          * @param progress          - 整体的上传文件的进度
          */
         uploader.onProgressAll = function (progress) {
-            console.log('=======>   onProgressAll');
-            console.log(progress);
+            // console.log('=======>   onProgressAll');
+            // console.log(progress);
             modalRef.componentInstance.progress = progress;
         };
         /**
@@ -215,12 +241,15 @@ export class EditProductComponent implements OnDestroy {
             console.log('===========> onCompleteItem ');
             const res = JSON.parse(response);
             console.log(res);
-            currentTarget = currentTarget.map(target => {
-                if (target.originalName === item._file.name) {
-                    target.imageId = res.imageId;
-                }
-                return target;
-            });
+            if (res.code === 0) {
+                currentTarget = currentTarget.map(target => {
+                    if (target.originalName === item._file.name) {
+                        target.url = res.data.url;
+                    }
+                    return target;
+                });
+            }
+            console.log(currentTarget);
         };
         /**
          *  完成上传所有文件的回调
@@ -236,31 +265,43 @@ export class EditProductComponent implements OnDestroy {
      *  提交保存商品
      */
     onSubmit() {
+        this.errorMessage = '';
+        if (this.sku.length === 0) {
+            this.errorMessage = '请添加库存';
+            return;
+        }
+        if (this.thumbnails.length === 0) {
+            this.errorMessage = '至少上传一张商品微缩图';
+            return;
+        }
+        if (this.thumbnailUploader.queue.length > 0 ||
+            this.detailsUploader.queue.length > 0 ||
+            this.videoUploader.queue.length > 0) {
+            this.errorMessage = '有未上传的资源,请上传后再提交';
+            return;
+        }
+
         const thumbnails = this.thumbnails.map(thumbnail => {
             return {
-                imageId: thumbnail.imageId,     //  图片id
-                type: 0,                        //  图片类型
-                number: thumbnail.index         //  图片索引
+                url: thumbnail.url,             //  图片URL
+                index: thumbnail.index          //  图片索引
             };
         });
-
         const details = this.details.map(detail => {
             return {
-                imageId: detail.imageId,
-                type: 1,
-                number: detail.index
+                url: detail.url,
+                index: detail.index
             };
         });
-
         const videos = this.videos.map(video => {
             return {
-                imageId: video.imageId,
-                type: 2,
-                number: video.index
+                url: video.url,
+                index: video.index
             };
         });
 
         const product = new Product(
+            this.pid,
             encodeURIComponent(this.name),                  //  商品名称
             encodeURIComponent(this.introduce),             //  商品描述
             parseInt(this.type, 10),                        //  商品类型
@@ -276,12 +317,13 @@ export class EditProductComponent implements OnDestroy {
         this.backbone
             .saveProduct(
                 this.backbone.session,
+                this.backbone.businessId,
                 product
             )
             .subscribe(response => {
                 console.log(response);
                 if (response.code === 0) {
-                    this.router.navigate(['/list/product']);
+                    this.router.navigate(['entry/wechat/miniprogram/product']);
                 }
             });
     }

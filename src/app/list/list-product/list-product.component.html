@@ -1,6 +1,6 @@
 <div class="d-flex flex-row justify-content-start align-items-center">
     <div ngbDropdown>
-        <button class="btn btn-outline-primary" ngbDropdownToggle> {{ btnName }} </button>
+        <button class="btn btn-outline-primary" ngbDropdownToggle> {{ btnName }}</button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic">
             <button *ngFor="let shop of shops" class="dropdown-item" (click)="onShopSelected(shop)">
                 {{ shop.name }}
@@ -33,9 +33,9 @@
                 <button class="btn btn-outline-secondary" (click)="manageProductCard(product.pid)"
                         *ngIf="product.type === 1">卡券
                 </button>
-                <button class="btn btn-outline-secondary" (click)="changeProductStatus(0,product.pid)">上架</button>
-                <button class="btn btn-outline-secondary" (click)="changeProductStatus(1,product.pid)">下架</button>
-                <!--<button class="btn btn-outline-primary">编辑</button>-->
+                <button class="btn btn-outline-secondary" (click)="changeProductStatus(0, product.pid)">上架</button>
+                <button class="btn btn-outline-secondary" (click)="changeProductStatus(1, product.pid)">下架</button>
+                <a class="btn btn-outline-primary" [routerLink]="['/edit/product',{pid: product.pid}]">编辑</a>
                 <button class="btn btn-outline-danger" (click)="removeProduct(product.pid)">删除</button>
             </td>
         </tbody>

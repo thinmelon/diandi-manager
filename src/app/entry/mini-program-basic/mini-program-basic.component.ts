@@ -54,45 +54,50 @@ export class MiniProgramBasicComponent implements OnInit {
                         rawData.wx_verify_info.qualification_verify,
                         rawData.wx_verify_info.naming_verify
                     );
-                }
-            });
-        //  获取小程序已设置的类目
-        this.backbone
-            .fetchAuthorizerCategory(this.backbone.session, this.info.appid)
-            .subscribe(result => {
-                console.log(result);
-                if (result.errcode === 0) {
-                    this.info.categories = result.categories.map(category => {
-                        return new Category(
-                            category.first,
-                            category.first_name,
-                            category.second,
-                            category.second_name,
-                            AuditStatusEnum[category.audit_status],
-                            category.audit_reason ? ' - ' + category.audit_reason : ''
-                        );
-                    });
+
+                    //  获取小程序已设置的类目
+                    that.backbone
+                        .fetchAuthorizerCategory(that.backbone.session, that.info.appid)
+                        .subscribe(result => {
+                            console.log(result);
+                            if (result.errcode === 0) {
+                                that.info.categories = result.categories.map(category => {
+                                    return new Category(
+                                        category.first,
+                                        category.first_name,
+                                        category.second,
+                                        category.second_name,
+                                        AuditStatusEnum[category.audit_status],
+                                        category.audit_reason ? ' - ' + category.audit_reason : ''
+                                    );
+                                });
+                            } else {
+                                that.errorMessage = result.errmsg;
+                            }
+                        });
+                    //  获取所有可配置的类目
+                    that.backbone
+                        .fetchAllCategories(that.backbone.session, that.info.appid)
+                        .subscribe(result => {
+                            if (result.errcode === 0) {
+                                // 一级类目
+                                that.levelOneCategories = result.categories_list.categories.filter(item => {
+                                    return item.level === 1;
+                                });
+                                // 二级类目
+                                that.levelTwoCategories = result.categories_list.categories.filter(item => {
+                                    return item.level === 2;
+                                });
+                            } else {
+                                that.errorMessage = result.errmsg;
+                            }
+                        });
                 } else {
-                    that.errorMessage = result.errmsg;
+                    this.errorMessage = data.miniprogramInfoResolver.msg;
                 }
             });
 
-        this.backbone
-            .fetchAllCategories(this.backbone.session, this.info.appid)
-            .subscribe(result => {
-                if (result.errcode === 0) {
-                    // 一级类目
-                    that.levelOneCategories = result.categories_list.categories.filter(item => {
-                        return item.level === 1;
-                    });
-                    // 二级类目
-                    that.levelTwoCategories = result.categories_list.categories.filter(item => {
-                        return item.level === 2;
-                    });
-                } else {
-                    that.errorMessage = result.errmsg;
-                }
-            });
+
     }
 
     /**

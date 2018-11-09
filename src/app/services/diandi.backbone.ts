@@ -135,19 +135,25 @@ export class BackboneService {
      * 获取商品列表
      * @returns {Observable<A>}
      */
-    public fetchProducts(session: string, startTime: string, n: number) {
-        return this.http
-            .get<any>(UrlService.FetchProductList(session, startTime, n))
-            .pipe(
-                catchError(this.handleError('fetchProducts', {errMsg: '#fetchProducts#获取商品列表失败'}))
-            );
-    }
-
     public fetchPartialProducts(session: string, businessId: string, offset: number, amount: number) {
         return this.http
             .get<any>(UrlService.FetchPartialProductList(session, businessId, offset, amount))
             .pipe(
                 catchError(this.handleError('fetchPartialProducts', {errMsg: '#fetchPartialProducts#获取商品列表失败'}))
+            );
+    }
+
+    /**
+     * 获取商品详情
+     * @param session
+     * @param productId
+     * @returns {Observable<A>}
+     */
+    public fetchProductDetails(session: string, productId: string) {
+        return this.http
+            .get<any>(UrlService.FetchProductDetails(session, productId))
+            .pipe(
+                catchError(this.handleError('fetchProductDetails', {errMsg: '#fetchProductDetails#获取商品详情失败'}))
             );
     }
 
@@ -285,13 +291,13 @@ export class BackboneService {
     /**
      * 新建商品
      * @param session
+     * @param bid
      * @param product
      * @returns {Observable<A>}
      */
-    public saveProduct(session: string, product: Product): Observable<any> {
+    public saveProduct(session: string, bid: string, product: Product): Observable<any> {
         return this.http
-            .post(UrlService.SaveProductInfo(), {
-                session: session,
+            .post(UrlService.SaveProductInfo(session, bid), {
                 product: JSON.stringify(product)
             })
             .pipe(
@@ -321,18 +327,18 @@ export class BackboneService {
     }
 
     /**
-     * * 调整商品状态
+     * 调整商品状态
      *  --  上/下架
+     * @param session
      * @param status
      * @param productid
      * @returns {Observable<A>}
-     * @constructor
      */
-    public changeProductStatus(status: number, productid: string): Observable<any> {
+    public changeProductStatus(session: string, status: number, productid: string): Observable<any> {
         return this.http
-            .post(UrlService.ChangeProductStatus(), {
+            .post(UrlService.ChangeProductStatus(session), {
                 status: status,
-                productid: productid
+                pid: productid
             })
             .pipe(
                 catchError(this.handleError('ChangeProductStatus', {errMsg: '#ChangeProductStatus#调整商品状态失败'}))
@@ -406,8 +412,7 @@ export class BackboneService {
      */
     public bindNewPhone(session: string, appid: string, requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
         return this.http
-            .post(UrlService.BindNewPhone(), {
-                session: session,
+            .post(UrlService.BindNewPhone(session), {
                 appid: appid,
                 requestId: requestId,
                 bizId: bizId,

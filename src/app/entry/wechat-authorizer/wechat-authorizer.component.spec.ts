@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BindOfficialComponent } from './bind-official.component';
+import { WechatAuthorizerComponent } from './wechat-authorizer.component';
 
-describe('BindOfficialComponent', () => {
-  let component: BindOfficialComponent;
-  let fixture: ComponentFixture<BindOfficialComponent>;
+describe('WechatAuthorizerComponent', () => {
+  let component: WechatAuthorizerComponent;
+  let fixture: ComponentFixture<WechatAuthorizerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BindOfficialComponent ]
+      declarations: [ WechatAuthorizerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BindOfficialComponent);
+    fixture = TestBed.createComponent(WechatAuthorizerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -13,7 +13,6 @@ import {ConfirmModalComponent} from '../../modal/confirm-modal/confirm-modal.com
 })
 export class ListProductComponent implements OnInit {
     btnName = '--- 请选择商户 ---';
-    businessId = '';
     shops: BusinessList[];
     products: ProductList[];
 
@@ -27,14 +26,14 @@ export class ListProductComponent implements OnInit {
         this.route.data
             .subscribe((data: { listBusinessResolver: any }) => {
                 console.log(data);
-                if (data.listBusinessResolver.code === 0 && data.listBusinessResolver.msg.length > 0) {
+                if (data.listBusinessResolver.code === 0 && data.listBusinessResolver.data.length > 0) {
                     let index = 0;
-                    this.shops = data.listBusinessResolver.msg.map(item => {
-                        if (this.backbone.businessId && this.backbone.businessId === item.bid) {
+                    this.shops = data.listBusinessResolver.data.map(item => {
+                        if (this.backbone.businessId && this.backbone.businessId === item._id) {
                             this.btnName = item.name;
                         }
                         return new BusinessList(++index,
-                            item.bid,
+                            item._id,
                             item.name,
                             item.longitude,
                             item.latitude,
@@ -45,7 +44,7 @@ export class ListProductComponent implements OnInit {
                     });
                     if (!this.backbone.businessId) {
                         this.btnName = this.shops[0].name;                          //  设置下拉框文字
-                        this.backbone.businessId = this.shops[0].bid;               //  获取商品列表
+                        this.backbone.businessId = this.shops[0].bid;               //  设置当前店铺ID
                     }
                     this.fetchProductList(this.backbone.businessId);                //  获取商品列表
                 }
@@ -57,6 +56,8 @@ export class ListProductComponent implements OnInit {
      * @param shop
      */
     onShopSelected(shop) {
+        this.btnName = shop.name;                           //  设置下拉框文字
+        this.backbone.businessId = shop.bid;                //  设置当前店铺ID
         this.fetchProductList(shop.bid);
     }
 
@@ -65,16 +66,15 @@ export class ListProductComponent implements OnInit {
      * @param businessId
      */
     fetchProductList(businessId) {
-        this.businessId = businessId;
         this.backbone
-            .fetchPartialProducts(this.backbone.session, businessId, 0, 100)
+            .fetchPartialProducts(this.backbone.session, businessId, 0, 10)
             .subscribe(response => {
                 console.log(response);
                 if (response.code === 0) {
                     let index = 0;
-                    this.products = response.msg.product.map(item => {
+                    this.products = response.data.map(item => {
                         return new ProductList(++index,
-                            item.pid,
+                            item._id,
                             decodeURIComponent(item.name),
                             item.description,
                             item.sales,
@@ -93,7 +93,7 @@ export class ListProductComponent implements OnInit {
      */
     changeProductStatus(status, pid) {
         this.backbone
-            .changeProductStatus(status, pid)
+            .changeProductStatus(this.backbone.session, status, pid)
             .subscribe(res => {
                 console.log(res);
                 if (res.code === 0) {
@@ -115,10 +115,10 @@ export class ListProductComponent implements OnInit {
              * @param result
              */
             (result) => {
-                console.log(result);
+                console.log(pid)
                 if (result === 'YES') {
                     this.backbone
-                        .removeProduct(this.backbone.session, this.businessId, pid)
+                        .removeProduct(this.backbone.session, this.backbone.businessId, pid)
                         .subscribe(res => {
                             console.log(res);
                             if (res.code === 0) {

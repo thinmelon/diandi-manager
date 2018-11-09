@@ -30,22 +30,20 @@ export class UserInfoComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('window.innerWidth', window.innerWidth);
+        // console.log('window.innerWidth', window.innerWidth);
         this.boardWidth = (window.innerWidth * 0.8).toString() + 'px';
-        console.log(this.boardWidth);
+        // console.log(this.boardWidth);
         this.route.data
             .subscribe((data: { wechatUserInfoResolver: any }) => {
-                if (data.wechatUserInfoResolver.code === 0 && data.wechatUserInfoResolver.msg.length > 0) {
-                    if (data.wechatUserInfoResolver.msg[0].phone
-                        && data.wechatUserInfoResolver.msg[0].phone !== '') {
-                        this.phone = data.wechatUserInfoResolver.msg[0].phone;
+                if (data.wechatUserInfoResolver.code === 0) {
+                    if (data.wechatUserInfoResolver.phone && data.wechatUserInfoResolver.phone !== '') {
+                        this.phone = data.wechatUserInfoResolver.phone;
                         const __REDIRECT_URI__ = encodeURIComponent(
-                            `https://www.pusudo.cn/platform/new/wechat?phone=${ this.phone }&appid=${ this.backbone.diandiWebsiteAppId }`);
+                            `https://www.pusudo.cn/platform/new/wechat?phone=${ this.phone }&session=${ this.backbone.session }`);
                         this.bindWechat = `https://open.weixin.qq.com/connect/qrconnect?appid=${ this.backbone.diandiWebsiteAppId }&redirect_uri=${ __REDIRECT_URI__ }&response_type=code&scope=${ __SCOPE__ }&state=${ __STATE__ }#wechat_redirect`;
                     }
-                    if (data.wechatUserInfoResolver.msg[0].nickname
-                        && data.wechatUserInfoResolver.msg[0].nickname !== '') {
-                        this.nickname = data.wechatUserInfoResolver.msg[0].nickname;
+                    if (data.wechatUserInfoResolver.nickname && data.wechatUserInfoResolver.nickname !== '') {
+                        this.nickname = data.wechatUserInfoResolver.nickname;
                     }
                 }
             });

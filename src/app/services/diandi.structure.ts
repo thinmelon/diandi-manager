@@ -50,7 +50,8 @@ export class AttributeSet {
  *      商品
  */
 export class Product {
-    constructor(public name: string,
+    constructor(public pid: string,
+                public name: string,
                 public introduce: string,
                 public type: number,
                 public attributes: Array<any>,

@@ -34,11 +34,11 @@ export class LoginComponent implements OnInit {
         if (session && session !== '') {   //  通过微信扫码登录
             if (phone && phone !== '') {
                 //  已关联手机号码，与后端再次握手确认
-                console.log('已关联手机号码，与后端再次握手确认');
+                // console.log('已关联手机号码，与后端再次握手确认');
                 this.loginSuccess(session);
             } else {
                 //  电话号码为空，代表首次登录，弹出关联手机号码对话框
-                console.log('电话号码为空，代表首次登录，弹出关联手机号码对话框');
+                // console.log('电话号码为空，代表首次登录，弹出关联手机号码对话框');
                 //  弹出关联手机号码对话框
                 setTimeout(() => {
                     this.bindPhone(session);
@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
         ];
         modalRef.componentInstance.submitBtnText = '';
         modalRef.componentInstance.verificationCodeEvt.subscribe(evt => {
-            console.log(evt);
+            // console.log(evt);
             that.backbone.bindNewPhone(
                 session,
                 this.backbone.diandiWebsiteAppId,

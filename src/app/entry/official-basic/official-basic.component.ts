@@ -46,7 +46,7 @@ export class OfficialBasicComponent implements OnInit {
                         };
                     });
                 } else {
-                    this.router.navigate(['/entry/wechat/official/bind']);
+                    this.router.navigate(['/entry/wechat/authorizer']);
                 }
             });
     }

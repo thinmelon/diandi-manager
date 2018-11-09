@@ -7,12 +7,12 @@ const PREFIX = PROTOCOL + HOST + API;
 
 export class UrlService {
 
-    static FetchProductList(session: string, startTime: string, n: number): string {
-        return `${ PREFIX }/product/list?session=${ session }&startTime=${ startTime }&number=${ n }&queryType=FULL`;
+    static FetchPartialProductList(session: string, businessId: string, offset: number, amount: number): string {
+        return `${ PREFIX }/product/partial?session=${ session }&bid=${ businessId }&skip=${ offset }&limit=${ amount }`;
     }
 
-    static FetchPartialProductList(session: string, businessId: string, offset: number, amount: number): string {
-        return `${ PREFIX }/product/partial?session=${ session }&businessId=${ businessId }&offset=${ offset }&amount=${ amount }`;
+    static FetchProductDetails(session: string, productId: string): string {
+        return `${ PREFIX }/product/detail/${ productId }?session=${ session }`;
     }
 
     static FetchOrderList(session: string, businessId: string, offset: number, amount: number): string {
@@ -56,7 +56,7 @@ export class UrlService {
     }
 
     static UploadProductThumbnails(): string {
-        return `${ PREFIX }/product/thumbnail`;
+        return `${ PREFIX }/product/gallery`;
     }
 
     static UploadProductVideo(): string {
@@ -67,16 +67,16 @@ export class UrlService {
         return `${ PREFIX }/product/attributes`;
     }
 
-    static SaveProductInfo(): string {
-        return `${ PREFIX }/product`;
+    static SaveProductInfo(session: string, bid: string): string {
+        return `${ PREFIX }/product?session=${ session }&bid=${ bid }`;
     }
 
     static RemoveProduct(): string {
         return `${ PREFIX }/product`;
     }
 
-    static ChangeProductStatus(): string {
-        return `${ PREFIX }/product/status`;
+    static ChangeProductStatus(session: string): string {
+        return `${ PREFIX }/product/status?session=${ session }`;
     }
 
     static SendVerificationCode(): string {
@@ -215,8 +215,8 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/release?session=${ session }&appid=${ appid }`;
     }
 
-    static BindNewPhone(): string {
-        return `${ PREFIX }/new/phone`;
+    static BindNewPhone(session: string): string {
+        return `${ PREFIX }/new/phone?session=${ session }`;
     }
 
     static CheckPhone(phone: string, appid: string): string {

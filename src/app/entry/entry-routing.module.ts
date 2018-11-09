@@ -9,7 +9,6 @@ import {
 } from '../services/resolver/wechat.resolver';
 import {OfficialBasicComponent} from './official-basic/official-basic.component';
 import {OfficialMenuComponent} from './official-menu/official-menu.component';
-import {BindOfficialComponent} from './bind-official/bind-official.component';
 import {RegisterMiniProgramComponent} from './register-mini-program/register-mini-program.component';
 import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic.component';
 import {ListMiniProgramComponent} from '../list/list-mini-program/list-mini-program.component';
@@ -26,10 +25,11 @@ import {UserInfoComponent} from './user-info/user-info.component';
 import {WechatPanelComponent} from './wechat-panel/wechat-panel.component';
 import {ScenarioComponent} from './scenario/scenario.component';
 import {ScenarioIntroComponent} from './scenario-intro/scenario-intro.component';
+import {WechatAuthorizerComponent} from './wechat-authorizer/wechat-authorizer.component';
 
 const __ENTRY_ROUTING__: Routes = [
     {
-        path: 'entry/wechat/official',
+        path: 'entry/wechat',
         canActivate: [LoginGuard],
         component: WechatPanelComponent,
         resolve: {
@@ -37,102 +37,92 @@ const __ENTRY_ROUTING__: Routes = [
         },
         children: [
             {
-                path: 'basic',
+                path: 'authorizer',
+                component: WechatAuthorizerComponent
+            },
+            {
+                path: 'official/basic',
                 component: OfficialBasicComponent,
                 resolve: {
                     wechatOfficialResolver: WechatOfficialResolver
                 }
             },
             {
-                path: 'menu',
+                path: 'official/menu',
                 canActivate: [AuthorizerGuard],
                 component: OfficialMenuComponent
             },
             {
-                path: 'miniprogram/new',
+                path: 'official/miniprogram/new',
                 canActivate: [AuthorizerGuard],
                 component: RegisterMiniProgramComponent
             },
             {
-                path: 'bind',
-                component: BindOfficialComponent
-            }
-        ]
-    },
-    {
-        path: 'entry/wechat/miniprogram',
-        canActivate: [LoginGuard],
-        component: WechatPanelComponent,
-        resolve: {
-            wechatUserInfoResolver: WechatUserInfoResolver
-        },
-        children: [
-            {
-                path: 'list',
+                path: 'miniprogram/list',
                 component: ListMiniProgramComponent,
                 resolve: {
                     miniprogramListResolver: MiniprogramListResolver
                 }
             },
             {
-                path: 'info',
+                path: 'miniprogram/info',
                 component: MiniProgramBasicComponent,
                 resolve: {
                     miniprogramInfoResolver: MiniprogramInfoResolver
                 }
             },
             {
-                path: 'template',
+                path: 'miniprogram/template',
                 component: ListTemplateComponent
             },
             {
-                path: 'business',
+                path: 'miniprogram/business',
                 component: ListBusinessComponent,
                 resolve: {
                     listBusinessResolver: ListBusinessResolver
                 }
             },
             {
-                path: 'order',
+                path: 'miniprogram/order',
                 component: ListOrderComponent,
                 resolve: {
                     listBusinessResolver: ListBusinessResolver
                 }
             },
             {
-                path: 'product',
+                path: 'miniprogram/product',
                 component: ListProductComponent,
                 resolve: {
                     listBusinessResolver: ListBusinessResolver
                 }
             },
             {
-                path: 'user/list',
+                path: 'miniprogram/user/list',
                 component: ListUserComponent,
                 resolve: {
                     listUserResolver: ListUserResolver
                 }
             },
             {
-                path: 'user/info',
+                path: 'miniprogram/user/info',
                 component: UserInfoComponent,
                 resolve: {
                     wechatUserInfoResolver: WechatUserInfoResolver
                 }
             },
             {
-                path: 'card/:pid',
+                path: 'miniprogram/card/:pid',
                 component: ListCardComponent,
                 resolve: {
                     listCardResolver: ListCardResolver
                 }
             },
             {
-                path: 'scenario',
+                path: 'miniprogram/scenario',
                 component: ScenarioComponent
             },
             {
-                path: 'scenario/intro',
+                path: 'miniprogram/scenario/intro',
                 component: ScenarioIntroComponent,
                 resolve: {
                     templateListResolver: TemplateListResolver

@@ -210,26 +210,14 @@ export class EditBusinessComponent implements OnInit {
             this.errorMessage = '请点击按键获取商户地址的经纬度';
             return;
         }
-        if (this.backbone.businessId === '') {
-            this.backbone
-                .addBusiness(this.backbone.session, this.backbone.authorizerMiniProgramAppId, this.business)
-                .subscribe(response => {
-                    console.log(response);
-                    if (response.code === 0) {
-                        this.router.navigate(['/entry/wechat/miniprogram/business']);
-                    }
-                });
-        } else {
-            this.backbone
-                .updateBusiness(this.backbone.session, this.business)
-                .subscribe(response => {
-                    console.log(response);
-                    if (response.code === 0) {
-                        this.router.navigate(['/entry/wechat/miniprogram/business']);
-                    }
-                });
-        }
-
+        this.backbone
+            .addBusiness(this.backbone.session, this.backbone.authorizerMiniProgramAppId, this.business)
+            .subscribe(response => {
+                console.log(response);
+                if (response.code === 0) {
+                    this.router.navigate(['/entry/wechat/miniprogram/business']);
+                }
+            });
     }
 
 }

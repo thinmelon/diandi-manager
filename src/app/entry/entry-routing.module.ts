@@ -25,7 +25,6 @@ import {UserInfoComponent} from './user-info/user-info.component';
 import {WechatPanelComponent} from './wechat-panel/wechat-panel.component';
 import {ScenarioComponent} from './scenario/scenario.component';
 import {ScenarioIntroComponent} from './scenario-intro/scenario-intro.component';
-import {WechatAuthorizerComponent} from './wechat-authorizer/wechat-authorizer.component';
 
 const __ENTRY_ROUTING__: Routes = [
     {
@@ -36,10 +35,6 @@ const __ENTRY_ROUTING__: Routes = [
             wechatUserInfoResolver: WechatUserInfoResolver
         },
         children: [
-            {
-                path: 'authorizer',
-                component: WechatAuthorizerComponent
-            },
             {
                 path: 'official/basic',
                 component: OfficialBasicComponent,

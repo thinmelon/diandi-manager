@@ -369,9 +369,9 @@ export class BackboneService {
      * @param verificationCode
      * @returns {Observable<A>}
      */
-    public login(appid: string, requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
+    public mobileLogin(appid: string, requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
         return this.http
-            .post(UrlService.Login(), {
+            .post(UrlService.mobileLogin(), {
                 appid: appid,
                 requestId: requestId,
                 bizId: bizId,
@@ -379,7 +379,7 @@ export class BackboneService {
                 verificationCode: verificationCode
             })
             .pipe(
-                catchError(this.handleError('login', {errMsg: '#login#登录失败'}))
+                catchError(this.handleError('mobileLogin', {errMsg: '#mobileLogin#登录失败'}))
             );
     }
 
@@ -410,9 +410,9 @@ export class BackboneService {
      * @param verificationCode
      * @returns {Observable<A>}
      */
-    public bindNewPhone(session: string, appid: string, requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
+    public bindMobile(session: string, appid: string, requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
         return this.http
-            .post(UrlService.BindNewPhone(session), {
+            .post(UrlService.BindMobile(session), {
                 appid: appid,
                 requestId: requestId,
                 bizId: bizId,
@@ -420,7 +420,7 @@ export class BackboneService {
                 verificationCode: verificationCode
             })
             .pipe(
-                catchError(this.handleError('bindNewPhone', {errMsg: '#bindNewPhone#绑定手机号失败'}))
+                catchError(this.handleError('bindMobile', {errMsg: '#bindMobile#绑定手机号失败'}))
             );
     }
 
@@ -867,6 +867,24 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('modifyDomain', {errMsg: '#modifyDomain#修改域名失败'}))
+            );
+    }
+
+    /**
+     * 设置业务域名
+     * @param session
+     * @param appid
+     * @param config
+     * @returns {Observable<A>}
+     */
+    public setWebViewDomain(session: string, appid: string, config: any): Observable<any> {
+        return this.http
+            .post(UrlService.setWebViewDomain(session, appid), {
+                action: 'set',
+                webviewdomain: JSON.stringify(config[0])
+            })
+            .pipe(
+                catchError(this.handleError('setWebViewDomain', {errMsg: '#setWebViewDomain#修改域名失败'}))
             );
     }
 

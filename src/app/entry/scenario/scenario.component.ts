@@ -83,6 +83,16 @@ export class ScenarioComponent implements OnInit {
                     }
                 ]);
                 break;
+            case ENUM_SCENARIO.MAP:
+                this.router.navigate(['entry/wechat/miniprogram/scenario/intro',
+                    {
+                        precondition: JSON.stringify(new Precondition(
+                            ENUM_SCENARIO.MAP,
+                            false
+                        ))
+                    }
+                ]);
+                break;
             default:
                 break;
         }

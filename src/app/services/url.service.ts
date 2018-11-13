@@ -187,6 +187,10 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/domain?session=${ session }&appid=${ appid }`;
     }
 
+    static setWebViewDomain(session: string, appid: string): string {
+        return `${ PREFIX }/wechat/miniprogram/webview?session=${ session }&appid=${ appid }`;
+    }
+
     static FetchAuthorizerAllVersions(session: string, appid: string): string {
         return `${ PREFIX }/wechat/miniprogram/version/all?session=${ session }&appid=${ appid }`;
     }
@@ -215,8 +219,8 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/release?session=${ session }&appid=${ appid }`;
     }
 
-    static BindNewPhone(session: string): string {
-        return `${ PREFIX }/new/phone?session=${ session }`;
+    static BindMobile(session: string): string {
+        return `${ PREFIX }/new/mobile?session=${ session }`;
     }
 
     static CheckPhone(phone: string, appid: string): string {
@@ -259,8 +263,8 @@ export class UrlService {
         return `${ PREFIX }/authorizer/pay/wxchat/api_client_cert?session=${ session }&appid=${ appid }`;
     }
 
-    static Login(): string {
-        return `${ PREFIX }/login`;
+    static mobileLogin(): string {
+        return `${ PREFIX }/mobile/login`;
     }
 
     static TestLogin(): string {

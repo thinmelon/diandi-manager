@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
                 // console.log('电话号码为空，代表首次登录，弹出关联手机号码对话框');
                 //  弹出关联手机号码对话框
                 setTimeout(() => {
-                    this.bindPhone(session);
+                    this.bindMobile(session);
                 }, 100);
             }
         }
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
      * 绑定手机号码
      *  -   与微信账号相关联
      */
-    bindPhone(session) {
+    bindMobile(session) {
         const that = this;
         const modalRef = this.modalService.open(FormModalComponent);
 
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
         modalRef.componentInstance.submitBtnText = '';
         modalRef.componentInstance.verificationCodeEvt.subscribe(evt => {
             // console.log(evt);
-            that.backbone.bindNewPhone(
+            that.backbone.bindMobile(
                 session,
                 this.backbone.diandiWebsiteAppId,
                 evt.requestId,
@@ -123,7 +123,7 @@ export class LoginComponent implements OnInit {
         modalRef.componentInstance.verificationBtnText = '登录';
         modalRef.componentInstance.verificationCodeEvt.subscribe(evt => {
             if (this.backbone.diandiWebsiteAppId && this.backbone.diandiWebsiteAppId !== '') {
-                that.backbone.login(
+                that.backbone.mobileLogin(
                     this.backbone.diandiWebsiteAppId,
                     evt.requestId,
                     evt.bizId,
@@ -132,8 +132,8 @@ export class LoginComponent implements OnInit {
                 )
                     .subscribe(res => {
                         console.log(res);
-                        if (res.hasOwnProperty('s') && res.s !== '') {
-                            that.loginSuccess(res.s);
+                        if (res.code === 0 && res.hasOwnProperty('data') && res.data.value && res.data.value.session) {
+                            that.loginSuccess(res.data.value.session);
                             modalRef.componentInstance.activeModal.close();
                         } else {
                             modalRef.componentInstance.hint = res.msg;

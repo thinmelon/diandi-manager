@@ -363,7 +363,6 @@ export class MiniProgramBasicComponent implements OnInit {
         ];
         modalRef.componentInstance.submitBtnText = '设置';
         modalRef.componentInstance.submitEvt.subscribe(response => {
-            console.log(response);
             const config = response.map(item => {
                 return item.src.split(';');
             });
@@ -376,6 +375,40 @@ export class MiniProgramBasicComponent implements OnInit {
                 )
                 .subscribe(result => {
                     that.showErrorMessage(result, '成功修改服务器域名');
+                });
+        });
+    }
+
+    /**
+     *  修改业务域名
+     */
+    setWebViewDomain() {
+        const that = this;
+        const modalRef = this.modalService.open(FormModalComponent);
+        modalRef.componentInstance.title = '小程序业务域名配置';
+        modalRef.componentInstance.hint = '授权给第三方的小程序，其服务器域名已默认设置为第三方的服务器。不同域名间以英文分号;分隔';
+        modalRef.componentInstance.keyValues = [
+            {
+                index: 0,
+                key: 'web-view业务域名',
+                type: 'text',
+                src: 'https://www.pusudo.cn'
+            }
+        ];
+        modalRef.componentInstance.submitBtnText = '设置';
+        modalRef.componentInstance.submitEvt.subscribe(response => {
+            const config = response.map(item => {
+                return item.src.split(';');
+            });
+            console.log(config);
+            that.backbone
+                .setWebViewDomain(
+                    that.backbone.session,
+                    that.info.appid,
+                    config
+                )
+                .subscribe(result => {
+                    that.showErrorMessage(result, '成功设置业务域名');
                 });
         });
     }

@@ -44,7 +44,7 @@ export class ListTemplateComponent implements OnInit {
             )
             .subscribe(result => {
                 if (result.code === 0) {
-                    result.msg.map(item => {
+                    result.data.map(item => {
                         switch (item.status) {
                             case 0:         //  审核通过
                             case 1:         //  审核失败
@@ -61,9 +61,9 @@ export class ListTemplateComponent implements OnInit {
                             default:
                                 break;
                         }
-                        item.commitTime = moment(new Date(item.commitTime).getTime()).format('YYYY-MM-DD HH:mm:ss');        //  上传时间
-                        item.submitTime = moment(new Date(item.submitTime).getTime()).format('YYYY-MM-DD HH:mm:ss');        //  审核时间
-                        item.releaseTime = moment(new Date(item.releaseTime).getTime()).format('YYYY-MM-DD HH:mm:ss');      //  发布时间
+                        // item.commitTime = moment(new Date(item.commitTime).getTime()).format('YYYY-MM-DD HH:mm:ss');        //  上传时间
+                        // item.submitTime = moment(new Date(item.submitTime).getTime()).format('YYYY-MM-DD HH:mm:ss');        //  审核时间
+                        // item.releaseTime = moment(new Date(item.releaseTime).getTime()).format('YYYY-MM-DD HH:mm:ss');      //  发布时间
                     });
                 } else {
                     this.errorMessage = result.msg;
@@ -183,20 +183,20 @@ export class ListTemplateComponent implements OnInit {
      *      查询审核结果
      */
     queryAudit(template) {
-        this.backbone.queryAudit(this.backbone.session,
+        this.backbone.queryAudit(
+            this.backbone.session,
             this.backbone.authorizerMiniProgramAppId,
             template.auditid)
             .subscribe(status => {
-                if (status.hasOwnProperty('auditid')) {
-                    this.errorMessage = '查询成功';
-                    this.audit = this.audit.map(item => {
-                        if (item.auditid === status.auditid) {
-                            item.status = status.status;
-                            item.reason = status.reason;
-                        }
-                        return item;
-                    });
-                }
+                console.log(status);
+                this.showErrorMessage(status, '查询成功');
+                // this.audit = this.audit.map(item => {
+                //     if (item.auditid === status.auditid) {
+                //         item.status = status.status;
+                //         item.reason = status.reason;
+                //     }
+                //     return item;
+                // });
             });
     }
 

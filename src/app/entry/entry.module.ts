@@ -13,8 +13,6 @@ import {UserInfoComponent} from './user-info/user-info.component';
 import {WechatPanelComponent} from './wechat-panel/wechat-panel.component';
 import {ScenarioComponent} from './scenario/scenario.component';
 import {ScenarioIntroComponent} from './scenario-intro/scenario-intro.component';
-import {WechatAuthorizerComponent} from './wechat-authorizer/wechat-authorizer.component';
-
 
 @NgModule({
     imports: [
@@ -32,8 +30,7 @@ import {WechatAuthorizerComponent} from './wechat-authorizer/wechat-authorizer.c
         RegisterMiniProgramComponent,
         ScenarioComponent,
         ScenarioIntroComponent,
-        UserInfoComponent,
-        WechatAuthorizerComponent
+        UserInfoComponent
     ],
     providers: [
         AuthorizerGuard

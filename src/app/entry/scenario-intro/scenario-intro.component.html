@@ -3,91 +3,91 @@
     <a class="btn btn-sm btn-light" *ngIf="linkName !== ''" href="{{ link }}">{{ linkName }}</a>
 </div>
 
-<div *ngIf="precondition.shouldHavaBusiness">
-    <div class="jumbotron">
-        <p class="lead">
-            <button class="btn btn-primary btn-lg" role="button" (click)="apply()">应用模版</button>
-        </p>
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">模版ID</th>
-                    <th scope="col">描述</th>
-                    <th scope="col">版本</th>
-                    <th scope="col">源</th>
-                    <th scope="col">开发者</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">{{ appliedTemplate.template_id }}</th>
-                    <td>{{ appliedTemplate.user_desc }}</td>
-                    <td>{{ appliedTemplate.user_version }}</td>
-                    <td>{{ appliedTemplate.source_miniprogram }}</td>
-                    <td>{{ appliedTemplate.developer }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <h3 class="font-weight-bold">前置条件</h3>
-        <p class="lead">1. 创建一家自己的店铺</p>
-        <div class="d-flex flex-row align-items-center">
-            <div ngbDropdown *ngIf="businesses.length > 0">
-                <button class="btn btn-outline-primary" ngbDropdownToggle> {{ btnName }}</button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic">
-                    <button *ngFor="let business of businesses" class="dropdown-item"
-                            (click)="onBusinessSelected(business)">
-                        {{ business.name }}
-                    </button>
-                </div>
-            </div>
-        </div>
-        <p class="lead">2. 开通微信支付</p>
-        <form #bindWechatPayForm="ngForm">
-            <div class="form-group">
-                <label class="font-weight-bold">appid： </label> {{ appid }}
-            </div>
-            <div class="form-group">
-                <label for="inputMerchant" class="font-weight-bold">商户号：</label>
-                <input type="number" class="form-control" id="inputMerchant" name="inputMerchant"
-                       placeholder="请输入微信支付商户号"
-                       [(ngModel)]="mchid"
-                       required
-                >
-                <small class="form-text text-muted">登录微信支付商户平台 - 帐户中心 - 帐户设置 - 商户信息中查看</small>
-            </div>
-            <div class="form-group">
-                <label for="inputAPISecretKey" class="font-weight-bold">API密钥：</label>
-                <input type="text" class="form-control" id="inputAPISecretKey" name="inputAPISecretKey"
-                       placeholder="请输入API密钥"
-                       [(ngModel)]="apiKey"
-                       required
-                >
-                <small class="form-text text-muted">登录微信支付商户平台 - 帐户中心 - 帐户设置 - API安全中查看</small>
-            </div>
-            <button class="btn btn-primary" [disabled]="!bindWechatPayForm.form.valid" (click)="bindAuthorizerPay()">
-                设置
-            </button>
-        </form>
-        <p class="lead">3. 设置商户证书路径</p>
-        <div class="form-group">
-            <label for="inputAPIClientCert" class="font-weight-bold">上传API证书：</label>
-            <input type="file" class="form-control" id="inputAPIClientCert" name="inputAPIClientCert"
-                   placeholder="上传API证书" ng2FileSelect [uploader]="certUploader" (change)="uploadAPIClientCert()"/>
-            <small class="form-text text-muted">
-                API证书下载地址：https://pay.weixin.qq.com/index.php/account/api_cert，下载之前需要安装商户操作证书
-            </small>
-        </div>
-        <p class="lead">4. APPID绑定授权申请</p>
-        <small class="form-text text-muted">登录微信支付商户平台 - 产品中心 - APPID绑定授权申请进行设置</small>
-        <hr class="my-4">
-        <p>注意事项：</p>
-        <ul>
-            <li> 退款操作暂不支持在点滴的管理后台上完成，需要您登录至微信支付的商户平台里发起退款申请</li>
-            <li> 商户号与APPID建立绑定授权关系后，暂不支持解绑</li>
-            <li> 如果不开通微信支付，使用资金代持的方式，需提交授权函，经过微信支付业务审核后，APPID才可确认申请</li>
-        </ul>
+<div class="jumbotron">
+    <p class="lead">
+        <button class="btn btn-primary btn-lg" role="button" (click)="apply()">应用模版</button>
+    </p>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">模版ID</th>
+                <th scope="col">描述</th>
+                <th scope="col">版本</th>
+                <th scope="col">源</th>
+                <th scope="col">开发者</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">{{ appliedTemplate.template_id }}</th>
+                <td>{{ appliedTemplate.user_desc }}</td>
+                <td>{{ appliedTemplate.user_version }}</td>
+                <td>{{ appliedTemplate.source_miniprogram }}</td>
+                <td>{{ appliedTemplate.developer }}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+</div>
+<div *ngIf="precondition.shouldHavaBusiness">
+    <h3 class="font-weight-bold">前置条件</h3>
+    <p class="lead">1. 创建一家自己的店铺</p>
+    <div class="d-flex flex-row align-items-center">
+        <div ngbDropdown *ngIf="businesses.length > 0">
+            <button class="btn btn-outline-primary" ngbDropdownToggle> {{ btnName }}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+                <button *ngFor="let business of businesses" class="dropdown-item"
+                        (click)="onBusinessSelected(business)">
+                    {{ business.name }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <p class="lead">2. 开通微信支付</p>
+    <form #bindWechatPayForm="ngForm">
+        <div class="form-group">
+            <label class="font-weight-bold">appid： </label> {{ appid }}
+        </div>
+        <div class="form-group">
+            <label for="inputMerchant" class="font-weight-bold">商户号：</label>
+            <input type="number" class="form-control" id="inputMerchant" name="inputMerchant"
+                   placeholder="请输入微信支付商户号"
+                   [(ngModel)]="mchid"
+                   required
+            >
+            <small class="form-text text-muted">登录微信支付商户平台 - 帐户中心 - 帐户设置 - 商户信息中查看</small>
+        </div>
+        <div class="form-group">
+            <label for="inputAPISecretKey" class="font-weight-bold">API密钥：</label>
+            <input type="text" class="form-control" id="inputAPISecretKey" name="inputAPISecretKey"
+                   placeholder="请输入API密钥"
+                   [(ngModel)]="apiKey"
+                   required
+            >
+            <small class="form-text text-muted">登录微信支付商户平台 - 帐户中心 - 帐户设置 - API安全中查看</small>
+        </div>
+        <button class="btn btn-primary" [disabled]="!bindWechatPayForm.form.valid" (click)="bindAuthorizerPay()">
+            设置
+        </button>
+    </form>
+    <p class="lead">3. 设置商户证书路径</p>
+    <div class="form-group">
+        <label for="inputAPIClientCert" class="font-weight-bold">上传API证书：</label>
+        <input type="file" class="form-control" id="inputAPIClientCert" name="inputAPIClientCert"
+               placeholder="上传API证书" ng2FileSelect [uploader]="certUploader" (change)="uploadAPIClientCert()"/>
+        <small class="form-text text-muted">
+            API证书下载地址：https://pay.weixin.qq.com/index.php/account/api_cert，下载之前需要安装商户操作证书
+        </small>
+    </div>
+    <p class="lead">4. APPID绑定授权申请</p>
+    <small class="form-text text-muted">登录微信支付商户平台 - 产品中心 - APPID绑定授权申请进行设置</small>
+    <hr class="my-4">
+    <p>注意事项：</p>
+    <ul>
+        <li> 退款操作暂不支持在点滴的管理后台上完成，需要您登录至微信支付的商户平台里发起退款申请</li>
+        <li> 商户号与APPID建立绑定授权关系后，暂不支持解绑</li>
+        <li> 如果不开通微信支付，使用资金代持的方式，需提交授权函，经过微信支付业务审核后，APPID才可确认申请</li>
+    </ul>
 </div>
 

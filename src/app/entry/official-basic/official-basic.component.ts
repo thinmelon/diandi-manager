@@ -15,10 +15,10 @@ export class OfficialBasicComponent implements OnInit {
     public alias = '';
     public signature = '';
     public funcInfo = [];
+    public btnAuthText = '';
     public reauthorization = `https://www.pusudo.cn/platform/authority/wechat?auth_type=1&session=${ this.backbone.session }`;
 
     constructor(private route: ActivatedRoute,
-                private router: Router,
                 private backbone: BackboneService) {
     }
 
@@ -26,6 +26,7 @@ export class OfficialBasicComponent implements OnInit {
         const that = this;
         this.route.data
             .subscribe((data: { wechatOfficialResolver: any }) => {
+                console.log(data);
                 if (data.wechatOfficialResolver.hasOwnProperty('authorizer_info') &&
                     data.wechatOfficialResolver.hasOwnProperty('authorization_info')) {
                     const authorizer = data.wechatOfficialResolver.authorizer_info;
@@ -34,6 +35,7 @@ export class OfficialBasicComponent implements OnInit {
                     this.principalName = authorizer.principal_name;
                     this.alias = authorizer.alias;
                     this.signature = authorizer.signature;
+                    this.btnAuthText = '重新授权';
                     let index = 0;
                     const authorization = data.wechatOfficialResolver.authorization_info;
                     console.log(authorization);
@@ -46,7 +48,7 @@ export class OfficialBasicComponent implements OnInit {
                         };
                     });
                 } else {
-                    this.router.navigate(['/entry/wechat/authorizer']);
+                    this.btnAuthText = '绑定微信公众号';
                 }
             });
     }

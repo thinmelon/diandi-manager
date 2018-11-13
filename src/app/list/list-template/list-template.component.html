@@ -21,7 +21,7 @@
             <th scope="row">{{ template.templateid }}</th>
             <td>{{ template.userDescription }}</td>
             <td>{{ template.userVersion }}</td>
-            <td>{{ template.commitTime }}</td>
+            <td>{{ template.submitTime }}</td>
             <td>
                 <button class="btn btn-sm btn-outline-danger" (click)="submitAudit(template)">提交审核</button>
             </td>
@@ -87,7 +87,7 @@
             <th scope="row">{{ template.templateid }}</th>
             <td>{{ template.userDescription }}</td>
             <td>{{ template.userVersion }}</td>
-            <td>{{ template.commitTime }}</td>
+            <td>{{ template.releaseTime }}</td>
             <td>
                 <button class="btn btn-sm btn-outline-danger">是否可见</button>
             </td>

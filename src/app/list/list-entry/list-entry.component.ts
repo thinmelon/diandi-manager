@@ -16,7 +16,7 @@ export class ListEntryComponent implements OnInit {
     ngOnInit() {
     }
 
-    wechat() {
+    wechatOfficial() {
         this.backbone.channel = 'official';
         this.router.navigate(['entry/wechat/official/basic', {type: 0}]);
     }

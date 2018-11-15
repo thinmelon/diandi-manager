@@ -83,8 +83,8 @@ export class UrlService {
         return `${ PREFIX }/sms`;
     }
 
-    static AssociateProductCard(): string {
-        return `${ PREFIX }/card/product`;
+    static AssociateProductCard(session: string): string {
+        return `${ PREFIX }/card/product?session=${ session }`;
     }
 
     static FetchOfficialAccountMaterialList(offset: number, count: number): string {

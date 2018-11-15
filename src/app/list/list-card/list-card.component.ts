@@ -35,8 +35,8 @@ export class ListCardComponent implements OnInit {
             .queryProductCard(this.backbone.session, this.backbone.productId)
             .subscribe(result => {
                 console.log(result);
-                if (result.code === 0 && result.msg.length > 0) {
-                    this.associatedCard = result.msg[0].cardId;
+                if (result.code === 0) {
+                    this.associatedCard = result.data.cardId;
                     this.queryCardDetail(this.associatedCard);
                 }
             });
@@ -87,7 +87,7 @@ export class ListCardComponent implements OnInit {
             .subscribe(result => {
                 // 成功关联后跳转至商品列表页
                 if (result.code === 0) {
-                    this.router.navigate(['/list/product']);
+                    this.router.navigate(['entry/wechat/miniprogram/product']);
                 }
             });
     }

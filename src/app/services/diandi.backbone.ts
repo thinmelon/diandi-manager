@@ -474,8 +474,7 @@ export class BackboneService {
      */
     public associateProductCard(session: string, product_id: string, card_id: string): Observable<any> {
         return this.http
-            .post<any>(UrlService.AssociateProductCard(), {
-                session: session,
+            .post<any>(UrlService.AssociateProductCard(session), {
                 product_id: product_id,
                 card_id: card_id
             })

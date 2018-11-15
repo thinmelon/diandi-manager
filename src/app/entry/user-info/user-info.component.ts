@@ -77,9 +77,9 @@ export class UserInfoComponent implements OnInit {
             .fetchCapitalInfo(this.backbone.session)
             .subscribe(capital => {
                 console.log(capital);
-                if (capital.code === 0 && capital.msg.length > 0) {
-                    this.amount = (capital.msg[0].amount / 100).toFixed(2);
-                    this.available = (capital.msg[0].available / 100).toFixed(2);
+                if (capital.code === 0) {
+                    this.amount = (capital.data.amount / 100).toFixed(2);
+                    this.available = (capital.data.available / 100).toFixed(2);
                 }
             });
     }

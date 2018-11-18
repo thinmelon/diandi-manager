@@ -20,12 +20,15 @@ export class ListUserComponent implements OnInit {
                 console.log(data.listUserResolver);
                 if (data.listUserResolver.code === 0) {
                     let index = 0;
-                    this.users = data.listUserResolver.msg.map(item => {
+                    this.users = data.listUserResolver.data.map(item => {
                         return new Manager(
                             ++index,
-                            item.phone,
-                            item['3rd_session'],
-                            item.description
+                            item.headimgurl ? item.headimgurl : '',
+                            item.nickname ? item.nickname : '',
+                            item.sex ? item.sex : '',
+                            item.mobile,
+                            item.country ? item.country + item.province + item.city : '',
+                            item.lastLogin
                         );
                     });
                 }

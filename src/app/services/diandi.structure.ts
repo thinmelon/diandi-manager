@@ -78,9 +78,12 @@ export class User {
  */
 export class Manager {
     constructor(public index: number,
-                public phone: string,
-                public session: number,
-                public role: string) {
+                public headimgurl: string,
+                public nickname: string,
+                public sex: string,
+                public mobile: string,
+                public location: string,
+                public lastLogin: string) {
     }
 }
 

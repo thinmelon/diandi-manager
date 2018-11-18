@@ -3,18 +3,26 @@
         <thead class="thead-light">
         <tr>
             <th scope="col">#</th>
+            <th scope="col"></th>
+            <th scope="col">昵称</th>
+            <th scope="col">性别</th>
             <th scope="col">手机号</th>
-            <th scope="col">SESSION</th>
-            <th scope="col">角色</th>
+            <th scope="col">位置</th>
+            <th scope="col">最近一次登录</th>
             <th scope="col">操作</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let user of users">
             <th scope="row">{{ user.index }}</th>
-            <td>{{ user.phone }}</td>
-            <td>{{ user.session }}</td>
-            <td>{{ user.role }}</td>
+            <td>
+                <img src="{{ user.headimgurl }}" width="30px" height="30px">
+            </td>
+            <td>{{ user.nickname }}</td>
+            <td>{{ user.sex }}</td>
+            <td>{{ user.mobile }}</td>
+            <td>{{ user.location }}</td>
+            <td>{{ user.lastLogin }}</td>
             <td>
             </td>
         </tbody>

@@ -4,6 +4,7 @@ import {Observable, of} from 'rxjs/index';
 import {UrlService} from './url.service';
 import {catchError} from 'rxjs/internal/operators';
 import {AttributeSet, Business, Product, Refund, Template} from './diandi.structure';
+import {Utils} from './utils';
 
 // const httpOptions = {
 //     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -45,6 +46,18 @@ export class BackboneService {
     set session(value: string) {
         sessionStorage.removeItem('_session');
         sessionStorage.setItem('_session', value);
+    }
+
+    /**
+     *  publicKey
+     */
+    get publicKey(): string {
+        return sessionStorage.getItem('_publicKey');
+    }
+
+    set publicKey(value: string) {
+        sessionStorage.removeItem('_publicKey');
+        sessionStorage.setItem('_publicKey', value);
     }
 
     /**
@@ -371,7 +384,7 @@ export class BackboneService {
      */
     public mobileLogin(appid: string, requestId: string, bizId: string, phone: string, verificationCode: string): Observable<any> {
         return this.http
-            .post(UrlService.mobileLogin(), {
+            .post(UrlService.MobileLogin(), {
                 appid: appid,
                 requestId: requestId,
                 bizId: bizId,
@@ -379,7 +392,7 @@ export class BackboneService {
                 verificationCode: verificationCode
             })
             .pipe(
-                catchError(this.handleError('mobileLogin', {errMsg: '#mobileLogin#登录失败'}))
+                catchError(this.handleError('mobileLogin', {errMsg: '#MobileLogin#登录失败'}))
             );
     }
 
@@ -1176,6 +1189,16 @@ export class BackboneService {
             .pipe(
                 catchError(this.handleError('bindAuthorizerPay', {errMsg: '#bindAuthorizerPay#绑定支付失败'}))
             );
+    }
+
+    public publicEncrypt(data) {
+        return encodeURIComponent(Utils.PublicEncrypt(this.publicKey,
+            JSON.stringify({
+                appid: this.diandiWebsiteAppId,           //	当前网站appid
+                session: this.session,                    //	 token
+                timestamp: Date.now(),                              //	 时间戳
+                data: data                                          //	 数据
+            })));
     }
 
     // public UploadWxPayAPIClientCert(session: string, appid: string): Observable<any> {

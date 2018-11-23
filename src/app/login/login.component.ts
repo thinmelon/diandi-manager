@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {BackboneService} from '../services/diandi.backbone';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormModalComponent} from '../modal/form-modal/form-modal.component';
+import * as MOMENT from 'moment';
 
 const __REDIRECT_URI__ = encodeURIComponent('https://www.pusudo.cn/platform/website');
 const __SCOPE__ = 'snsapi_login';
@@ -173,6 +174,8 @@ export class LoginComponent implements OnInit {
         ];
         modalRef.componentInstance.submitBtnText = '登录';
         modalRef.componentInstance.submitEvt.subscribe(evt => {
+            const startTime = Date.now();
+            console.log('请求时间：', startTime);
             this.backbone.testLogin(
                 evt[0].src,
                 evt[1].src
@@ -180,7 +183,11 @@ export class LoginComponent implements OnInit {
                 .subscribe(result => {
                     console.log(result);
                     if (result.hasOwnProperty('code') && result.code === 0) {
-                        that.loginSuccess(result.session);
+                        console.log('系统时间：', result.serverTime);
+                        const endTime = Date.now();
+                        console.log('当前时间：', endTime);
+                        console.log('时间校准：', Math.round(result.serverTime - ((startTime + endTime) / 2)));
+                        that.loginSuccess(result);
                     } else if (result.hasOwnProperty('code') && result.code === -800) {
                         that.errorMessage = result.msg;
                     }
@@ -193,13 +200,17 @@ export class LoginComponent implements OnInit {
 
     /**
      * 登录成功
-     * @param session
+     * @param params
      */
-    loginSuccess(session) {
+    loginSuccess(params) {
         /**
          *  保存session
          */
-        this.backbone.session = session;
+        this.backbone.session = params.session;
+        /**
+         *  保存session
+         */
+        this.backbone.publicKey = params.publicKey;
         /**
          *  设置状态为已登录
          */

@@ -3,9 +3,19 @@ const PROTOCOL = 'https://';
 const HOST = 'www.pusudo.cn';
 // const HOST = 'localhost:4200';
 const API = '/backbone';
+const PLATFORM = '/platform';
 const PREFIX = PROTOCOL + HOST + API;
+const LOGIN = PROTOCOL + HOST + PLATFORM;
 
 export class UrlService {
+
+    static MobileLogin(): string {
+        return `${ LOGIN }/mobile/login`;
+    }
+
+    static TestLogin(): string {
+        return `${ LOGIN }/dev/login`;
+    }
 
     static FetchPartialProductList(session: string, businessId: string, offset: number, amount: number): string {
         return `${ PREFIX }/product/partial?session=${ session }&bid=${ businessId }&skip=${ offset }&limit=${ amount }`;
@@ -261,14 +271,6 @@ export class UrlService {
 
     static UploadWxPayAPIClientCert(session: string, appid: string): string {
         return `${ PREFIX }/authorizer/pay/wxchat/api_client_cert?session=${ session }&appid=${ appid }`;
-    }
-
-    static mobileLogin(): string {
-        return `${ PREFIX }/mobile/login`;
-    }
-
-    static TestLogin(): string {
-        return `${ PREFIX }/dev/login`;
     }
 }
 

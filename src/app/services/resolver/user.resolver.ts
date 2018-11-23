@@ -19,6 +19,6 @@ export class WechatUserInfoResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchWechatUserInfo(this.backbone.session, this.backbone.diandiWebsiteAppId);
+        return this.backbone.fetchWechatUserInfo(this.backbone.publicEncrypt(''), this.backbone.diandiWebsiteAppId);
     }
 }

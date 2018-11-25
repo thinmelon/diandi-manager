@@ -2,10 +2,9 @@ const PROTOCOL = 'https://';
 // const PROTOCOL = 'http://';
 const HOST = 'www.pusudo.cn';
 // const HOST = 'localhost:4200';
-const API = '/backbone';
-const PLATFORM = '/platform';
-const PREFIX = PROTOCOL + HOST + API;
-const LOGIN = PROTOCOL + HOST + PLATFORM;
+const PREFIX = PROTOCOL + HOST + '/backbone';
+const LOGIN = PROTOCOL + HOST + '/platform';
+const STORAGE = PROTOCOL + HOST + '/oss';
 
 export class UrlService {
 
@@ -15,6 +14,14 @@ export class UrlService {
 
     static TestLogin(): string {
         return `${ LOGIN }/dev/login`;
+    }
+
+    static UploadProductThumbnails(): string {
+        return `${ STORAGE }/image`;
+    }
+
+    static UploadProductVideo(): string {
+        return `${ STORAGE }/video`;
     }
 
     static FetchPartialProductList(session: string, businessId: string, offset: number, amount: number): string {
@@ -65,18 +72,6 @@ export class UrlService {
         return `${ PREFIX }/refund`;
     }
 
-    static UploadProductThumbnails(): string {
-        return `${ PREFIX }/product/gallery`;
-    }
-
-    static UploadProductVideo(): string {
-        return `${ PREFIX }/product/video`;
-    }
-
-    static SaveProductAttributes(): string {
-        return `${ PREFIX }/product/attributes`;
-    }
-
     static SaveProductInfo(session: string, bid: string): string {
         return `${ PREFIX }/product?session=${ session }&bid=${ bid }`;
     }
@@ -97,8 +92,8 @@ export class UrlService {
         return `${ PREFIX }/card/product?session=${ session }`;
     }
 
-    static FetchOfficialAccountMaterialList(offset: number, count: number): string {
-        return `${ PREFIX }/official/list/material?offset=${offset}&count=${count}`;
+    static FetchOfficialAccountMaterialList(session: string, offset: number, count: number): string {
+        return `${ PREFIX }/official/list/material?session=${ session }&offset=${offset}&count=${count}`;
     }
 
     static FetchBusinessList(session: string, appid: string): string {
@@ -109,16 +104,12 @@ export class UrlService {
         return `${ PREFIX }/business/detail?session=${ session }&bid=${ bid }`;
     }
 
-    static AddBusiness(): string {
-        return `${ PREFIX }/business`;
+    static AddBusiness(session: string): string {
+        return `${ PREFIX }/business?session=${ session }`;
     }
 
-    static UpdateBusiness(): string {
-        return `${ PREFIX }/business`;
-    }
-
-    static RemoveBusiness(): string {
-        return `${ PREFIX }/business`;
+    static RemoveBusiness(session: string): string {
+        return `${ PREFIX }/business?session=${ session }`;
     }
 
     static ChangeBusinessStatus(session: string): string {

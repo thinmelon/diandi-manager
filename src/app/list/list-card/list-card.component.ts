@@ -32,7 +32,7 @@ export class ListCardComponent implements OnInit {
             });
 
         this.backbone
-            .queryProductCard(this.backbone.session, this.backbone.productId)
+            .queryProductCard(this.backbone.publicEncrypt(''), this.backbone.productId)
             .subscribe(result => {
                 console.log(result);
                 if (result.code === 0) {
@@ -49,7 +49,7 @@ export class ListCardComponent implements OnInit {
     queryCardDetail(cardId) {
         console.log(cardId);
         this.backbone
-            .queryCardDetail(this.backbone.session, cardId)
+            .queryCardDetail(this.backbone.publicEncrypt(''), cardId)
             .subscribe(result => {
                 console.log(result);
                 if (result.errcode === 0) {
@@ -83,7 +83,7 @@ export class ListCardComponent implements OnInit {
     associateProductCard() {
         console.log(this.associatedCard);
         this.backbone
-            .associateProductCard(this.backbone.session, this.backbone.productId, this.associatedCard)
+            .associateProductCard(this.backbone.publicEncrypt(''), this.backbone.productId, this.associatedCard)
             .subscribe(result => {
                 // 成功关联后跳转至商品列表页
                 if (result.code === 0) {

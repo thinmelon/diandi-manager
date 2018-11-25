@@ -61,7 +61,7 @@ export class ListBusinessComponent implements OnInit {
      */
     changeBusinessStatus(status, bid) {
         this.backbone
-            .changeBusinessStatus(this.backbone.session, status, bid)
+            .changeBusinessStatus(this.backbone.publicEncrypt(''), status, bid)
             .subscribe(result => {
                 console.log(result);
             });
@@ -84,7 +84,7 @@ export class ListBusinessComponent implements OnInit {
                 console.log(result);
                 if (result === 'YES') {
                     this.backbone
-                        .removeBusiness(this.backbone.session, bid)
+                        .removeBusiness(this.backbone.publicEncrypt(''), bid)
                         .subscribe(res => {
                             console.log(res);
                             if (res.code === 0) {

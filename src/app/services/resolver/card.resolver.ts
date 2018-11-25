@@ -9,6 +9,6 @@ export class ListCardResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchCardList(this.backbone.session);
+        return this.backbone.fetchCardList(this.backbone.publicEncrypt(''));
     }
 }

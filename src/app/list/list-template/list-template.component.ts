@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
 import {BackboneService} from '../../services/diandi.backbone';
 import {FormModalComponent} from '../../modal/form-modal/form-modal.component';
 
@@ -12,7 +10,7 @@ import {FormModalComponent} from '../../modal/form-modal/form-modal.component';
 })
 export class ListTemplateComponent implements OnInit {
     public errorMessage = '';           //  错误提示信息
-    public trialQRCode = '';            //  体验二维码 URL
+    // public trialQRCode = '';            //  体验二维码 URL
     public applied = [];                //  已应用的模版列表
     public audit = [];                  //  审核模版列表
     public release = [];                //  已发布模版列表
@@ -25,10 +23,10 @@ export class ListTemplateComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.trialQRCode = this.backbone.fetchTrialQRCode(                      //  获取检验二维码URL
-            this.backbone.session,
-            this.backbone.authorizerMiniProgramAppId
-        );
+        // this.trialQRCode = this.backbone.fetchTrialQRCode(                      //  获取检验二维码URL
+        //     this.backbone.publicEncrypt(''),
+        //     this.backbone.authorizerMiniProgramAppId
+        // );
 
         this.versions();
     }
@@ -39,7 +37,7 @@ export class ListTemplateComponent implements OnInit {
     versions() {
         this.backbone
             .fetchAuthorizerAllVersions(
-                this.backbone.session,
+                this.backbone.publicEncrypt(''),
                 this.backbone.authorizerMiniProgramAppId
             )
             .subscribe(result => {
@@ -78,7 +76,7 @@ export class ListTemplateComponent implements OnInit {
     submitAudit(template) {
         this.backbone
             .fetchAuthorizerCategories(                     //  授权方所有可用的类目
-                this.backbone.session,
+                this.backbone.publicEncrypt(''),
                 this.backbone.authorizerMiniProgramAppId
             )
             .subscribe(response => {
@@ -98,7 +96,7 @@ export class ListTemplateComponent implements OnInit {
                     });
                     this.backbone
                         .fetchAuthorizerPages(              //  授权方所有可用的页面配置
-                            this.backbone.session,
+                            this.backbone.publicEncrypt(''),
                             this.backbone.authorizerMiniProgramAppId
                         )
                         .subscribe(result => {
@@ -155,7 +153,7 @@ export class ListTemplateComponent implements OnInit {
                                 modalRef.componentInstance.submitEvt.subscribe(evt => {
                                     console.log(evt);
                                     this.backbone.submitAudit(
-                                        this.backbone.session,
+                                        this.backbone.publicEncrypt(''),
                                         this.backbone.authorizerMiniProgramAppId,
                                         [{
                                             address: evt[0].value,
@@ -184,7 +182,7 @@ export class ListTemplateComponent implements OnInit {
      */
     queryAudit(template) {
         this.backbone.queryAudit(
-            this.backbone.session,
+            this.backbone.publicEncrypt(''),
             this.backbone.authorizerMiniProgramAppId,
             template.auditid)
             .subscribe(status => {
@@ -205,7 +203,7 @@ export class ListTemplateComponent implements OnInit {
      */
     undoCodeAudit(template) {
         this.backbone.undoCodeAudit(
-            this.backbone.session,
+            this.backbone.publicEncrypt(''),
             this.backbone.authorizerMiniProgramAppId,
             template.templateid
             // 4
@@ -221,7 +219,7 @@ export class ListTemplateComponent implements OnInit {
      */
     releaseVersion(template) {
         this.backbone.releaseVersion(
-            this.backbone.session,
+            this.backbone.publicEncrypt(''),
             this.backbone.authorizerMiniProgramAppId,
             template.templateid
             // 4

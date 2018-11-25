@@ -9,7 +9,7 @@ export class ListUserResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchUserList(this.backbone.session, this.backbone.authorizerMiniProgramAppId);
+        return this.backbone.fetchUserList(this.backbone.publicEncrypt(''), this.backbone.authorizerMiniProgramAppId);
     }
 }
 

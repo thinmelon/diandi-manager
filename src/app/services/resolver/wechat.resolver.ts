@@ -9,7 +9,7 @@ export class WechatOfficialResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchAuthorizerInfo(this.backbone.session, route.paramMap.get('type'));
+        return this.backbone.fetchAuthorizerInfo(this.backbone.publicEncrypt(''), route.paramMap.get('type'));
     }
 }
 
@@ -19,7 +19,7 @@ export class MiniprogramListResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchFastRegisterMiniprogramList(this.backbone.session, route.paramMap.get('type'));
+        return this.backbone.fetchFastRegisterMiniprogramList(this.backbone.publicEncrypt(''), route.paramMap.get('type'));
     }
 }
 
@@ -29,7 +29,7 @@ export class MiniprogramInfoResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchMiniprogramInfo(this.backbone.session, route.paramMap.get('appid'));
+        return this.backbone.fetchMiniprogramInfo(this.backbone.publicEncrypt(''), route.paramMap.get('appid'));
     }
 }
 

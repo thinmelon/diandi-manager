@@ -67,7 +67,7 @@ export class ListProductComponent implements OnInit {
      */
     fetchProductList(businessId) {
         this.backbone
-            .fetchPartialProducts(this.backbone.session, businessId, 0, 10)
+            .fetchPartialProducts(this.backbone.publicEncrypt(''), businessId, 0, 10)
             .subscribe(response => {
                 console.log(response);
                 if (response.code === 0) {
@@ -93,7 +93,7 @@ export class ListProductComponent implements OnInit {
      */
     changeProductStatus(status, pid) {
         this.backbone
-            .changeProductStatus(this.backbone.session, status, pid)
+            .changeProductStatus(this.backbone.publicEncrypt(''), status, pid)
             .subscribe(res => {
                 console.log(res);
                 if (res.code === 0) {
@@ -118,7 +118,7 @@ export class ListProductComponent implements OnInit {
                 console.log(pid)
                 if (result === 'YES') {
                     this.backbone
-                        .removeProduct(this.backbone.session, this.backbone.businessId, pid)
+                        .removeProduct(this.backbone.publicEncrypt(''), this.backbone.businessId, pid)
                         .subscribe(res => {
                             console.log(res);
                             if (res.code === 0) {

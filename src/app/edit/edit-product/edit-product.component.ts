@@ -9,9 +9,7 @@ import {BackboneService} from '../../services/diandi.backbone';
 /** component */
 import {AttributeModalComponent} from '../../modal/attribute-modal/attribute-modal.component';
 import {ProgressBarModalComponent} from '../../modal/progress-bar-modal/progress-bar-modal.component';
-
-const IMAGE = UrlService.UploadProductThumbnails();     //  图片上传地址
-const VIDEO = UrlService.UploadProductVideo();          //  视频上传地址
+import {Utils} from '../../services/utils';
 
 @Component({
     selector: 'app-edit-product',
@@ -30,33 +28,37 @@ export class EditProductComponent implements OnDestroy {
     name = '';
     introduce = '';
     errorMessage = '';
-    public thumbnailUploader: FileUploader = new FileUploader({
-        url: IMAGE,
-        // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
-        method: 'POST',                         //  上传文件的方式
-        maxFileSize: 2 * 1024 * 1024,           //  最大可上传的文件大小
-        queueLimit: 9,                          //  最大可上传的文件数量
-        removeAfterUpload: true                //  是否在上传完成后从队列中移除
-    });
-    public detailsUploader: FileUploader = new FileUploader({
-        url: IMAGE,
-        // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
-        method: 'POST',                         //  上传文件的方式
-        maxFileSize: 5 * 1024 * 1024,           //  最大可上传的文件大小
-        queueLimit: 9,                          //  最大可上传的文件数量
-        removeAfterUpload: true                //  是否在上传完成后从队列中移除
-    });
-    public videoUploader: FileUploader = new FileUploader({
-        url: VIDEO,
-        method: 'POST',                         //  上传文件的方式
-        queueLimit: 1,                          //  最大可上传的文件数量
-        removeAfterUpload: true                //  是否在上传完成后从队列中移除
-    });
+    public thumbnailUploader: FileUploader;
+    public detailsUploader: FileUploader;
+    public videoUploader: FileUploader;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private modalService: NgbModal,
                 private backbone: BackboneService) {
+        this.thumbnailUploader = new FileUploader({
+            url: UrlService.UploadProductThumbnails(),
+            // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
+            method: 'POST',                         //  上传文件的方式
+            maxFileSize: 2 * 1024 * 1024,           //  最大可上传的文件大小
+            queueLimit: 9,                          //  最大可上传的文件数量
+            removeAfterUpload: true                //  是否在上传完成后从队列中移除
+        });
+        this.detailsUploader = new FileUploader({
+            url: UrlService.UploadProductThumbnails(),
+            // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
+            method: 'POST',                         //  上传文件的方式
+            maxFileSize: 5 * 1024 * 1024,           //  最大可上传的文件大小
+            queueLimit: 9,                          //  最大可上传的文件数量
+            removeAfterUpload: true                //  是否在上传完成后从队列中移除
+        });
+        this.videoUploader = new FileUploader({
+            url: UrlService.UploadProductVideo(),
+            method: 'POST',                         //  上传文件的方式
+            queueLimit: 1,                          //  最大可上传的文件数量
+            removeAfterUpload: true                //  是否在上传完成后从队列中移除
+        });
+
         this.route.data
             .subscribe((data: { detailsProductResolver: any }) => {
                 console.log(data);
@@ -244,7 +246,7 @@ export class EditProductComponent implements OnDestroy {
             if (res.code === 0) {
                 currentTarget = currentTarget.map(target => {
                     if (target.originalName === item._file.name) {
-                        target.url = res.data.url;
+                        target.url = res.data.transition;
                     }
                     return target;
                 });
@@ -281,6 +283,11 @@ export class EditProductComponent implements OnDestroy {
             return;
         }
 
+        this.sku = this.sku.map(item => {
+            item._id = Utils.GetNonceStr(32);
+            return item;
+        });
+
         const thumbnails = this.thumbnails.map(thumbnail => {
             return {
                 url: thumbnail.url,             //  图片URL
@@ -316,7 +323,7 @@ export class EditProductComponent implements OnDestroy {
 
         this.backbone
             .saveProduct(
-                this.backbone.session,
+                this.backbone.publicEncrypt(''),
                 this.backbone.businessId,
                 product
             )

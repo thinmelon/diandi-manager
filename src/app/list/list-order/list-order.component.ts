@@ -71,7 +71,7 @@ export class ListOrderComponent implements OnInit {
     fetchOrderList(businessId) {
         this.businessId = businessId;
         this.backbone
-            .fetchOrders(this.backbone.session, businessId, 0, 10)
+            .fetchOrders(this.backbone.publicEncrypt(''), businessId, 0, 10)
             .subscribe(response => {
                 console.log(response);
                 if (response.code === 0) {
@@ -102,7 +102,7 @@ export class ListOrderComponent implements OnInit {
         this.afterShown(popover);
         this.skuListShown = [];
 
-        this.backbone.fetchAOrder(this.backbone.session, event)
+        this.backbone.fetchAOrder(this.backbone.publicEncrypt(''), event)
             .subscribe(res => {
                 console.log(res);
                 for (const key in res.msg.order) {
@@ -146,7 +146,7 @@ export class ListOrderComponent implements OnInit {
     consigneePopoverShown(popover, user_id, consignee_no) {
         this.afterShown(popover);
 
-        this.backbone.fetchUserInfo(this.backbone.session, user_id, consignee_no)
+        this.backbone.fetchUserInfo(this.backbone.publicEncrypt(''), user_id, consignee_no)
             .subscribe(res => {
                 console.log(res);
                 if (res.code === 0) {
@@ -192,7 +192,7 @@ export class ListOrderComponent implements OnInit {
      * @param order
      */
     openModal(order) {
-        this.backbone.fetchRefundInfo(this.backbone.session, order.out_trade_no)
+        this.backbone.fetchRefundInfo(this.backbone.publicEncrypt(''), order.out_trade_no)
             .subscribe(res => {
                 console.log(res);
                 if (res.code === 0 && res.msg.length > 0) {
@@ -239,7 +239,7 @@ export class ListOrderComponent implements OnInit {
      */
     refund() {
         this.backbone.refund(
-            this.backbone.session,
+            this.backbone.publicEncrypt(''),
             this.backbone.authorizerMiniProgramAppId,
             this.target)
             .subscribe((res) => {

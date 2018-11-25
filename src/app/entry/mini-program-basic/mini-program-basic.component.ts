@@ -57,7 +57,7 @@ export class MiniProgramBasicComponent implements OnInit {
 
                     //  获取小程序已设置的类目
                     that.backbone
-                        .fetchAuthorizerCategory(that.backbone.session, that.info.appid)
+                        .fetchAuthorizerCategory(that.backbone.publicEncrypt(''), that.info.appid)
                         .subscribe(result => {
                             console.log(result);
                             if (result.errcode === 0) {
@@ -77,7 +77,7 @@ export class MiniProgramBasicComponent implements OnInit {
                         });
                     //  获取所有可配置的类目
                     that.backbone
-                        .fetchAllCategories(that.backbone.session, that.info.appid)
+                        .fetchAllCategories(that.backbone.publicEncrypt(''), that.info.appid)
                         .subscribe(result => {
                             if (result.errcode === 0) {
                                 // 一级类目

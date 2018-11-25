@@ -34,7 +34,7 @@ export class EditBusinessComponent implements OnInit {
     ngOnInit() {
         if ('' !== this.backbone.businessId) {
             this.backbone
-                .fetchBusinessDetail(this.backbone.session, this.backbone.businessId)
+                .fetchBusinessDetail(this.backbone.publicEncrypt(''), this.backbone.businessId)
                 .subscribe(result => {
                     console.log(result);
                     if (result.code === 0) {
@@ -146,7 +146,7 @@ export class EditBusinessComponent implements OnInit {
      */
     fetchMaterialList() {
         this.backbone
-            .fetchOfficialAccountMaterialList(this.curMaterialOffset, this.itemsPerPage)
+            .fetchOfficialAccountMaterialList(this.backbone.publicEncrypt(''), this.curMaterialOffset, this.itemsPerPage)
             .subscribe(response => {
                 console.log(response);
                 this.materials = response.map(item => {
@@ -211,7 +211,7 @@ export class EditBusinessComponent implements OnInit {
             return;
         }
         this.backbone
-            .addBusiness(this.backbone.session, this.backbone.authorizerMiniProgramAppId, this.business)
+            .addBusiness(this.backbone.publicEncrypt(''), this.backbone.authorizerMiniProgramAppId, this.business)
             .subscribe(response => {
                 console.log(response);
                 if (response.code === 0) {

@@ -10,7 +10,7 @@ export class ListBusinessResolver implements Resolve<any> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         return this.backbone.fetchBusinessList(
-            this.backbone.session,
+            this.backbone.publicEncrypt(''),
             this.backbone.authorizerMiniProgramAppId ? this.backbone.authorizerMiniProgramAppId : ''
         );
     }

@@ -9,7 +9,7 @@ export class ListProductResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchPartialProducts(this.backbone.session, this.backbone.businessId, 0, 10);
+        return this.backbone.fetchPartialProducts(this.backbone.publicEncrypt(''), this.backbone.businessId, 0, 10);
     }
 }
 
@@ -20,7 +20,7 @@ export class DetailsProductResolver implements Resolve<any> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         if (route.params.hasOwnProperty('pid') && route.params.pid) {
-            return this.backbone.fetchProductDetails(this.backbone.session, route.params.pid);
+            return this.backbone.fetchProductDetails(this.backbone.publicEncrypt(''), route.params.pid);
         }
     }
 }

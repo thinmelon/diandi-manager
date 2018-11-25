@@ -287,21 +287,6 @@ export class BackboneService {
     }
 
     /**
-     *  保存商品属性
-     * @param attributes
-     * @returns {Observable<A>}
-     */
-    public saveProductAttributes(attributes: AttributeSet[]): Observable<any> {
-        return this.http
-            .post(UrlService.SaveProductAttributes(), {
-                attributes: JSON.stringify(attributes)
-            })
-            .pipe(
-                catchError(this.handleError('saveProductAttributes', {errMsg: '#saveProductAttributes#保存商品属性失败'}))
-            );
-    }
-
-    /**
      * 新建商品
      * @param session
      * @param bid
@@ -533,31 +518,12 @@ export class BackboneService {
      */
     public addBusiness(session: string, appid: string, business: Business): Observable<any> {
         return this.http
-            .post<any>(UrlService.AddBusiness(), {
-                session: session,
+            .post<any>(UrlService.AddBusiness(session), {
                 appid: appid,
                 business: JSON.stringify(business)
             })
             .pipe(
                 catchError(this.handleError('addBusiness', {errMsg: '#addBusiness#添加商户失败'}))
-            );
-    }
-
-    /**
-     * 更新商户
-     *
-     * @param session
-     * @param business
-     * @returns {Observable<A>}
-     */
-    public updateBusiness(session: string, business: Business): Observable<any> {
-        return this.http
-            .put<any>(UrlService.UpdateBusiness(), {
-                session: session,
-                business: JSON.stringify(business)
-            })
-            .pipe(
-                catchError(this.handleError('updateBusiness', {errMsg: '#updateBusiness#更新商户失败'}))
             );
     }
 
@@ -569,9 +535,8 @@ export class BackboneService {
      */
     public removeBusiness(session: string, bid: string): Observable<any> {
         return this.http
-            .delete(UrlService.RemoveBusiness(), {
+            .delete(UrlService.RemoveBusiness(session), {
                 params: {
-                    session: session,
                     bid: bid
                 }
             })
@@ -604,9 +569,9 @@ export class BackboneService {
      * @param count     --  数量
      * @returns {Observable<A>}
      */
-    public fetchOfficialAccountMaterialList(offset: number, count: number): Observable<any> {
+    public fetchOfficialAccountMaterialList(session: string, offset: number, count: number): Observable<any> {
         return this.http
-            .get<any>(UrlService.FetchOfficialAccountMaterialList(offset, count))
+            .get<any>(UrlService.FetchOfficialAccountMaterialList(session, offset, count))
             .pipe(
                 catchError(this.handleError('fetchOfficialAccountMaterialList', {errMsg: '#fetchOfficialAccountMaterialList#获取商户关联软文列表失败'}))
             );

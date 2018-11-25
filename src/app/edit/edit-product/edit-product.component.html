@@ -67,11 +67,11 @@
                         {{ item[name] }}
                     </td>
                     <td>
-                        <input type="number" name="unit" class="form-control" title="单价"
+                        <input type="number" name="unit-{{ item._id }}" class="form-control" title="单价"
                                [(ngModel)]="item.unit">
                     </td>
                     <td>
-                        <input type="number" name="amount" class="form-control" title="数量"
+                        <input type="number" name="amount-{{ item._id }}" class="form-control" title="数量"
                                [(ngModel)]="item.amount">
                     </td>
                 </tr>
@@ -117,7 +117,7 @@
             <div class="d-flex flex-row justify-content-start flex-wrap">
                 <div *ngFor="let item of details" class="d-flex flex-row justify-content-center align-items-center"
                      style="width: 200px; height: 200px; margin: 0 10px;">
-                    <img src="{{ item.src }}" class="img-responsive img-thumbnail"
+                    <img src="{{ item.src || item.url }}" class="img-responsive img-thumbnail"
                          style="width:auto; height:auto; max-width:100%; max-height:100%;"
                          title="{{ item.originalName }}"/>
                 </div>

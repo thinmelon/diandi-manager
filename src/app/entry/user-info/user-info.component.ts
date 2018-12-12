@@ -30,9 +30,7 @@ export class UserInfoComponent implements OnInit {
     }
 
     ngOnInit() {
-        // console.log('window.innerWidth', window.innerWidth);
         this.boardWidth = (window.innerWidth * 0.8).toString() + 'px';
-        // console.log(this.boardWidth);
         this.route.data
             .subscribe((data: { wechatUserInfoResolver: any }) => {
                 if (data.wechatUserInfoResolver.code === 0) {
@@ -58,28 +56,33 @@ export class UserInfoComponent implements OnInit {
      */
     fetchBankCards() {
         this.backbone
-            .fetchBankCards(this.backbone.session)
+            .fetchBankCards(this.backbone.publicEncrypt(''))
             .subscribe(cards => {
                 console.log(cards);
-                if (cards.code === 0 && cards.msg.length > 0) {
-                    this.cards = cards.msg.map(card => {
-                        if (card.is_default) {
-                            this.defaultBank = card.original_bank_no.substr(card.original_bank_no.length - 4, 4);
+                if (cards.code === 0) {
+                    this.cards = cards.data.map(card => {
+                        if (card.default === 1) {
+                            this.defaultBank = card.originalBankNo;
                         }
                         return card;
                     });
+                } else {
+                    this.cards = [];
                 }
             });
     }
 
+    /**
+     *  获取名下资产
+     */
     fetchCapitalInfo() {
         this.backbone
-            .fetchCapitalInfo(this.backbone.session)
+            .fetchCapitalInfo(this.backbone.publicEncrypt(''))
             .subscribe(capital => {
                 console.log(capital);
                 if (capital.code === 0) {
-                    this.amount = (capital.data.amount / 100).toFixed(2);
-                    this.available = (capital.data.available / 100).toFixed(2);
+                    this.amount = capital.data.capital.amount ? (capital.data.capital.amount / 100).toFixed(2) : '0';
+                    this.available = capital.data.capital.available ? (capital.data.capital.available / 100).toFixed(2) : '0';
                 }
             });
     }
@@ -90,7 +93,7 @@ export class UserInfoComponent implements OnInit {
      */
     setAsDefaultBankCard(bank_id) {
         this.backbone
-            .setAsDefaultBankCard(this.backbone.session, bank_id)
+            .setAsDefaultBankCard(this.backbone.publicEncrypt(''), bank_id)
             .subscribe(result => {
                 if (result.code === 0) {
                     this.fetchBankCards();
@@ -146,7 +149,7 @@ export class UserInfoComponent implements OnInit {
         modalRef.componentInstance.verificationCodeEvt.subscribe(evt => {
             console.log(evt);
             this.backbone.bindBankCard(
-                this.backbone.session,
+                this.backbone.publicEncrypt(''),
                 this.backbone.authorizerMiniProgramAppId,
                 evt.requestId,
                 evt.bizId,
@@ -168,6 +171,10 @@ export class UserInfoComponent implements OnInit {
         });
     }
 
+    /**
+     *      解绑
+     * @param bank_id
+     */
     unbindBankCard(bank_id) {
         if (this.phone === '') {
             this.message = '为安全起见，请先验证手机号';
@@ -193,7 +200,7 @@ export class UserInfoComponent implements OnInit {
         modalRef.componentInstance.verificationCodeEvt.subscribe(evt => {
             console.log(evt);
             this.backbone.unbindBankCard(
-                this.backbone.session,
+                this.backbone.publicEncrypt(''),
                 evt.requestId,
                 evt.bizId,
                 evt.phone,
@@ -245,13 +252,14 @@ export class UserInfoComponent implements OnInit {
         modalRef.componentInstance.verificationCodeEvt.subscribe(evt => {
             const withdraw = parseFloat(evt.keyValues[0].src) * 100;
             const available = parseFloat(this.available) * 100;
+
             if (withdraw &&
                 typeof withdraw === 'number' &&
                 withdraw % 1 === 0 &&
-                withdraw < available
+                withdraw <= available
             ) {
                 this.backbone.withdrawCash(
-                    this.backbone.session,
+                    this.backbone.publicEncrypt(''),
                     this.backbone.authorizerMiniProgramAppId,
                     evt.requestId,
                     evt.bizId,

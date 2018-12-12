@@ -23,16 +23,16 @@
     <table class="table">
         <tbody>
         <tr *ngFor="let card of cards">
-            <th scope="row">{{ card.original_bank_no }}</th>
-            <td> {{ card.original_name }}</td>
+            <th scope="row">{{ card.originalBankNo }}</th>
+            <td> {{ card.originalName }}</td>
             <td>
-                <div *ngIf="card.is_default">默认卡</div>
+                <div *ngIf="card.default">默认卡</div>
             </td>
             <td>
-                <button class="btn btn-sm btn-outline-danger" *ngIf="!card.is_default"
-                        (click)="setAsDefaultBankCard(card.bank_id)">设为默认
+                <button class="btn btn-sm btn-outline-danger" *ngIf="!card.default"
+                        (click)="setAsDefaultBankCard(card._id)">设为默认
                 </button>
-                <button class="btn btn-sm btn-outline-dark" (click)="unbindBankCard(card.bank_id)">解绑</button>
+                <button class="btn btn-sm btn-outline-dark" (click)="unbindBankCard(card._id)">解绑</button>
             </td>
         </tr>
         </tbody>

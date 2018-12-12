@@ -255,8 +255,7 @@ export class BackboneService {
      */
     public fetchRefundInfo(session: string, out_trade_no: string): Observable<any> {
         return this.http
-            .post(UrlService.FetchRefundInfo(), {
-                session: session,
+            .post(UrlService.FetchRefundInfo(session), {
                 out_trade_no: out_trade_no
             })
             .pipe(
@@ -273,8 +272,7 @@ export class BackboneService {
      */
     public refund(session: string, appid: string, refund: Refund): Observable<any> {
         return this.http
-            .post(UrlService.Refund(), {
-                session: session,
+            .post(UrlService.Refund(session), {
                 appid: appid,
                 out_trade_no: refund.out_trade_no,
                 out_refund_no: refund.out_refund_no,
@@ -345,12 +343,13 @@ export class BackboneService {
 
     /**
      * 发送验证码
+     * @param session
      * @param phone
      * @returns {Observable<A>}
      */
-    public sendVerificationCode(phone: string): Observable<any> {
+    public sendVerificationCode(session: string, phone: string): Observable<any> {
         return this.http
-            .post(UrlService.SendVerificationCode(), {
+            .post(UrlService.SendVerificationCode(session), {
                 phone: phone
             })
             .pipe(
@@ -980,20 +979,6 @@ export class BackboneService {
     }
 
     /**
-     * 检验手机号码是否已绑定过
-     * @param phone
-     * @param appid
-     * @returns {Observable<A>}
-     */
-    public checkPhone(phone: string, appid: string): Observable<any> {
-        return this.http
-            .get(UrlService.CheckPhone(phone, appid))
-            .pipe(
-                catchError(this.handleError('checkPhone', {errMsg: '#checkPhone#检验手机号码是否已绑定过出错'}))
-            );
-    }
-
-    /**
      * 获取授权方名下的银行卡
      * @param session
      * @returns {Observable<A>}
@@ -1014,8 +999,7 @@ export class BackboneService {
      */
     public setAsDefaultBankCard(session: string, bank_id: string): Observable<any> {
         return this.http
-            .post(UrlService.SetAsDefaultBankCard(), {
-                session: session,
+            .post(UrlService.SetAsDefaultBankCard(session), {
                 bank_id: bank_id
             })
             .pipe(
@@ -1038,8 +1022,7 @@ export class BackboneService {
      */
     public bindBankCard(session: string, appid: string, requestId: string, bizId: string, phone: string, verificationCode: string, bank_no: string, bank_code: string, name: string): Observable<any> {
         return this.http
-            .post(UrlService.BindBankCard(), {
-                session: session,
+            .post(UrlService.BindBankCard(session), {
                 appid: appid,
                 requestId: requestId,
                 bizId: bizId,
@@ -1107,8 +1090,7 @@ export class BackboneService {
      */
     public withdrawCash(session: string, appid: string, requestId: string, bizId: string, phone: string, verificationCode: string, withdraw: number): Observable<any> {
         return this.http
-            .post(UrlService.WithdrawCash(), {
-                session: session,
+            .post(UrlService.WithdrawCash(session), {
                 appid: appid,
                 requestId: requestId,
                 bizId: bizId,

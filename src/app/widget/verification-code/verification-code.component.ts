@@ -83,7 +83,7 @@ export class VerificationCodeComponent implements OnDestroy {
         if (this.check(this.phone)) {
             this.hasSent = true;
             this.sendMessageSubscription = this.backbone
-                .sendVerificationCode(this.phone)
+                .sendVerificationCode(this.backbone.publicEncrypt(''), this.phone)
                 .subscribe(result => {
                     // console.log(result);
                     if (result.hasOwnProperty('requestId') && result.hasOwnProperty('bizId')) {

@@ -64,12 +64,12 @@ export class UrlService {
         return `${ PREFIX }/user/list?session=${ session }&appid=${ appid }`;
     }
 
-    static FetchRefundInfo(): string {
-        return `${ PREFIX }/refund/progress`;
+    static FetchRefundInfo(session: string): string {
+        return `${ PREFIX }/refund/progress?session=${ session }`;
     }
 
-    static Refund(): string {
-        return `${ PREFIX }/refund`;
+    static Refund(session: string): string {
+        return `${ PREFIX }/refund?session=${ session }`;
     }
 
     static SaveProductInfo(session: string, bid: string): string {
@@ -84,8 +84,8 @@ export class UrlService {
         return `${ PREFIX }/product/status?session=${ session }`;
     }
 
-    static SendVerificationCode(): string {
-        return `${ PREFIX }/sms`;
+    static SendVerificationCode(session: string): string {
+        return `${ PREFIX }/sms?session=${ session }`;
     }
 
     static AssociateProductCard(session: string): string {
@@ -224,20 +224,16 @@ export class UrlService {
         return `${ PREFIX }/new/mobile?session=${ session }`;
     }
 
-    static CheckPhone(phone: string, appid: string): string {
-        return `${ PREFIX }/phone/uniqueness?phone=${ phone }&appid=${ appid }`;
-    }
-
     static FetchBankCards(session: string): string {
         return `${ PREFIX }/authorizer/bank?session=${ session }`;
     }
 
-    static SetAsDefaultBankCard(): string {
-        return `${ PREFIX }/authorizer/default/bank`;
+    static SetAsDefaultBankCard(session: string): string {
+        return `${ PREFIX }/authorizer/default/bank?session=${ session }`;
     }
 
-    static BindBankCard(): string {
-        return `${ PREFIX }/authorizer/bank`;
+    static BindBankCard(session: string): string {
+        return `${ PREFIX }/authorizer/bank?session=${ session }`;
     }
 
     static UnbindBankCard(): string {
@@ -248,8 +244,8 @@ export class UrlService {
         return `${ PREFIX }/authorizer/capital?session=${ session }`;
     }
 
-    static WithdrawCash(): string {
-        return `${ PREFIX }/authorizer/capital/available`;
+    static WithdrawCash(session: string): string {
+        return `${ PREFIX }/authorizer/capital/available?session=${ session }`;
     }
 
     static FetchAuthorizerPay(session: string, appid: string): string {

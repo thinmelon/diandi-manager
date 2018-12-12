@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal, NgbPopover, NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
-import {BusinessList, Consignee, Order, OrderStatusEnum, Refund, SKU, User} from '../../services/diandi.structure';
+import {Attribute, BusinessList, Consignee, Order, OrderStatusEnum, Refund, SKU} from '../../services/diandi.structure';
 import {ActivatedRoute, Router} from '@angular/router';
-import * as moment from 'moment';
 import {BackboneService} from '../../services/diandi.backbone';
 import {RichTextModalComponent} from '../../modal/rich-text-modal/rich-text-modal.component';
 
@@ -15,11 +14,9 @@ import {RichTextModalComponent} from '../../modal/rich-text-modal/rich-text-moda
 export class ListOrderComponent implements OnInit {
     btnName = '--- 请选择商户 ---';
     businessId = '';                    //  店铺ID
-    shown = false;                      //  是否显示
-    userShown: User;                    //  下单用户
+    shown = false;                     //  是否显示
     target: Refund;                     //  退款
     lastPopover: NgbPopover;            //  弹出窗口
-    skuListShown: SKU[];                //  SKU
     orders: Order[];                    //  订单列表
     shops: BusinessList[];              //  店铺列表
     errorMessage = '';                  //  错误信息
@@ -37,11 +34,11 @@ export class ListOrderComponent implements OnInit {
         this.route.data
             .subscribe((data: { listBusinessResolver: any }) => {
                 console.log(data);
-                if (data.listBusinessResolver.code === 0 && data.listBusinessResolver.msg.length > 0) {
+                if (data.listBusinessResolver.code === 0 && data.listBusinessResolver.data.length > 0) {
                     let index = 0;
-                    this.shops = data.listBusinessResolver.msg.map(item => {
+                    this.shops = data.listBusinessResolver.data.map(item => {
                         return new BusinessList(++index,
-                            item.bid,
+                            item._id,
                             item.name,
                             item.longitude,
                             item.latitude,
@@ -70,20 +67,54 @@ export class ListOrderComponent implements OnInit {
      */
     fetchOrderList(businessId) {
         this.businessId = businessId;
+        // TODO: 分页功能的实现
         this.backbone
-            .fetchOrders(this.backbone.publicEncrypt(''), businessId, 0, 10)
+            .fetchOrders(this.backbone.publicEncrypt(''), businessId, 0, 10)            //  获取订单列表，取前十条
             .subscribe(response => {
-                console.log(response);
                 if (response.code === 0) {
                     let index = 0;
-                    this.orders = response.msg.map(item => {
+                    this.orders = response.data.order.map(item => {                     //  遍历列表 转换为前端可识别的SKU
+                        let skuList = [];
+                        for (let key in item.sku) {
+                            for (let i = 0, length = response.data.product.length; i < length; i++) {
+                                let isHit = false,
+                                    attributes = [],
+                                    unit = 0;
+
+                                response.data.product[i].sku.map(skuItem => {           //  SKU属性及属性值
+                                    if (skuItem._id === item.sku[key].stock_no) {
+                                        isHit = true;
+                                        for (let param in skuItem) {
+                                            if (param !== '_id' && param !== 'unit' && param !== 'amount') {
+                                                attributes.push(new Attribute('', param, skuItem[param]));
+                                            }
+                                        }
+                                        unit = skuItem.unit;
+                                    }
+                                });
+                                if (isHit) {
+                                    skuList.push(new SKU(
+                                        item.sku[key].stock_no,
+                                        decodeURIComponent(response.data.product[i].name),
+                                        unit,
+                                        item.sku[key].amount,
+                                        attributes,
+                                        response.data.product[i].thumbnails[0].url,
+                                        response.data.product[i].type
+                                    ));
+                                }
+                            }
+                            /** end of for */
+                        }
+                        /** end of for */
+
                         return new Order(
                             ++index,
-                            item.out_trade_no,
-                            item.consignee_no,
-                            item.user_id,
-                            moment(item.createTime).format('YYYY-MM-DD HH:mm:ss'),
-                            moment(item.payTime).format('YYYY-MM-DD HH:mm:ss'),
+                            item._id,
+                            skuList,
+                            new Consignee(item.consignee.name, item.consignee.mobile, item.consignee.address, item.consignee.postcode),
+                            item.createTime,
+                            item.completeTime,
                             item.totalFee,
                             OrderStatusEnum[item.status],
                             item.attach,
@@ -96,75 +127,17 @@ export class ListOrderComponent implements OnInit {
     /**
      *      订单详情 Popover 的显示event
      * @param popover
-     * @param event
      */
-    orderDetailPopoverShown(popover, event) {
+    orderDetailPopoverShown(popover) {
         this.afterShown(popover);
-        this.skuListShown = [];
-
-        this.backbone.fetchAOrder(this.backbone.publicEncrypt(''), event)
-            .subscribe(res => {
-                console.log(res);
-                for (const key in res.msg.order) {
-                    const attributes = [],
-                        /** SKU相应的属性值ID 将字符串分隔为数组 */
-                        tmpArray = res.msg.order[key].attributes.split(',');
-                    /** 转换为属性值名称 */
-                    for (let i = 0; i < tmpArray.length; i++) {
-                        for (let j = 0; j < res.msg.sku.length; j++) {
-                            if (parseInt(tmpArray[i]) === res.msg.sku[j].vid) {
-                                attributes.push(`${ res.msg.sku[j].name } : ${ res.msg.sku[j].value}`);
-                                break;
-                            }
-                        }
-                        /** end of for */
-                    }
-                    /** end of for */
-
-                    this.skuListShown.push(
-                        {
-                            stock_no: res.msg.order[key].stock_no,
-                            name: decodeURIComponent(res.msg.order[key].name),
-                            unit: res.msg.order[key].unit,
-                            amount: res.msg.order[key].amount,
-                            attributes: attributes
-                        }
-                    );
-                }
-                /** end of for */
-
-                this.shown = true;
-            });
     }
 
     /**
      *      收件人信息 Popover 的显示event
      * @param popover
-     * @param user_id
-     * @param consignee_no
      */
-    consigneePopoverShown(popover, user_id, consignee_no) {
+    consigneePopoverShown(popover) {
         this.afterShown(popover);
-
-        this.backbone.fetchUserInfo(this.backbone.publicEncrypt(''), user_id, consignee_no)
-            .subscribe(res => {
-                console.log(res);
-                if (res.code === 0) {
-                    const consignee = new Consignee(
-                        res.msg.consignee[0] ? res.msg.consignee[0].name : '',
-                        res.msg.consignee[0] ? res.msg.consignee[0].mobile : '',
-                        res.msg.consignee[0] ? res.msg.consignee[0].address : '',
-                        res.msg.consignee[0] ? res.msg.consignee[0].postcode : ''
-                    );
-                    this.userShown = new User(
-                        res.msg.user[0] ? res.msg.user[0].name : '',
-                        res.msg.user[0] ? res.msg.user[0].sex : 0,
-                        res.msg.user[0] ? res.msg.user[0].headimgurl : '',
-                        consignee
-                    );
-                }
-                this.shown = true;
-            });
     }
 
     /**
@@ -195,17 +168,17 @@ export class ListOrderComponent implements OnInit {
         this.backbone.fetchRefundInfo(this.backbone.publicEncrypt(''), order.out_trade_no)
             .subscribe(res => {
                 console.log(res);
-                if (res.code === 0 && res.msg.length > 0) {
-                    this.target = new Refund(res.msg[0].out_trade_no, res.msg[0].out_refund_no, res.msg[0].totalFee, res.msg[0].refundFee);
+                if (res.code === 0) {
+                    this.target = new Refund(order.out_trade_no, res.data.refund.out_refund_no, order.totalFee, res.data.refund.refundFee);
                     const modalRef = this.modalService.open(RichTextModalComponent);
                     modalRef.componentInstance.title = '退款进度';
                     modalRef.componentInstance.orderTime = order.createTime;
                     modalRef.componentInstance.payTime = order.payTime;
-                    modalRef.componentInstance.submitRefundTime = moment(res.msg[0].createTime).format('YYYY-MM-DD HH:mm:ss');
-                    modalRef.componentInstance.refundReason = res.msg[0].reason;
-                    modalRef.componentInstance.refundTime = moment(res.msg[0].startTime).format('YYYY-MM-DD HH:mm:ss');
-                    modalRef.componentInstance.refundSuccessTime = moment(res.msg[0].complete).format('YYYY-MM-DD HH:mm:ss');
-                    modalRef.componentInstance.status = res.msg[0].status;
+                    modalRef.componentInstance.submitRefundTime = res.data.refund.applyTime;
+                    modalRef.componentInstance.refundReason = res.data.refund.reason;
+                    modalRef.componentInstance.refundTime = res.data.refund.refundTime;
+                    modalRef.componentInstance.refundSuccessTime = res.data.refund.completeTime;
+                    modalRef.componentInstance.status = res.data.refund.status;
                     modalRef.result.then(
                         /**
                          * close
@@ -239,7 +212,7 @@ export class ListOrderComponent implements OnInit {
      */
     refund() {
         this.backbone.refund(
-            this.backbone.publicEncrypt(''),
+            this.backbone.publicEncrypt(''),                //  access token
             this.backbone.authorizerMiniProgramAppId,
             this.target)
             .subscribe((res) => {

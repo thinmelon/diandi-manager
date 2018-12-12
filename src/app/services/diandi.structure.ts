@@ -4,8 +4,8 @@
 export class Order {
     constructor(public index: number,
                 public out_trade_no: string,
-                public consignee_no: string,
-                public user_id: number,
+                public skuList: SKU[],
+                public consignee: Consignee,
                 public createTime: string,
                 public payTime: string,
                 public totalFee: number,
@@ -23,7 +23,9 @@ export class SKU {
                 public name: string,
                 public unit: number,
                 public amount: number,
-                public attributes: any[]) {
+                public attributes: Attribute[],
+                public thumbnail: string,
+                public type: number) {
     }
 }
 
@@ -59,17 +61,6 @@ export class Product {
                 public thumbnails: Array<any>,
                 public details: Array<any>,
                 public videos: Array<any>) {
-    }
-}
-
-/**
- *      用户
- */
-export class User {
-    constructor(public name: string,
-                public sex: number,
-                public headimgurl: string,
-                public consignee: Consignee) {
     }
 }
 

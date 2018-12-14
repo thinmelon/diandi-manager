@@ -19,7 +19,7 @@ export class ScenarioComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.backbone.fetchFastRegisterMiniprogramList(this.backbone.session, '1')
+        this.backbone.fetchFastRegisterMiniprogramList(this.backbone.publicEncrypt(''), '1')
             .subscribe(result => {
                 if (result.code === 0) {
                     let index = 0;

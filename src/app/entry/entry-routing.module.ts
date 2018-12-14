@@ -142,7 +142,9 @@ const __ENTRY_ROUTING__: Routes = [
         MiniprogramListResolver,
         MiniprogramInfoResolver,
         TemplateListResolver,
-        WechatUserInfoResolver
+        WechatUserInfoResolver,
+        ListBusinessResolver,
+        ListCardResolver
     ]
 })
 export class EntryRoutingModule {

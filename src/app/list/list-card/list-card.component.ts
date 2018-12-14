@@ -35,8 +35,7 @@ export class ListCardComponent implements OnInit {
             .queryProductCard(this.backbone.publicEncrypt(''), this.backbone.productId)
             .subscribe(result => {
                 console.log(result);
-                if (result.code === 0) {
-                    this.associatedCard = result.data.cardId;
+                if (result.code === 0 && result.data.cardId !== '') {
                     this.queryCardDetail(this.associatedCard);
                 }
             });
@@ -48,6 +47,7 @@ export class ListCardComponent implements OnInit {
      */
     queryCardDetail(cardId) {
         console.log(cardId);
+        this.associatedCard = cardId;
         this.backbone
             .queryCardDetail(this.backbone.publicEncrypt(''), cardId)
             .subscribe(result => {

@@ -39,6 +39,6 @@ export class TemplateListResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchTemplateList();
+        return this.backbone.fetchTemplateList(this.backbone.publicEncrypt(''));
     }
 }

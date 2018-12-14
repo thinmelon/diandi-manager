@@ -2,16 +2,11 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {ListUserComponent} from './list/list-user/list-user.component';
 import {ListUserResolver} from './services/resolver/user.resolver';
-import {ListCardComponent} from './list/list-card/list-card.component';
-import {ListCardResolver} from './services/resolver/card.resolver';
-import {ListBusinessComponent} from './list/list-business/list-business.component';
-import {ListBusinessResolver} from './services/resolver/business.resolver';
 import {ListEntryComponent} from './list/list-entry/list-entry.component';
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {LoginGuard} from './services/authentication.service';
 import {LoginComponent} from './login/login.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
-import {WechatOfficialResolver} from './services/resolver/wechat.resolver';
 import {ServiceContactComponent} from './service-contact/service-contact.component';
 import {DetailsProductResolver} from './services/resolver/product.resolver';
 
@@ -25,13 +20,6 @@ const __ROUTES__: Routes = [
                 component: ListUserComponent,
                 resolve: {
                     listUserResolver: ListUserResolver
-                }
-            },
-            {
-                path: 'card/:pid',
-                component: ListCardComponent,
-                resolve: {
-                    listCardResolver: ListCardResolver
                 }
             },
             {
@@ -83,10 +71,7 @@ const __ROUTES__: Routes = [
     exports: [RouterModule],
     providers: [
         ListUserResolver,
-        ListCardResolver,
-        ListBusinessResolver,
-        DetailsProductResolver,
-        WechatOfficialResolver
+        DetailsProductResolver
     ]
 })
 export class AppRouterModule {

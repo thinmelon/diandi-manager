@@ -132,13 +132,9 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/info?session=${ session }&appid=${ appid }`;
     }
 
-    static FetchTemplateList(): string {
-        return `${ PREFIX }/wechat/miniprogram/template/list`;
+    static FetchTemplateList(session: string): string {
+        return `${ PREFIX }/wechat/miniprogram/template/list?session=${ session }`;
     }
-
-    // static FetchAuthorizerTemplateList(session: string, appid: string): string {
-    //     return `${ PREFIX }/wechat/miniprogram/template/authorizer?session=${ session }&appid=${ appid }`;
-    // }
 
     static CommitSourceCode(session: string, appid: string): string {
         return `${ PREFIX }/wechat/miniprogram/template/authorizer?session=${ session }&appid=${ appid }`;
@@ -252,8 +248,8 @@ export class UrlService {
         return `${ PREFIX }/authorizer/pay?session=${ session }&appid=${ appid }`;
     }
 
-    static BindAuthorizerPay(): string {
-        return `${ PREFIX }/authorizer/pay`;
+    static BindAuthorizerPay(session: string): string {
+        return `${ PREFIX }/authorizer/pay?session=${ session }`;
     }
 
     static UploadWxPayAPIClientCert(session: string, appid: string): string {

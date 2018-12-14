@@ -640,11 +640,12 @@ export class BackboneService {
 
     /**
      * 获取代码模版库中的所有小程序代码模版
+     * @param session
      * @returns {Observable<A>}
      */
-    public fetchTemplateList(): Observable<any> {
+    public fetchTemplateList(session: string): Observable<any> {
         return this.http
-            .get<any>(UrlService.FetchTemplateList())
+            .get<any>(UrlService.FetchTemplateList(session))
             .pipe(
                 catchError(this.handleError('fetchTemplateList',
                     {errMsg: '#fetchTemplateList#获取小程序模版列表失败'}))
@@ -1127,8 +1128,7 @@ export class BackboneService {
      */
     public bindAuthorizerPay(session: string, appid: string, mchid: string, apiKey: string): Observable<any> {
         return this.http
-            .post(UrlService.BindAuthorizerPay(), {
-                session: session,
+            .post(UrlService.BindAuthorizerPay(session), {
                 appid: appid,
                 mchid: mchid,
                 apiKey: apiKey

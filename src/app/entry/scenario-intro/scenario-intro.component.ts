@@ -38,10 +38,7 @@ export class ScenarioIntroComponent implements OnInit {
 
     ngOnInit() {
         this.certUploader = new FileUploader({
-            url: UrlService.UploadWxPayAPIClientCert(
-                this.backbone.session,
-                this.appid
-            ),
+            // url: UrlService.UploadWxPayAPIClientCert(this.backbone.publicEncrypt(''), this.appid),  //  文件上传路径
             // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
             method: 'POST',                         //  上传文件的方式
             maxFileSize: 1024 * 1024,               //  最大可上传的文件大小
@@ -54,7 +51,7 @@ export class ScenarioIntroComponent implements OnInit {
                 console.log(data.templateListResolver);
                 if (data.templateListResolver.errcode === 0) {
                     data.templateListResolver.template_list.map(item => {
-                        console.log(item)
+                        console.log(item);
                         // 判断场景值，根据开发源的appid，确定相应的小程序模版
                         if (item.source_miniprogram_appid === 'wxc91180e424549fbf'                  //  线上商城
                             && this.precondition.scenario === ENUM_SCENARIO.COMMERCE) {
@@ -71,7 +68,7 @@ export class ScenarioIntroComponent implements OnInit {
         if (this.precondition.shouldHavaBusiness
         ) {
             this.backbone
-                .fetchBusinessList(this.backbone.session, this.backbone.authorizerMiniProgramAppId)
+                .fetchBusinessList(this.backbone.publicEncrypt(''), this.backbone.authorizerMiniProgramAppId)
                 .subscribe(res => {
                     console.log(res);
                     if (res.code === 0 && res.data.length > 0) {
@@ -85,16 +82,13 @@ export class ScenarioIntroComponent implements OnInit {
                 });
             //  获取授权方的支付账号信息
             this.backbone
-                .fetchAuthorizerPay(
-                    this.backbone.session,
-                    this.backbone.authorizerMiniProgramAppId
-                )
+                .fetchAuthorizerPay(this.backbone.publicEncrypt(''), this.backbone.authorizerMiniProgramAppId)
                 .subscribe(res => {
                     console.log(res);
-                    if (res.code === 0 && res.msg.length > 0) {
-                        this.mchid = res.msg[0].mchid;
-                        this.apiKey = res.msg[0].apiKey;
-                        this.certFile = res.msg[0].certFilePath ? res.msg[0].certFilePath : '';
+                    if (res.code === 0) {
+                        this.mchid = res.data.mchid;
+                        this.apiKey = res.data.apiKey;
+                        this.certFile = res.data.certFilePath ? res.data.certFilePath : '';
                     }
                 });
         }
@@ -105,7 +99,7 @@ export class ScenarioIntroComponent implements OnInit {
      */
     bindAuthorizerPay() {
         this.backbone.bindAuthorizerPay(
-            this.backbone.session,
+            this.backbone.publicEncrypt(''),
             this.appid,
             this.mchid,
             this.apiKey
@@ -124,7 +118,7 @@ export class ScenarioIntroComponent implements OnInit {
      * @param business
      */
     onBusinessSelected(business) {
-        this.backbone.businessId = business.bid;
+        this.backbone.businessId = business._id;
         this.btnName = business.name;
     }
 
@@ -134,7 +128,7 @@ export class ScenarioIntroComponent implements OnInit {
     apply() {
         //  上传代码
         this.backbone.commitSourceCode(
-            this.backbone.session,
+            this.backbone.publicEncrypt(''),
             this.appid,
             new Template(
                 this.appliedTemplate.template_id,
@@ -165,7 +159,8 @@ export class ScenarioIntroComponent implements OnInit {
      *  上传API证书
      */
     uploadAPIClientCert() {
-        console.log('===== uploadAPIClientCert =====');
+        const that = this;
+
         this.certUploader.queue.forEach((fileItem, index) => {
             console.log(fileItem);
             console.log(index);
@@ -208,13 +203,11 @@ export class ScenarioIntroComponent implements OnInit {
         this.certUploader.onCompleteItem = function (item, response, status, headers) {
             console.log('===========> onCompleteItem ');
             // const res = JSON.parse(response);
-            console.log(response);
-            // currentTarget = currentTarget.map(target => {
-            //     if (target.originalName === item._file.name) {
-            //         target.imageId = res.imageId;
-            //     }
-            //     return target;
-            // });
+            if (JSON.parse(response).code === 0) {
+                that.errorMessage = '上传API证书成功';
+            } else {
+                that.errorMessage = '上传API证书失败';
+            }
         };
         /**
          *  完成上传所有文件的回调
@@ -223,6 +216,12 @@ export class ScenarioIntroComponent implements OnInit {
             console.log('===========> Completed ');
             modalRef.close('Completed');
         };
+        /**
+         *  在要上传时再设置文件上传的地址
+         */
+        this.certUploader.setOptions({
+            url: UrlService.UploadWxPayAPIClientCert(this.backbone.publicEncrypt(''), this.appid),  //  文件上传路径
+        });
         this.certUploader.uploadAll();
     }
 }

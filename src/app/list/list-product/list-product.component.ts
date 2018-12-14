@@ -115,7 +115,7 @@ export class ListProductComponent implements OnInit {
              * @param result
              */
             (result) => {
-                console.log(pid)
+                console.log(pid);
                 if (result === 'YES') {
                     this.backbone
                         .removeProduct(this.backbone.publicEncrypt(''), this.backbone.businessId, pid)
@@ -145,6 +145,6 @@ export class ListProductComponent implements OnInit {
      */
     manageProductCard(pid) {
         this.backbone.productId = pid;
-        this.router.navigate(['/list/card', pid]);
+        this.router.navigate(['/entry/wechat/miniprogram/card', pid]);
     }
 }

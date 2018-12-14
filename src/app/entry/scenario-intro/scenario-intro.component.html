@@ -72,7 +72,12 @@
         </button>
     </form>
     <p class="lead">3. 设置商户证书路径</p>
-    <div class="form-group">
+    <!--<div class="form-group" *ngIf="certFile !== ''">-->
+    <!--<label class="font-weight-bold">API证书路径：</label>-->
+    <!--<div>{{ certFile }}</div>-->
+    <!--</div>-->
+    <!--<div class="form-group" *ngIf="certFile === ''">-->
+    <div>
         <label for="inputAPIClientCert" class="font-weight-bold">上传API证书：</label>
         <input type="file" class="form-control" id="inputAPIClientCert" name="inputAPIClientCert"
                placeholder="上传API证书" ng2FileSelect [uploader]="certUploader" (change)="uploadAPIClientCert()"/>

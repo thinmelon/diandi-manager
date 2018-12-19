@@ -184,9 +184,9 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/info?session=${ session }&appid=${ appid }`;
     }
 
-    static FetchTemplateList(session: string): string {
-        return `${ PREFIX }/wechat/miniprogram/template/list?session=${ session }`;
-    }
+    // static FetchTemplateList(session: string): string {
+    //     return `${ PREFIX }/wechat/miniprogram/template/list?session=${ session }`;
+    // }
 
     static CommitSourceCode(session: string, appid: string): string {
         return `${ PREFIX }/wechat/miniprogram/template/authorizer?session=${ session }&appid=${ appid }`;
@@ -258,6 +258,10 @@ export class UrlService {
 
     static ReleaseVersion(session: string, appid: string): string {
         return `${ PREFIX }/wechat/miniprogram/release?session=${ session }&appid=${ appid }`;
+    }
+
+    static FetchTemplateList(session: string): string {
+        return `${ PREFIX }/template/list?session=${ session }`;
     }
 
     /**

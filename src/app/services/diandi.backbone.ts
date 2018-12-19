@@ -661,14 +661,14 @@ export class BackboneService {
      * @param session
      * @returns {Observable<A>}
      */
-    public fetchTemplateList(session: string): Observable<any> {
-        return this.http
-            .get<any>(UrlService.FetchTemplateList(session))
-            .pipe(
-                catchError(this.handleError('fetchTemplateList',
-                    {errMsg: '#fetchTemplateList#获取小程序模版列表失败'}))
-            );
-    }
+    // public fetchTemplateList(session: string): Observable<any> {
+    //     return this.http
+    //         .get<any>(UrlService.FetchTemplateList(session))
+    //         .pipe(
+    //             catchError(this.handleError('fetchTemplateList',
+    //                 {errMsg: '#fetchTemplateList#获取小程序模版列表失败'}))
+    //         );
+    // }
 
     /**
      * 获取小程序模板库标题列表
@@ -1190,6 +1190,19 @@ export class BackboneService {
             })
             .pipe(
                 catchError(this.handleError('submitSelfOrder', {errMsg: '#submitSelfOrder#提交自营商品订单失败'}))
+            );
+    }
+
+    /**
+     * 获取模板列表
+     * @param session
+     * @returns {Observable<A>}
+     */
+    public fetchTemplateList(session: string): Observable<any> {
+        return this.http
+            .get(UrlService.FetchTemplateList(session))
+            .pipe(
+                catchError(this.handleError('fetchTemplateList', {errMsg: '#fetchTemplateList#获取模板列表出错'}))
             );
     }
 

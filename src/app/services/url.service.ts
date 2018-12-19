@@ -8,6 +8,10 @@ const STORAGE = PROTOCOL + HOST + '/oss';
 
 export class UrlService {
 
+    /**
+     * =====================      登录        ===================== *
+     */
+
     static MobileLogin(): string {
         return `${ LOGIN }/mobile/login`;
     }
@@ -16,85 +20,9 @@ export class UrlService {
         return `${ LOGIN }/dev/login`;
     }
 
-    static UploadProductThumbnails(): string {
-        return `${ STORAGE }/image`;
-    }
-
-    static UploadProductVideo(): string {
-        return `${ STORAGE }/video`;
-    }
-
-    static FetchPartialProductList(session: string, businessId: string, offset: number, amount: number): string {
-        return `${ PREFIX }/product/partial?session=${ session }&bid=${ businessId }&skip=${ offset }&limit=${ amount }`;
-    }
-
-    static FetchProductDetails(session: string, productId: string): string {
-        return `${ PREFIX }/product/detail/${ productId }?session=${ session }`;
-    }
-
-    static FetchOrderList(session: string, businessId: string, offset: number, amount: number): string {
-        return `${ PREFIX }/order/list?session=${ session }&businessId=${ businessId }&offset=${ offset }&amount=${ amount }`;
-    }
-
-    static FetchCardList(session: string): string {
-        return `${ PREFIX }/card/list?session=${ session }`;
-    }
-
-    static FetchAOrder(session: string, out_trade_no: string): string {
-        return `${ PREFIX }/order/${ out_trade_no }?session=${ session }`;
-    }
-
-    static QueryCardDetail(session: string, card_id: string): string {
-        return `${ PREFIX }/card/${ card_id }?session=${ session }`;
-    }
-
-    static QueryProductCard(session: string, product_id: string): string {
-        return `${ PREFIX }/card/product/${ product_id }?session=${ session }`;
-    }
-
-    static FetchUserInfo(): string {
-        return `${ PREFIX }/user`;
-    }
-
-    static FetchWechatUserInfo(session: string, appid: string): string {
-        return `${ PREFIX }/user/wechat?session=${ session }&appid=${ appid }`;
-    }
-
-    static FetchUserList(session: string, appid: string): string {
-        return `${ PREFIX }/user/list?session=${ session }&appid=${ appid }`;
-    }
-
-    static FetchRefundInfo(session: string): string {
-        return `${ PREFIX }/refund/progress?session=${ session }`;
-    }
-
-    static Refund(session: string): string {
-        return `${ PREFIX }/refund?session=${ session }`;
-    }
-
-    static SaveProductInfo(session: string, bid: string): string {
-        return `${ PREFIX }/product?session=${ session }&bid=${ bid }`;
-    }
-
-    static RemoveProduct(): string {
-        return `${ PREFIX }/product`;
-    }
-
-    static ChangeProductStatus(session: string): string {
-        return `${ PREFIX }/product/status?session=${ session }`;
-    }
-
-    static SendVerificationCode(session: string): string {
-        return `${ PREFIX }/sms?session=${ session }`;
-    }
-
-    static AssociateProductCard(session: string): string {
-        return `${ PREFIX }/card/product?session=${ session }`;
-    }
-
-    static FetchOfficialAccountMaterialList(session: string, offset: number, count: number): string {
-        return `${ PREFIX }/official/list/material?session=${ session }&offset=${offset}&count=${count}`;
-    }
+    /**
+     * =====================      商户        ===================== *
+     */
 
     static FetchBusinessList(session: string, appid: string): string {
         return `${ PREFIX }/business/list?session=${ session }&appid=${ appid }`;
@@ -116,8 +44,120 @@ export class UrlService {
         return `${ PREFIX }/business/status?session=${ session }`;
     }
 
+    /**
+     * =====================      商品        ===================== *
+     */
+
+    static UploadProductThumbnails(): string {
+        return `${ STORAGE }/image`;
+    }
+
+    static UploadProductVideo(): string {
+        return `${ STORAGE }/video`;
+    }
+
+    static FetchPartialProductList(session: string, businessId: string, offset: number, amount: number): string {
+        return `${ PREFIX }/product/partial?session=${ session }&bid=${ businessId }&skip=${ offset }&limit=${ amount }`;
+    }
+
+    static FetchProductDetails(session: string, productId: string): string {
+        return `${ PREFIX }/product/detail/${ productId }?session=${ session }`;
+    }
+
+    static SaveProductInfo(session: string, bid: string): string {
+        return `${ PREFIX }/product?session=${ session }&bid=${ bid }`;
+    }
+
+    static RemoveProduct(): string {
+        return `${ PREFIX }/product`;
+    }
+
+    static ChangeProductStatus(session: string): string {
+        return `${ PREFIX }/product/status?session=${ session }`;
+    }
+
+    /**
+     * =====================      卡券        ===================== *
+     */
+
+    static FetchCardList(session: string): string {
+        return `${ PREFIX }/card/list?session=${ session }`;
+    }
+
+    static QueryCardDetail(session: string, card_id: string): string {
+        return `${ PREFIX }/card/${ card_id }?session=${ session }`;
+    }
+
+    static QueryProductCard(session: string, product_id: string): string {
+        return `${ PREFIX }/card/product/${ product_id }?session=${ session }`;
+    }
+
+    static AssociateProductCard(session: string): string {
+        return `${ PREFIX }/card/product?session=${ session }`;
+    }
+
+    /**
+     * =====================      订单        ===================== *
+     */
+
+    static FetchOrderList(session: string, businessId: string, offset: number, amount: number): string {
+        return `${ PREFIX }/order/list?session=${ session }&businessId=${ businessId }&offset=${ offset }&amount=${ amount }`;
+    }
+
+    static FetchAOrder(session: string, out_trade_no: string): string {
+        return `${ PREFIX }/order/${ out_trade_no }?session=${ session }`;
+    }
+
+    static SubmitSelfOrder(session: string): string {
+        return `${ PREFIX }/order/self?session=${ session }`;
+    }
+
+    static FetchRefundInfo(session: string): string {
+        return `${ PREFIX }/refund/progress?session=${ session }`;
+    }
+
+    static Refund(session: string): string {
+        return `${ PREFIX }/refund?session=${ session }`;
+    }
+
+    /**
+     * =====================      用户        ===================== *
+     */
+
+    static FetchUserList(session: string, appid: string): string {
+        return `${ PREFIX }/user/list?session=${ session }&appid=${ appid }`;
+    }
+
+    static FetchUserInfo(): string {
+        return `${ PREFIX }/user`;
+    }
+
+    static FetchWechatUserInfo(session: string, appid: string): string {
+        return `${ PREFIX }/user/wechat?session=${ session }&appid=${ appid }`;
+    }
+
+    static BindMobile(session: string): string {
+        return `${ PREFIX }/new/mobile?session=${ session }`;
+    }
+
+    /**
+     * =====================      系统        ===================== *
+     */
+
+    static SendVerificationCode(session: string): string {
+        return `${ PREFIX }/sms?session=${ session }`;
+    }
+
+    /**
+     * =====================      授权方之微信公众号        ===================== *
+     */
+
     static FetchAuthorizerInfo(session: string, type: string): string {
         return `${ PREFIX }/wechat/official?session=${ session }&type=${ type }`;
+    }
+
+    static FetchOfficialAccountMaterialList(session: string, offset: number, count: number): string {
+        return `${ PREFIX }/official/list/material?session=${ session }&offset=${offset}&count=${count}`;
     }
 
     static CreateMenu(session: string): string {
@@ -127,6 +167,18 @@ export class UrlService {
     static FetchFastRegisterMiniprogramList(session: string, type: string): string {
         return `${ PREFIX }/wechat/miniprogram/list?session=${ session }&type=${ type }`;
     }
+
+    static AddMaterial(session: string, appid: string, media_type: string): string {
+        return `${ PREFIX }/wechat/official/material?session=${ session }&appid=${ appid }&media_type=${ media_type }`;
+    }
+
+    static UploadTempMaterial(session: string, appid: string, media_type: string): string {
+        return `${ PREFIX }/wechat/official/tmp/material?session=${ session }&appid=${ appid }&media_type=${ media_type }`;
+    }
+
+    /**
+     * =====================      授权方之微信小程序        ===================== *
+     */
 
     static FetchMiniprogramInfo(session: string, appid: string): string {
         return `${ PREFIX }/wechat/miniprogram/info?session=${ session }&appid=${ appid }`;
@@ -142,14 +194,6 @@ export class UrlService {
 
     static FetchTrialQRCode(session: string, appid: string): string {
         return `${ PREFIX }/wechat/miniprogram/grcode?session=${ session }&appid=${ appid }`;
-    }
-
-    static AddMaterial(session: string, appid: string, media_type: string): string {
-        return `${ PREFIX }/wechat/official/material?session=${ session }&appid=${ appid }&media_type=${ media_type }`;
-    }
-
-    static UploadTempMaterial(session: string, appid: string, media_type: string): string {
-        return `${ PREFIX }/wechat/official/tmp/material?session=${ session }&appid=${ appid }&media_type=${ media_type }`;
     }
 
     static SetNickname(session: string, appid: string): string {
@@ -216,9 +260,9 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/release?session=${ session }&appid=${ appid }`;
     }
 
-    static BindMobile(session: string): string {
-        return `${ PREFIX }/new/mobile?session=${ session }`;
-    }
+    /**
+     * =====================      银行        ===================== *
+     */
 
     static FetchBankCards(session: string): string {
         return `${ PREFIX }/authorizer/bank?session=${ session }`;
@@ -236,6 +280,10 @@ export class UrlService {
         return `${ PREFIX }/authorizer/bank`;
     }
 
+    /**
+     * =====================      个人资产        ===================== *
+     */
+
     static FetchCapitalInfo(session: string): string {
         return `${ PREFIX }/authorizer/capital?session=${ session }`;
     }
@@ -243,6 +291,10 @@ export class UrlService {
     static WithdrawCash(session: string): string {
         return `${ PREFIX }/authorizer/capital/available?session=${ session }`;
     }
+
+    /**
+     * =====================      授权方支付配置        ===================== *
+     */
 
     static FetchAuthorizerPay(session: string, appid: string): string {
         return `${ PREFIX }/authorizer/pay?session=${ session }&appid=${ appid }`;

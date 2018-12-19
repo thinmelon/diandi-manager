@@ -224,4 +224,9 @@ export class ScenarioIntroComponent implements OnInit {
         });
         this.certUploader.uploadAll();
     }
+
+    buy() {
+        this.backbone.alipayReturnURL = window.location.href;           //  设置支付宝电脑网页支付成功后的回调链接
+        this.router.navigate(['entry/wechat/prepay']);                  //  成功使用模版后跳转至版本管理
+    }
 }

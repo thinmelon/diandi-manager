@@ -27,6 +27,7 @@ import {ConfirmModalComponent} from './modal/confirm-modal/confirm-modal.compone
 import {EditProductComponent} from './edit/edit-product/edit-product.component';
 import {EditBusinessComponent} from './edit/edit-business/edit-business.component';
 import {ServiceContactComponent} from './service-contact/service-contact.component';
+import {PrepayComponent} from './entry/prepay/prepay.component';
 
 @NgModule({
     declarations: [
@@ -47,7 +48,8 @@ import {ServiceContactComponent} from './service-contact/service-contact.compone
         FormModalComponent,
         ConfirmModalComponent,
         LoginComponent,
-        ServiceContactComponent
+        ServiceContactComponent,
+        PrepayComponent
     ],
     entryComponents: [
         RichTextModalComponent,

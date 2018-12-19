@@ -208,7 +208,7 @@ export class LoginComponent implements OnInit {
          */
         this.backbone.session = params.session;
         /**
-         *  保存session
+         *  保存publicKey
          */
         this.backbone.publicKey = params.publicKey;
         /**

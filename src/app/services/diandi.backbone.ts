@@ -3,15 +3,27 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs/index';
 import {UrlService} from './url.service';
 import {catchError} from 'rxjs/internal/operators';
-import {AttributeSet, Business, Product, Refund, Template} from './diandi.structure';
+import {Business, Product, Refund, SelfOrder, Template} from './diandi.structure';
 import {Utils} from './utils';
-
-// const httpOptions = {
-//     headers: new HttpHeaders({'Content-Type': 'application/json'})
-// };
 
 @Injectable()
 export class BackboneService {
+    /**
+     *  =======================     公共数据区       =======================
+     */
+
+    /**
+     *  SESSION
+     */
+    get session(): string {
+        return sessionStorage.getItem('_session');
+    }
+
+    set session(value: string) {
+        sessionStorage.removeItem('_session');
+        sessionStorage.setItem('_session', value);
+    }
+
     /**
      *  登录态
      */
@@ -37,31 +49,7 @@ export class BackboneService {
     }
 
     /**
-     *  SESSION
-     */
-    get session(): string {
-        return sessionStorage.getItem('_session');
-    }
-
-    set session(value: string) {
-        sessionStorage.removeItem('_session');
-        sessionStorage.setItem('_session', value);
-    }
-
-    /**
-     *  publicKey
-     */
-    get publicKey(): string {
-        return sessionStorage.getItem('_publicKey');
-    }
-
-    set publicKey(value: string) {
-        sessionStorage.removeItem('_publicKey');
-        sessionStorage.setItem('_publicKey', value);
-    }
-
-    /**
-     * 渠道 （公众号、小程序、生活号）
+     *  用户进入系统后选择渠道 （公众号、小程序、生活号）
      */
     get channel(): string {
         return sessionStorage.getItem('_channel');
@@ -73,15 +61,15 @@ export class BackboneService {
     }
 
     /**
-     *  菜单栏光标所在位置
+     *  publicKey RSA加密公钥
      */
-    get focusItem(): string {
-        return sessionStorage.getItem('_focusItem');
+    get publicKey(): string {
+        return sessionStorage.getItem('_publicKey');
     }
 
-    set focusItem(value: string) {
-        sessionStorage.removeItem('_focusItem');
-        sessionStorage.setItem('_focusItem', value);
+    set publicKey(value: string) {
+        sessionStorage.removeItem('_publicKey');
+        sessionStorage.setItem('_publicKey', value);
     }
 
     /**
@@ -132,8 +120,38 @@ export class BackboneService {
         sessionStorage.setItem('_authorizerMiniProgramAppId', value);
     }
 
+    /**
+     *  点滴官网  APPID
+     * @returns {string}
+     */
     get diandiWebsiteAppId(): string {
         return 'wxf0e807f315d28d5b';
+    }
+
+    /**
+     *  支付宝电脑网页支付的APPID
+     */
+    get alipayPagePayAppId(): string {
+        return '2018100861589652';
+    }
+
+    /**
+     *  支付宝电脑网页支付成功后的回调链接
+     */
+    get alipayReturnURL(): string {
+        return sessionStorage.getItem('_alipayReturnURL');
+    }
+
+    set alipayReturnURL(value: string) {
+        sessionStorage.removeItem('_alipayReturnURL');
+        sessionStorage.setItem('_alipayReturnURL', value);
+    }
+
+    /**
+     *  自营商城的BusinessId
+     */
+    get selfBusinessId(): string {
+        return '5c18543b61b5e1bedd994c8b';
     }
 
     /**
@@ -1138,28 +1156,42 @@ export class BackboneService {
             );
     }
 
-    public publicEncrypt(data) {
+    /**
+     * 加密登录信息
+     * @param data
+     * @returns {string}
+     */
+    public publicEncrypt(data: any) {
         return encodeURIComponent(Utils.PublicEncrypt(this.publicKey,
             JSON.stringify({
-                appid: this.diandiWebsiteAppId,           //	当前网站appid
-                session: this.session,                    //	 token
+                appid: this.diandiWebsiteAppId,                     //	当前网站appid
+                session: this.session,                              //	 token
                 timestamp: Date.now(),                              //	 时间戳
                 data: data                                          //	 数据
             })));
     }
 
-    // public UploadWxPayAPIClientCert(session: string, appid: string): Observable<any> {
-    //     return this.http
-    //         .post(UrlService.UploadWxPayAPIClientCert(), {
-    //             session: session,
-    //             appid: appid,
-    //             mchid: mchid,
-    //             apiKey: apiKey
-    //         })
-    //         .pipe(
-    //             catchError(this.handleError('bindAuthorizerPay', {errMsg: '#bindAuthorizerPay#绑定支付失败'}))
-    //         );
-    // }
+    /**
+     * 提交自营商品订单
+     * @param session
+     * @param order
+     * @returns {Observable<A>}
+     */
+    public submitSelfOrder(session: string, order: SelfOrder): Observable<any> {
+        return this.http
+            .post(UrlService.SubmitSelfOrder(session), {
+                appid: order.appid,
+                businessId: order.businessId,
+                total_amount: order.totalAmount,
+                subject: order.subject,
+                body: order.body,
+                attach: order.attach,
+                return_url: encodeURIComponent(order.returnUrl)
+            })
+            .pipe(
+                catchError(this.handleError('submitSelfOrder', {errMsg: '#submitSelfOrder#提交自营商品订单失败'}))
+            );
+    }
 
     /**
      * Handle Http operation that failed.

@@ -25,6 +25,7 @@ import {UserInfoComponent} from './user-info/user-info.component';
 import {WechatPanelComponent} from './wechat-panel/wechat-panel.component';
 import {ScenarioComponent} from './scenario/scenario.component';
 import {ScenarioIntroComponent} from './scenario-intro/scenario-intro.component';
+import {PrepayComponent} from './prepay/prepay.component';
 
 const __ENTRY_ROUTING__: Routes = [
     {
@@ -122,7 +123,11 @@ const __ENTRY_ROUTING__: Routes = [
                 resolve: {
                     templateListResolver: TemplateListResolver
                 }
-            }
+            },
+            {
+                path: 'prepay',
+                component: PrepayComponent
+            },
         ]
     }
 ];

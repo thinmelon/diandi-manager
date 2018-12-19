@@ -20,7 +20,7 @@ export class ListMiniProgramComponent implements OnInit {
 
     ngOnInit() {
         this.bindMiniprogram = `https://www.pusudo.cn/platform/authority/wechat?auth_type=2&session=${ this.backbone.session }`;
-        this.defaultAuthorizerAppid = this.backbone.authorizerMiniProgramAppId;
+        // this.defaultAuthorizerAppid = this.backbone.authorizerMiniProgramAppId;
         this.route.data
             .subscribe((data: { miniprogramListResolver: any }) => {
                 let index = 0;
@@ -38,8 +38,13 @@ export class ListMiniProgramComponent implements OnInit {
                         funcInfo: funcInfo
                     };
                 });
-                if (this.miniprograms.length > 0) {
-                    this.setDefaultAuthorizer(this.miniprograms[0].appid);  //  默认使用第一个小程序appid
+                if (this.backbone.authorizerMiniProgramAppId === '') {
+                    if (this.miniprograms.length > 0) {
+                        this.setDefaultAuthorizer(this.miniprograms[0].appid);  //  默认使用第一个小程序appid
+                    }
+                }
+                else {
+                    this.defaultAuthorizerAppid = this.backbone.authorizerMiniProgramAppId;
                 }
             });
     }

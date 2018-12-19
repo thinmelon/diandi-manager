@@ -1,193 +1,6 @@
-/**
- *      订单
- */
-export class Order {
-    constructor(public index: number,
-                public out_trade_no: string,
-                public skuList: SKU[],
-                public consignee: Consignee,
-                public createTime: string,
-                public payTime: string,
-                public totalFee: number,
-                public status: string,
-                public attach: string,
-                public remark: string) {
-    }
-}
-
-/**
- *      库存
- */
-export class SKU {
-    constructor(public stock_no: string,
-                public name: string,
-                public unit: number,
-                public amount: number,
-                public attributes: Attribute[],
-                public thumbnail: string,
-                public type: number) {
-    }
-}
-
-/**
- *      属性
- */
-export class Attribute {
-    constructor(public id: string,
-                public name: string,
-                public value: string) {
-    }
-}
-
-/**
- *      属性键值集合
- */
-export class AttributeSet {
-    constructor(public name: string,
-                public values: string[]) {
-    }
-}
-
-/**
- *      商品
- */
-export class Product {
-    constructor(public pid: string,
-                public name: string,
-                public introduce: string,
-                public type: number,
-                public attributes: Array<any>,
-                public sku: Array<any>,
-                public thumbnails: Array<any>,
-                public details: Array<any>,
-                public videos: Array<any>) {
-    }
-}
-
-/**
- *      管理者
- */
-export class Manager {
-    constructor(public index: number,
-                public headimgurl: string,
-                public nickname: string,
-                public sex: string,
-                public mobile: string,
-                public location: string,
-                public lastLogin: string) {
-    }
-}
-
-/**
- *      收件人
- */
-export class Consignee {
-    constructor(public name: string,
-                public mobile: string,
-                public address: string,
-                public postcode: string) {
-    }
-}
-
-/**
- *      退款
- */
-export class Refund {
-    constructor(public out_trade_no: string,
-                public out_refund_no: string,
-                public total_fee: number,
-                public refund_fee: number) {
-    }
-}
-
-/**
- *      商品列表
- */
-export class ProductList {
-    constructor(public index: number,
-                public pid: string,
-                public name: string,
-                public description: string,
-                public sales: number,
-                public status: number,
-                public createTime: string,
-                public type: number) {
-    }
-}
-
-/**
- *      验证码
- */
-export class VerificationCode {
-    constructor(public requestId: string,
-                public bizId: string,
-                public phone: string,
-                public verificationCode: string) {
-    }
-}
-
-/**
- *      卡券
- */
-export class Card {
-    constructor(public cardId: string,
-                public cardType = '',
-                public brandName = '',
-                public title = '') {
-    }
-}
-
-/**
- *      商户列表
- */
-export class BusinessList {
-    constructor(public index: number,
-                public bid: string,
-                public name: string,
-                public longitude: number,
-                public latitude: number,
-                public shopHours: string,
-                public phone: string,
-                public status: number) {
-    }
-}
-
-/**
- *      商户详情
- */
-export class Business {
-    constructor(public bid: string,
-                public type: number,
-                public name: string,
-                public address: string,
-                public longitude: number,
-                public latitude: number,
-                public shopHours: string,
-                public phone: string,
-                public consumptionPerPerson: string,
-                public remark: string,
-                public associatedProductPid: string,
-                public associatedMaterialId: string) {
-    }
-}
-
-/**
- *      菜单
- */
-export class Menu {
-    constructor(public id: string,
-                public isSubMenu: boolean,
-                public type: string,
-                public typeName: string,
-                public typeHint: string,
-                public name: string,
-                public url: string,
-                public appid: string,
-                public pagePath: string,
-                public key: string,
-                public mediaId: string) {
-    }
-}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////                      枚举                     ////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  *      审核状态
@@ -198,57 +11,6 @@ export const AuditStatusEnum = [
     '审核不通过',
     '审核通过'
 ];
-
-/**
- *      小程序类目
- */
-export class Category {
-    constructor(public firstId: number,
-                public firstName: string,
-                public secondId: number,
-                public secondName: string,
-                public auditStatus: string,
-                public auditReason: string) {
-    }
-}
-
-/**
- *      公众号及小程序账号
- */
-export class Account {
-    constructor(public appid: string,
-                public accountType: string,
-                public headImageUrl: string,
-                public nickName: string,
-                public categories: Category[],
-                public principalName: string,
-                public principalType: string,
-                public realNameStatus: string,
-                public signature: string,
-                public qualificationVerify: boolean,
-                public namingVerify: boolean) {
-    }
-}
-
-/**
- *      代码模版
- */
-export class Template {
-    constructor(public templateId: number, /* 代码库中的代码模版ID */
-                public extJson: string, /* 第三方自定义的配置 */
-                public userVersion: string, /* 代码版本号 */
-                public userDescription: string/* 代码描述 */) {
-    }
-}
-
-/**
- *      场景应用的前置条件
- */
-export class Precondition {
-    constructor(public scenario: number,
-                public shouldHavaBusiness: boolean) {
-    }
-}
 
 /**
  *      账号类型
@@ -454,7 +216,7 @@ export const MenuType = [
 ];
 
 /**
- *      银行ID
+ *      银行 CODE
  */
 export const BankID = [
     {
@@ -554,3 +316,266 @@ export const ENUM_SCENARIO = {
     STATISTICS: 3,
     DEVELOPMENT: 4
 };
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////                   数据结构                    ////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ *      菜单
+ */
+export class Menu {
+    constructor(public id: string,
+                public isSubMenu: boolean,
+                public type: string,
+                public typeName: string,
+                public typeHint: string,
+                public name: string,
+                public url: string,
+                public appid: string,
+                public pagePath: string,
+                public key: string,
+                public mediaId: string) {
+    }
+}
+
+/**
+ *      小程序类目
+ */
+export class Category {
+    constructor(public firstId: number,
+                public firstName: string,
+                public secondId: number,
+                public secondName: string,
+                public auditStatus: string,
+                public auditReason: string) {
+    }
+}
+
+/**
+ *      公众号及小程序账号
+ */
+export class Account {
+    constructor(public appid: string,
+                public accountType: string,
+                public headImageUrl: string,
+                public nickName: string,
+                public categories: Category[],
+                public principalName: string,
+                public principalType: string,
+                public realNameStatus: string,
+                public signature: string,
+                public qualificationVerify: boolean,
+                public namingVerify: boolean) {
+    }
+}
+
+/**
+ *      代码模版
+ */
+export class Template {
+    constructor(public templateId: number, /* 代码库中的代码模版ID */
+                public extJson: string, /* 第三方自定义的配置 */
+                public userVersion: string, /* 代码版本号 */
+                public userDescription: string/* 代码描述 */) {
+    }
+}
+
+/**
+ *      场景应用的前置条件
+ */
+export class Precondition {
+    constructor(public scenario: number,
+                public shouldHavaBusiness: boolean) {
+    }
+}
+
+/**
+ *      卡券
+ */
+export class Card {
+    constructor(public cardId: string,
+                public cardType = '',
+                public brandName = '',
+                public title = '') {
+    }
+}
+
+/**
+ *      商户列表
+ */
+export class BusinessList {
+    constructor(public index: number,
+                public bid: string,
+                public name: string,
+                public longitude: number,
+                public latitude: number,
+                public shopHours: string,
+                public phone: string,
+                public status: number) {
+    }
+}
+
+/**
+ *      商户详情
+ */
+export class Business {
+    constructor(public bid: string,
+                public type: number,
+                public name: string,
+                public address: string,
+                public longitude: number,
+                public latitude: number,
+                public shopHours: string,
+                public phone: string,
+                public consumptionPerPerson: string,
+                public remark: string,
+                public associatedProductPid: string,
+                public associatedMaterialId: string) {
+    }
+}
+
+/**
+ *      库存
+ */
+export class SKU {
+    constructor(public stock_no: string,
+                public name: string,
+                public unit: number,
+                public amount: number,
+                public attributes: Attribute[],
+                public thumbnail: string,
+                public type: number) {
+    }
+}
+
+/**
+ *      属性
+ */
+export class Attribute {
+    constructor(public id: string,
+                public name: string,
+                public value: string) {
+    }
+}
+
+/**
+ *      属性键值集合
+ */
+export class AttributeSet {
+    constructor(public name: string,
+                public values: string[]) {
+    }
+}
+
+/**
+ *      商品
+ */
+export class Product {
+    constructor(public pid: string,
+                public name: string,
+                public introduce: string,
+                public type: number,
+                public attributes: Array<any>,
+                public sku: Array<any>,
+                public thumbnails: Array<any>,
+                public details: Array<any>,
+                public videos: Array<any>) {
+    }
+}
+
+/**
+ *      商品列表
+ */
+export class ProductList {
+    constructor(public index: number,
+                public pid: string,
+                public name: string,
+                public description: string,
+                public sales: number,
+                public status: number,
+                public createTime: string,
+                public type: number) {
+    }
+}
+
+/**
+ *      自营商品订单
+ */
+export class SelfOrder {
+    constructor(public appid: string,               //    支付宝电脑网页应用的APPID
+                public businessId: string,            //    自营商户ID
+                public totalAmount: number,           //    订单总金额，以元为单位，精确到分
+                public subject: string,               //    商品标题
+                public body: string,                  //    商品详情
+                public attach: string,                //    用户留言
+                public returnUrl: string              //    支付成功后的回调URL
+
+    ) {
+    }
+}
+
+
+/**
+ *      订单
+ */
+export class Order {
+    constructor(public index: number,
+                public out_trade_no: string,
+                public skuList: SKU[],
+                public consignee: Consignee,
+                public createTime: string,
+                public payTime: string,
+                public totalFee: number,
+                public status: string,
+                public attach: string,
+                public remark: string) {
+    }
+}
+
+/**
+ *      退款
+ */
+export class Refund {
+    constructor(public out_trade_no: string,
+                public out_refund_no: string,
+                public total_fee: number,
+                public refund_fee: number) {
+    }
+}
+
+/**
+ *      客户
+ */
+export class Manager {
+    constructor(public index: number,
+                public headimgurl: string,
+                public nickname: string,
+                public sex: string,
+                public mobile: string,
+                public location: string,
+                public lastLogin: string) {
+    }
+}
+
+/**
+ *      收件人
+ */
+export class Consignee {
+    constructor(public name: string,
+                public mobile: string,
+                public address: string,
+                public postcode: string) {
+    }
+}
+
+/**
+ *      验证码
+ */
+export class VerificationCode {
+    constructor(public requestId: string,
+                public bizId: string,
+                public phone: string,
+                public verificationCode: string) {
+    }
+}
+

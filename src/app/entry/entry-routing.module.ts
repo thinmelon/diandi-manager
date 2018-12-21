@@ -115,14 +115,14 @@ const __ENTRY_ROUTING__: Routes = [
             },
             {
                 path: 'miniprogram/scenario',
-                component: ScenarioComponent
-            },
-            {
-                path: 'miniprogram/scenario/intro',
-                component: ScenarioIntroComponent,
+                component: ScenarioComponent,
                 resolve: {
                     templateListResolver: TemplateListResolver
                 }
+            },
+            {
+                path: 'miniprogram/scenario/intro',
+                component: ScenarioIntroComponent
             },
             {
                 path: 'prepay',

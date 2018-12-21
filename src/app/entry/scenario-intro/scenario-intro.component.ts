@@ -4,7 +4,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UrlService} from '../../services/url.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BackboneService} from '../../services/diandi.backbone';
-import {ENUM_SCENARIO, Precondition, Template} from '../../services/diandi.structure';
+import {Template} from '../../services/diandi.structure';
 import {ProgressBarModalComponent} from '../../modal/progress-bar-modal/progress-bar-modal.component';
 
 @Component({
@@ -13,17 +13,17 @@ import {ProgressBarModalComponent} from '../../modal/progress-bar-modal/progress
     styleUrls: ['./scenario-intro.component.less']
 })
 export class ScenarioIntroComponent implements OnInit {
-    errorMessage = '';
+    errorMessage = '';                          //  错误信息
     linkName = '';
     link = '';
-    precondition: Precondition;
     btnName = '--- 请选择商户 ---';
-    businesses = [];
+    businesses = [];                            //  APPID对应的可选商户列表
     appliedTemplate = null;                    //  应用模版
     appid = '';                                 //  当前appid
-    mchid = '';
-    apiKey = '';
-    certFile = '';
+    mchid = '';                                 //  微信支付的商户ID
+    apiKey = '';                                //  微信支付的商户API KEY
+    certFile = '';                              //  微信支付的证书文件
+    everBought = false;                        //  是否购买过该模板
     certUploader: FileUploader;
 
     constructor(private route: ActivatedRoute,
@@ -31,9 +31,10 @@ export class ScenarioIntroComponent implements OnInit {
                 private modalService: NgbModal,
                 private backbone: BackboneService) {
         this.route.params.subscribe(params => {
-            this.precondition = JSON.parse(params.precondition);
+            this.appliedTemplate = JSON.parse(params.template);         //  根据URL参数初始化模板信息
+            this.backbone.channel = params.channel;
         });
-        this.appid = this.backbone.authorizerMiniProgramAppId;
+        this.appid = this.backbone.authorizerMiniProgramAppId;         //  获取当前APPID
     }
 
     ngOnInit() {
@@ -46,26 +47,16 @@ export class ScenarioIntroComponent implements OnInit {
             removeAfterUpload: true                //  是否在上传完成后从队列中移除
         });
 
-        this.route.data
-            .subscribe((data: { templateListResolver: any }) => {
-                console.log(data.templateListResolver);
-                if (data.templateListResolver.errcode === 0) {
-                    data.templateListResolver.template_list.map(item => {
-                        console.log(item);
-                        // 判断场景值，根据开发源的appid，确定相应的小程序模版
-                        if (item.source_miniprogram_appid === 'wxc91180e424549fbf'                  //  线上商城
-                            && this.precondition.scenario === ENUM_SCENARIO.COMMERCE) {
-                            this.appliedTemplate = item;
-                        } else if (item.source_miniprogram_appid === 'wx54710fd1373c1ce8'
-                            && this.precondition.scenario === ENUM_SCENARIO.MAP) {
-                            this.appliedTemplate = item;
-                        }
-                        return item;
-                    });
+        this.backbone
+            .CheckEverBoughtTemplate(this.backbone.publicEncrypt(''), this.appliedTemplate.templateId.toString())
+            .subscribe(res => {
+                console.log(res);
+                if (res.code === 0) {
+                    this.everBought = true;
                 }
             });
-        //  应用场景前是否需要创建店铺
-        if (this.precondition.shouldHavaBusiness
+
+        if (this.appliedTemplate.shouldHavaBusiness             //  应用场景前是否需要创建店铺
         ) {
             this.backbone
                 .fetchBusinessList(this.backbone.publicEncrypt(''), this.backbone.authorizerMiniProgramAppId)
@@ -118,8 +109,8 @@ export class ScenarioIntroComponent implements OnInit {
      * @param business
      */
     onBusinessSelected(business) {
-        this.backbone.businessId = business._id;
-        this.btnName = business.name;
+        this.backbone.businessId = business._id;            //  设置商户ID
+        this.btnName = business.name;                       //  变更按键名称
     }
 
     /**
@@ -131,17 +122,18 @@ export class ScenarioIntroComponent implements OnInit {
             this.backbone.publicEncrypt(''),
             this.appid,
             new Template(
-                this.appliedTemplate.template_id,
+                this.appliedTemplate.templateId,
                 JSON.stringify({
                     extEnable: true,
                     extAppid: this.appid,
                     ext: {
                         appid: this.appid,
-                        businessid: this.backbone.businessId || ''
+                        businessid: this.backbone.businessId || '',
+                        templateid: this.appliedTemplate.templateId
                     }
                 }),
-                this.appliedTemplate.user_version,
-                this.appliedTemplate.user_desc
+                this.appliedTemplate.userVersion,
+                this.appliedTemplate.userDesc
             ))
             .subscribe(result => {
                 console.log(result);
@@ -151,6 +143,8 @@ export class ScenarioIntroComponent implements OnInit {
                     this.errorMessage = '当前小程序已应用该模版，请进入版本管理查看详情';
                     this.linkName = '版本管理';
                     this.link = 'entry/wechat/miniprogram/template';
+                } else if (result.errcode === 85014) {
+                    this.errorMessage = '模板不存在';
                 }
             });
     }
@@ -162,8 +156,6 @@ export class ScenarioIntroComponent implements OnInit {
         const that = this;
 
         this.certUploader.queue.forEach((fileItem, index) => {
-            console.log(fileItem);
-            console.log(index);
             fileItem.withCredentials = false;
         });
 
@@ -225,8 +217,17 @@ export class ScenarioIntroComponent implements OnInit {
         this.certUploader.uploadAll();
     }
 
+    /**
+     *  购买模板
+     */
     buy() {
-        this.backbone.alipayReturnURL = window.location.href;           //  设置支付宝电脑网页支付成功后的回调链接
-        this.router.navigate(['entry/wechat/prepay']);                  //  成功使用模版后跳转至版本管理
+        this.router.navigate(['entry/wechat/prepay',
+            {
+                cart: JSON.stringify([
+                    this.appliedTemplate,                                       //  SKU
+                ]),
+                alipayReturnURL: encodeURIComponent(window.location.href)        //  设置支付宝电脑网页支付成功后的回调链接
+            }
+        ]);
     }
 }

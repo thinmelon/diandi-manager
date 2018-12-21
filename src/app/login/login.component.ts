@@ -1,9 +1,9 @@
 import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
+import {Utils} from '../services/utils';
 import {BackboneService} from '../services/diandi.backbone';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormModalComponent} from '../modal/form-modal/form-modal.component';
-import * as MOMENT from 'moment';
 
 const __REDIRECT_URI__ = encodeURIComponent('https://www.pusudo.cn/platform/website');
 const __SCOPE__ = 'snsapi_login';
@@ -219,9 +219,13 @@ export class LoginComponent implements OnInit {
          *  跳转至回调地址
          */
         console.log('REDIRECT URL ===> ' + this.backbone.redirectUrl);
-        typeof(this.backbone.redirectUrl) !== 'undefined' && this.backbone.redirectUrl ?
-            this.router.navigate([this.backbone.redirectUrl]) :
-            this.router.navigate(['/list/entry']);                      //  默认： 订单页
+        if (this.backbone.redirectUrl) {
+            const params = Utils.GetParametersFromURL(this.backbone.redirectUrl);
+            console.log(params);
+            this.router.navigate([params.path, params.query]);
+        } else {
+            this.router.navigate(['/list/entry']);                      //  默认入口
+        }
     }
 
     /**

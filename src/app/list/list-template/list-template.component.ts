@@ -31,6 +31,14 @@ export class ListTemplateComponent implements OnInit {
         this.versions();
     }
 
+    trialQRCode() {
+        let qrCode = this.backbone.fetchTrialQRCode(                      //  获取检验二维码URL
+            this.backbone.publicEncrypt(''),
+            this.backbone.authorizerMiniProgramAppId
+        );
+        window.open(qrCode, '_blank').location;
+    }
+
     /**
      *  授权方所有版本
      */

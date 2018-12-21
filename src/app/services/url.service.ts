@@ -264,6 +264,10 @@ export class UrlService {
         return `${ PREFIX }/template/list?session=${ session }`;
     }
 
+    static CheckEverBoughtTemplate(session: string): string {
+        return `${ PREFIX }/template/ever/bought?session=${ session }`;
+    }
+
     /**
      * =====================      银行        ===================== *
      */

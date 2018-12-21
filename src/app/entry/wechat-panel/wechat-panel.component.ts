@@ -16,13 +16,13 @@ export class WechatPanelComponent implements OnInit {
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private backbone: BackboneService) {
-        this.channel = this.backbone.channel;
     }
 
     ngOnInit() {
         this.boardHeight = window.innerHeight.toString() + 'px';
         this.route.data
             .subscribe((data: { wechatUserInfoResolver: any }) => {
+                this.channel = this.backbone.channel;       //  设置入口类型
                 if (data.wechatUserInfoResolver.code === 0) {
                     this.headImageUrl = data.wechatUserInfoResolver.headimgurl ? data.wechatUserInfoResolver.headimgurl : '../../../assets/public/foot.png';
                     this.nickname = data.wechatUserInfoResolver.nickname ? data.wechatUserInfoResolver.nickname : '个人中心';

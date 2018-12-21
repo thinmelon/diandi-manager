@@ -3,7 +3,7 @@ import {
     ActivatedRouteSnapshot,
     CanActivate,
     CanActivateChild,
-    CanLoad, NavigationExtras,
+    CanLoad,
     Route, Router,
     RouterStateSnapshot
 } from '@angular/router';

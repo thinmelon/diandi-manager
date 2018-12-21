@@ -1,6 +1,5 @@
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BackboneService} from '../../services/diandi.backbone';
 
 @Component({
@@ -12,17 +11,18 @@ export class ScenarioComponent implements OnInit {
     templates = [];
 
     constructor(private router: Router,
-                private modalService: NgbModal,
-                private backbone: BackboneService) {
+                private route: ActivatedRoute,
+                public backbone: BackboneService) {
     }
 
     ngOnInit() {
-        this.backbone
-            .fetchTemplateList(this.backbone.publicEncrypt(''))
-            .subscribe(result => {
-                console.log(result);
-                if (result.code === 0) {
-                    this.templates = result.data;
+        this.route.data
+            .subscribe((data: { templateListResolver: any }) => {
+                if (data.templateListResolver.code === 0) {
+                    this.templates = data.templateListResolver.data.map(item => {
+                        item.price = (item.price / 100).toFixed(2);                 //  系统以分为单位，转换为元，精确到分
+                        return item;
+                    });
                 }
             });
     }
@@ -30,7 +30,14 @@ export class ScenarioComponent implements OnInit {
     details(template: any) {
         this.router.navigate(['entry/wechat/miniprogram/scenario/intro',
             {
-                template: JSON.stringify(template)
+                template: JSON.stringify({
+                    templateId: template.templateId,
+                    userDesc: template.userDesc,
+                    userVersion: template.userVersion,
+                    price: template.price,
+                    shouldHavaBusiness: template.shouldHavaBusiness,
+                }),
+                channel: this.backbone.channel
             }
         ]);
     }

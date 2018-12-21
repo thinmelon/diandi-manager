@@ -136,18 +136,6 @@ export class BackboneService {
     }
 
     /**
-     *  支付宝电脑网页支付成功后的回调链接
-     */
-    get alipayReturnURL(): string {
-        return sessionStorage.getItem('_alipayReturnURL');
-    }
-
-    set alipayReturnURL(value: string) {
-        sessionStorage.removeItem('_alipayReturnURL');
-        sessionStorage.setItem('_alipayReturnURL', value);
-    }
-
-    /**
      *  自营商城的BusinessId
      */
     get selfBusinessId(): string {
@@ -1182,11 +1170,12 @@ export class BackboneService {
             .post(UrlService.SubmitSelfOrder(session), {
                 appid: order.appid,
                 businessId: order.businessId,
+                stock_no: order.stockNo,
                 total_amount: order.totalAmount,
                 subject: order.subject,
                 body: order.body,
                 attach: order.attach,
-                return_url: encodeURIComponent(order.returnUrl)
+                return_url: order.returnUrl
             })
             .pipe(
                 catchError(this.handleError('submitSelfOrder', {errMsg: '#submitSelfOrder#提交自营商品订单失败'}))
@@ -1203,6 +1192,23 @@ export class BackboneService {
             .get(UrlService.FetchTemplateList(session))
             .pipe(
                 catchError(this.handleError('fetchTemplateList', {errMsg: '#fetchTemplateList#获取模板列表出错'}))
+            );
+    }
+
+    /**
+     * 是否购买过该模板
+     * @param session
+     * @param stock_no
+     * @returns {Observable<A>}
+     * @constructor
+     */
+    public CheckEverBoughtTemplate(session: string, stock_no: string): Observable<any> {
+        return this.http
+            .post(UrlService.CheckEverBoughtTemplate(session), {
+                stock_no: stock_no
+            })
+            .pipe(
+                catchError(this.handleError('submitSelfOrder', {errMsg: '#submitSelfOrder#提交自营商品订单失败'}))
             );
     }
 

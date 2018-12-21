@@ -306,17 +306,6 @@ export const BankID = [
     }
 ];
 
-/**
- *      场景值
- */
-export const ENUM_SCENARIO = {
-    COMMERCE: 0,
-    MAP: 1,
-    COUPON: 2,
-    STATISTICS: 3,
-    DEVELOPMENT: 4
-};
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////                   数据结构                    ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -377,15 +366,6 @@ export class Template {
                 public extJson: string, /* 第三方自定义的配置 */
                 public userVersion: string, /* 代码版本号 */
                 public userDescription: string/* 代码描述 */) {
-    }
-}
-
-/**
- *      场景应用的前置条件
- */
-export class Precondition {
-    constructor(public scenario: number,
-                public shouldHavaBusiness: boolean) {
     }
 }
 
@@ -504,6 +484,7 @@ export class ProductList {
 export class SelfOrder {
     constructor(public appid: string,               //    支付宝电脑网页应用的APPID
                 public businessId: string,            //    自营商户ID
+                public stockNo: string,               //    库存号
                 public totalAmount: number,           //    订单总金额，以元为单位，精确到分
                 public subject: string,               //    商品标题
                 public body: string,                  //    商品详情

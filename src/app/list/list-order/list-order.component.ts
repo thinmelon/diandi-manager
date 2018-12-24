@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal, NgbPopover, NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
 import {Attribute, BusinessList, Consignee, Order, OrderStatusEnum, Refund, SKU} from '../../services/diandi.structure';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {BackboneService} from '../../services/diandi.backbone';
 import {RichTextModalComponent} from '../../modal/rich-text-modal/rich-text-modal.component';
 

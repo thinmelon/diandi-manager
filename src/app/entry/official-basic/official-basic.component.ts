@@ -16,7 +16,6 @@ export class OfficialBasicComponent implements OnInit {
     public signature = '';
     public funcInfo = [];
     public btnAuthText = '';
-    public reauthorization = `https://www.pusudo.cn/platform/authority/wechat?auth_type=1&session=${ this.backbone.session }`;
 
     constructor(private route: ActivatedRoute,
                 private backbone: BackboneService) {
@@ -53,4 +52,17 @@ export class OfficialBasicComponent implements OnInit {
             });
     }
 
+    /**
+     * 公众号授权
+     */
+    reauthorization() {
+        window.location.href = `https://www.pusudo.cn/backbone/authority/wechat?auth_type=1&session=${ this.backbone.publicEncrypt('') }`;
+    }
+
+    /**
+     *  快速注册小程序
+     */
+    fastRegisterMiniProgram() {
+        window.location.href = `https://www.pusudo.cn/backbone/register/miniprogram?session=${ this.backbone.publicEncrypt('') }&appid=${ this.backbone.authorizerAppId }`;
+    }
 }

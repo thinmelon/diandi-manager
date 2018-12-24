@@ -211,11 +211,9 @@ export class OfficialMenuComponent implements OnInit {
         });
 
         console.log(menu);
-        console.log(this.backbone.session);
-        console.log(this.backbone.authorizerAppId);
 
         this.backbone.createMenu(
-            this.backbone.session,
+            this.backbone.publicEncrypt(''),
             this.backbone.authorizerAppId,
             menu
         ).subscribe(result => {

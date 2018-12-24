@@ -16,6 +16,9 @@ export class RichTextModalComponent {
     @Input() refundSuccessTime: string;
     @Input() status: number;
 
+    /**
+     * 退款模式框
+     */
     constructor(public activeModal: NgbActiveModal) {
     }
 }

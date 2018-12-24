@@ -9,7 +9,6 @@ import {
 } from '../services/resolver/wechat.resolver';
 import {OfficialBasicComponent} from './official-basic/official-basic.component';
 import {OfficialMenuComponent} from './official-menu/official-menu.component';
-import {RegisterMiniProgramComponent} from './register-mini-program/register-mini-program.component';
 import {MiniProgramBasicComponent} from './mini-program-basic/mini-program-basic.component';
 import {ListMiniProgramComponent} from '../list/list-mini-program/list-mini-program.component';
 import {ListTemplateComponent} from '../list/list-template/list-template.component';
@@ -47,11 +46,6 @@ const __ENTRY_ROUTING__: Routes = [
                 path: 'official/menu',
                 canActivate: [AuthorizerGuard],
                 component: OfficialMenuComponent
-            },
-            {
-                path: 'official/miniprogram/new',
-                canActivate: [AuthorizerGuard],
-                component: RegisterMiniProgramComponent
             },
             {
                 path: 'miniprogram/list',

@@ -18,7 +18,6 @@ export class UserInfoComponent implements OnInit {
     public message = '';                //  提示
     public phone = '';                  //  关联的电话号码
     public nickname = '';               //  关联的微信号昵称
-    public bindWechat = '';             //  申请关联微信号的链接地址
     public cards = [];                  //  关联的银行卡
     public amount = '';                  //  总金额
     public available = '';               //  可提取金额
@@ -36,9 +35,6 @@ export class UserInfoComponent implements OnInit {
                 if (data.wechatUserInfoResolver.code === 0) {
                     if (data.wechatUserInfoResolver.phone && data.wechatUserInfoResolver.phone !== '') {
                         this.phone = data.wechatUserInfoResolver.phone;
-                        const __REDIRECT_URI__ = encodeURIComponent(
-                            `https://www.pusudo.cn/platform/new/wechat?phone=${ this.phone }&session=${ this.backbone.session }`);
-                        this.bindWechat = `https://open.weixin.qq.com/connect/qrconnect?appid=${ this.backbone.diandiWebsiteAppId }&redirect_uri=${ __REDIRECT_URI__ }&response_type=code&scope=${ __SCOPE__ }&state=${ __STATE__ }#wechat_redirect`;
                     }
                     if (data.wechatUserInfoResolver.nickname && data.wechatUserInfoResolver.nickname !== '') {
                         this.nickname = data.wechatUserInfoResolver.nickname;
@@ -49,6 +45,14 @@ export class UserInfoComponent implements OnInit {
         this.fetchBankCards();
         //  名下的资产
         this.fetchCapitalInfo();
+    }
+
+    /**
+     *  绑定微信
+     */
+    bindWechat() {
+        const __REDIRECT_URI__ = encodeURIComponent(`https://www.pusudo.cn/platform/new/wechat?phone=${ this.phone }`);
+        window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${ this.backbone.diandiWebsiteAppId }&redirect_uri=${ __REDIRECT_URI__ }&response_type=code&scope=${ __SCOPE__ }&state=${ __STATE__ }#wechat_redirect`;
     }
 
     /**

@@ -60,7 +60,8 @@
                     <div *ngIf="nickname !== ''">{{ nickname }}</div>
                 </td>
                 <td>
-                    <a *ngIf="nickname === ''" class="btn btn-outline-primary" href="{{ bindWechat }}">绑定微信</a>
+                    <!--<a *ngIf="nickname === ''" class="btn btn-outline-primary" href="{{ bindWechat }}">绑定微信</a>-->
+                    <button class="btn btn-outline-primary" (click)="bindWechat()">绑定微信</button>
                 </td>
             </tr>
             </tbody>

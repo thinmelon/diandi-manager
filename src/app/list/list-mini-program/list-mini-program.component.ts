@@ -9,7 +9,6 @@ import {PrivilegeSet} from '../../services/diandi.structure';
     styleUrls: ['./list-mini-program.component.less']
 })
 export class ListMiniProgramComponent implements OnInit {
-    public bindMiniprogram = '';
     public miniprograms = [];
     public defaultAuthorizerAppid;
 
@@ -19,8 +18,6 @@ export class ListMiniProgramComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.bindMiniprogram = `https://www.pusudo.cn/platform/authority/wechat?auth_type=2&session=${ this.backbone.session }`;
-        // this.defaultAuthorizerAppid = this.backbone.authorizerMiniProgramAppId;
         this.route.data
             .subscribe((data: { miniprogramListResolver: any }) => {
                 let index = 0;
@@ -56,5 +53,9 @@ export class ListMiniProgramComponent implements OnInit {
     setDefaultAuthorizer(appid) {
         this.backbone.authorizerMiniProgramAppId = appid;
         this.defaultAuthorizerAppid = appid;
+    }
+
+    bindMiniprogram() {
+        window.location.href = `https://www.pusudo.cn/backbone/authority/wechat?auth_type=2&session=${ this.backbone.publicEncrypt('') }`;
     }
 }

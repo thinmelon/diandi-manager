@@ -21,6 +21,8 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger" (click)="activeModal.close('Refund')">确认无误，退款</button>
+    <button *ngIf="status === 0" type="button" class="btn btn-outline-danger" (click)="activeModal.close('Refund')">
+        确认无误，退款
+    </button>
     <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close('Close')">关闭</button>
 </div>

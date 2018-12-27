@@ -108,7 +108,6 @@ export class MiniProgramBasicComponent implements OnInit {
         const modalRef = this.modalService.open(FormModalComponent);
         modalRef.componentInstance.title = '设置名称';
         modalRef.componentInstance.maxFileSize = 2 * 1024 * 1024;
-        modalRef.componentInstance.uploadUrl = UrlService.UploadTempMaterial(this.backbone.session, that.info.appid, 'image');
         modalRef.componentInstance.hint = '个人号请上传身份证照片，组织号请上传组织机构代码证或营业执照';
         modalRef.componentInstance.keyValues = [
             {
@@ -158,11 +157,17 @@ export class MiniProgramBasicComponent implements OnInit {
             //     value: ''
             // }
         ];
+        modalRef.componentInstance.preSubmitEvt.subscribe(() => {
+            modalRef.componentInstance.fileUploader.setOptions({
+                url: UrlService.UploadTempMaterial(that.backbone.publicEncrypt(''), that.info.appid, 'image')
+            });
+            modalRef.componentInstance.fileUploader.uploadAll();
+        });
         modalRef.componentInstance.submitBtnText = '提交';
         modalRef.componentInstance.submitEvt.subscribe(response => {
             console.log(response);
             that.backbone.setNickname(
-                that.backbone.session,
+                that.backbone.publicEncrypt(''),
                 that.info.appid,
                 response[0].src,
                 response[1].mediaId === '' ? 'organization' : 'person',
@@ -181,7 +186,7 @@ export class MiniProgramBasicComponent implements OnInit {
     modifySignature(signature) {
         const that = this;
         this.backbone.modifySignature(
-            this.backbone.session,
+            this.backbone.publicEncrypt(''),
             this.info.appid,
             signature
         ).subscribe(result => {
@@ -198,7 +203,6 @@ export class MiniProgramBasicComponent implements OnInit {
         const modalRef = this.modalService.open(FormModalComponent);
         modalRef.componentInstance.title = '更换头像';
         modalRef.componentInstance.maxFileSize = 2 * 1024 * 1024;
-        modalRef.componentInstance.uploadUrl = UrlService.UploadTempMaterial(this.backbone.session, that.info.appid, 'image');
         modalRef.componentInstance.hint = '';
         modalRef.componentInstance.keyValues = [
             {
@@ -209,11 +213,17 @@ export class MiniProgramBasicComponent implements OnInit {
                 mediaId: ''
             }
         ];
+        modalRef.componentInstance.preSubmitEvt.subscribe(() => {
+            modalRef.componentInstance.fileUploader.setOptions({
+                url: UrlService.UploadTempMaterial(that.backbone.publicEncrypt(''), that.info.appid, 'image')
+            });
+            modalRef.componentInstance.fileUploader.uploadAll();
+        });
         modalRef.componentInstance.submitBtnText = '提交';
         modalRef.componentInstance.submitEvt.subscribe(response => {
             console.log(response);
             that.backbone.modifyHeadImage(
-                that.backbone.session,
+                that.backbone.publicEncrypt(''),
                 that.info.appid,
                 response[0].mediaId
             ).subscribe(result => {
@@ -273,7 +283,7 @@ export class MiniProgramBasicComponent implements OnInit {
             console.log(response);
             that.backbone
                 .addCategory(
-                    this.backbone.session,
+                    that.backbone.publicEncrypt(''),
                     that.info.appid,
                     response[0].categoryId,
                     response[1].categoryId
@@ -304,7 +314,7 @@ export class MiniProgramBasicComponent implements OnInit {
         console.log(category);
         this.backbone
             .removeCategory(
-                this.backbone.session,
+                this.backbone.publicEncrypt(''),
                 this.info.appid,
                 category.firstId,
                 category.secondId
@@ -369,7 +379,7 @@ export class MiniProgramBasicComponent implements OnInit {
             console.log(config);
             that.backbone
                 .modifyDomain(
-                    that.backbone.session,
+                    that.backbone.publicEncrypt(''),
                     that.info.appid,
                     config
                 )
@@ -403,7 +413,7 @@ export class MiniProgramBasicComponent implements OnInit {
             console.log(config);
             that.backbone
                 .setWebViewDomain(
-                    that.backbone.session,
+                    that.backbone.publicEncrypt(''),
                     that.info.appid,
                     config
                 )
@@ -452,6 +462,9 @@ export class MiniProgramBasicComponent implements OnInit {
                 break;
             case 53308:
                 this.errorMessage = '审核中的类目不允许删除';
+                break;
+            case 91002:
+                this.errorMessage = '小程序已发布，不允许修改';
                 break;
             default:
                 break;

@@ -31,19 +31,35 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         const session = this.route.snapshot.queryParamMap.get('s');
         const phone = this.route.snapshot.queryParamMap.get('p');
+        const publicKey = decodeURIComponent(this.route.snapshot.queryParamMap.get('k'));
+        const serverTime = this.route.snapshot.queryParamMap.get('serverTime');
+        console.log('系统时间：', serverTime);
+        const endTime = Date.now();
+        console.log('当前时间：', endTime);
 
-        if (session && session !== '') {   //  通过微信扫码登录
+        if (session && session !== '' && publicKey && publicKey !== '') {   //  通过微信扫码登录
             if (phone && phone !== '') {
                 //  已关联手机号码，与后端再次握手确认
                 // console.log('已关联手机号码，与后端再次握手确认');
-                this.loginSuccess(session);
+                this.loginSuccess({
+                    session: session,
+                    publicKey: publicKey
+                });
             } else {
                 //  电话号码为空，代表首次登录，弹出关联手机号码对话框
                 // console.log('电话号码为空，代表首次登录，弹出关联手机号码对话框');
+                /**
+                 *  保存session
+                 */
+                this.backbone.session = session;
+                /**
+                 *  保存publicKey
+                 */
+                this.backbone.publicKey = publicKey;
                 //  弹出关联手机号码对话框
                 setTimeout(() => {
-                    this.bindMobile(session);
-                }, 100);
+                    this.bindMobile();
+                }, 0);
             }
         }
     }
@@ -52,7 +68,7 @@ export class LoginComponent implements OnInit {
      * 绑定手机号码
      *  -   与微信账号相关联
      */
-    bindMobile(session) {
+    bindMobile() {
         const that = this;
         const modalRef = this.modalService.open(FormModalComponent);
 
@@ -68,9 +84,8 @@ export class LoginComponent implements OnInit {
         ];
         modalRef.componentInstance.submitBtnText = '';
         modalRef.componentInstance.verificationCodeEvt.subscribe(evt => {
-            // console.log(evt);
             that.backbone.bindMobile(
-                session,
+                this.backbone.publicEncrypt(''),
                 this.backbone.diandiWebsiteAppId,
                 evt.requestId,
                 evt.bizId,
@@ -79,7 +94,10 @@ export class LoginComponent implements OnInit {
             )
                 .subscribe(res => {
                     if (res.code === 0) {
-                        that.loginSuccess(session);
+                        that.loginSuccess({
+                            session: that.backbone.session,
+                            publicKey: that.backbone.publicKey
+                        });
                         modalRef.componentInstance.activeModal.close();
                     } else if (res.code === -100) {
                         modalRef.componentInstance.hint = '该账号已绑定公众号，请使用手机验证码方式快捷登录';
@@ -90,6 +108,9 @@ export class LoginComponent implements OnInit {
         });
     }
 
+    /**
+     * 微信登录
+     */
     wechatLogin() {
         if (this.isAgreeWithContact) {
             window.location.href = this.wxLogin;
@@ -134,7 +155,10 @@ export class LoginComponent implements OnInit {
                     .subscribe(res => {
                         console.log(res);
                         if (res.code === 0 && res.hasOwnProperty('data') && res.data.value && res.data.value.session) {
-                            that.loginSuccess(res.data.value.session);
+                            that.loginSuccess({
+                                session: res.data.value.session,
+                                publicKey: res.data.publicKey
+                            });
                             modalRef.componentInstance.activeModal.close();
                         } else {
                             modalRef.componentInstance.hint = res.msg;
@@ -220,9 +244,9 @@ export class LoginComponent implements OnInit {
          */
         console.log('REDIRECT URL ===> ' + this.backbone.redirectUrl);
         if (this.backbone.redirectUrl) {
-            const params = Utils.GetParametersFromURL(this.backbone.redirectUrl);
-            console.log(params);
-            this.router.navigate([params.path, params.query]);
+            const url = Utils.GetParametersFromURL(this.backbone.redirectUrl);
+            console.log(url);
+            this.router.navigate([url.path, url.query]);
         } else {
             this.router.navigate(['/list/entry']);                      //  默认入口
         }

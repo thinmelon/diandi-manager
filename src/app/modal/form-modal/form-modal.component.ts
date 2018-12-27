@@ -9,20 +9,21 @@ import {ProgressBarModalComponent} from '../progress-bar-modal/progress-bar-moda
     styleUrls: ['./form-modal.component.less']
 })
 export class FormModalComponent implements OnInit, OnDestroy {
-    @Input() title: string;                                 //  模式框标题
-    @Input() hint: string;                                  //  提示信息
-    @Input() extra: string;                                //  额外说明
-    @Input() keyValues = [];                                //  控件列表
-    @Input() uploadUrl = '';                                //  文件上传地址
-    @Input() maxFileSize = 5 * 1024 * 1024;                 //  上传文件大小上限
-    @Input() submitBtnText = '保存';                         //  提交按键名
-    @Input() phone = '';                                     //  发送验证码的手机号
-    @Input() disablePhone = false;                          //  手机号是否可以修改
-    @Input() verificationBtnText = '绑定';                   //  验证码模板的提交按键文字
-    @Output() submitEvt = new EventEmitter<any>();      //  文件上传后回传事件
-    @Output() dropdownSelectedEvt = new EventEmitter<any>();    //  文件上传后回传事件
-    @Output() phoneInputBlurEvt = new EventEmitter<any>();      //  手机输入框失去焦点后回传事件
-    @Output() verificationCodeEvt = new EventEmitter<any>();    //  输入手机号及验证码后回传事件
+    @Input() title: string;                                      //  模式框标题
+    @Input() hint: string;                                       //  提示信息
+    @Input() extra: string;                                      //  额外说明
+    @Input() keyValues = [];                                      //  控件列表
+    @Input() uploadUrl = '';                                      //  文件上传地址
+    @Input() maxFileSize = 5 * 1024 * 1024;                       //  上传文件大小上限
+    @Input() submitBtnText = '保存';                              //  提交按键名
+    @Input() phone = '';                                          //  发送验证码的手机号
+    @Input() disablePhone = false;                               //  手机号是否可以修改
+    @Input() verificationBtnText = '绑定';                        //  验证码模板的提交按键文字
+    @Output() preSubmitEvt = new EventEmitter<any>();            //  文件上传前回传事件
+    @Output() submitEvt = new EventEmitter<any>();               //  文件上传后回传事件
+    @Output() dropdownSelectedEvt = new EventEmitter<any>();     //  下拉菜单回传事件
+    @Output() phoneInputBlurEvt = new EventEmitter<any>();       //  手机输入框失去焦点后回传事件
+    @Output() verificationCodeEvt = new EventEmitter<any>();     //  输入手机号及验证码后回传事件
     public fileUploader: FileUploader;
 
     constructor(public activeModal: NgbActiveModal,
@@ -31,14 +32,13 @@ export class FormModalComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.fileUploader = new FileUploader({
-            url: this.uploadUrl,                   //  上传至公众号的临时素材库
-            // allowedFileType: ['image/jpeg'],    //  允许上传的文件类型
-            method: 'POST',                        //  上传文件的方式
+            // url: this.uploadUrl,                 //  上传至公众号的临时素材库
+            // allowedFileType: ['image/jpeg'],     //  允许上传的文件类型
+            method: 'POST',                         //  上传文件的方式
             maxFileSize: this.maxFileSize,         //  最大可上传的文件大小
-            queueLimit: 1,                         //  最大可上传的文件数量
+            queueLimit: 1,                          //  最大可上传的文件数量
             removeAfterUpload: true                //  是否在上传完成后从队列中移除
         });
-        // console.log(this.keyValues);
     }
 
     ngOnDestroy() {
@@ -130,9 +130,9 @@ export class FormModalComponent implements OnInit, OnDestroy {
             modalRef.close('Completed');
         };
         /**
-         *  开始上传
+         *  发送上传前事件至调用方，由其设置上传路径后启动上传
          */
-        this.fileUploader.uploadAll();
+        this.preSubmitEvt.emit('Start');
     }
 
     /**

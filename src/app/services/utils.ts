@@ -1,7 +1,4 @@
-// import * as NodeRSA from 'node-rsa';
-// import * as CryptoJS from 'crypto-js';
 import * as JSEncrypt from 'jsencrypt';
-// const CRYPTO = require('crypto');
 
 export class Utils {
     /**

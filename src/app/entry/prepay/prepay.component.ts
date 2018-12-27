@@ -16,6 +16,7 @@ export class PrepayComponent implements OnInit {
                 private backbone: BackboneService) {
         this.route.params.subscribe(params => {
             this.cart = JSON.parse(params.cart);                //  根据URL参数初始化模板信息
+            console.log(this.cart)
             this.alipayReturnURL = params.alipayReturnURL;      //  支付成功后的回调链接
             console.log(decodeURIComponent(this.alipayReturnURL));
         });

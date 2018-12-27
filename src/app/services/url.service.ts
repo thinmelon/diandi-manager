@@ -20,6 +20,10 @@ export class UrlService {
         return `${ LOGIN }/dev/login`;
     }
 
+    static SendVerificationCode(session: string): string {
+        return `${ LOGIN }/sms?session=${ session }`;
+    }
+
     /**
      * =====================      商户        ===================== *
      */
@@ -138,14 +142,6 @@ export class UrlService {
 
     static BindMobile(session: string): string {
         return `${ PREFIX }/new/mobile?session=${ session }`;
-    }
-
-    /**
-     * =====================      系统        ===================== *
-     */
-
-    static SendVerificationCode(session: string): string {
-        return `${ PREFIX }/sms?session=${ session }`;
     }
 
     /**

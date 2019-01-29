@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {BackboneService} from '../diandi.backbone';
 import {Observable} from 'rxjs/index';
-// import {Utils} from '../utils';
 
 @Injectable()
 export class ListUserResolver implements Resolve<any> {

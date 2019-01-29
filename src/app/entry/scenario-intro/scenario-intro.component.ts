@@ -114,42 +114,6 @@ export class ScenarioIntroComponent implements OnInit {
     }
 
     /**
-     *  应用模版
-     */
-    apply() {
-        //  上传代码
-        this.backbone.commitSourceCode(
-            this.backbone.publicEncrypt(''),
-            this.appid,
-            new Template(
-                this.appliedTemplate.templateId,
-                JSON.stringify({
-                    extEnable: true,
-                    extAppid: this.appid,
-                    ext: {
-                        appid: this.appid,
-                        businessid: this.backbone.businessId || '',
-                        templateid: this.appliedTemplate.templateId
-                    }
-                }),
-                this.appliedTemplate.userVersion,
-                this.appliedTemplate.userDesc
-            ))
-            .subscribe(result => {
-                console.log(result);
-                if (result.code === 0) {
-                    this.router.navigate(['entry/wechat/miniprogram/template']);    //  成功使用模版后跳转至版本管理
-                } else if (result.code === -100) {
-                    this.errorMessage = '当前小程序已应用该模版，请进入版本管理查看详情';
-                    this.linkName = '版本管理';
-                    this.link = 'entry/wechat/miniprogram/template';
-                } else if (result.errcode === 85014) {
-                    this.errorMessage = '模板不存在';
-                }
-            });
-    }
-
-    /**
      *  上传API证书
      */
     uploadAPIClientCert() {
@@ -229,5 +193,41 @@ export class ScenarioIntroComponent implements OnInit {
                 alipayReturnURL: encodeURIComponent(window.location.href)        //  设置支付宝电脑网页支付成功后的回调链接
             }
         ]);
+    }
+
+    /**
+     *  应用模版
+     */
+    apply() {
+        //  上传代码
+        this.backbone.commitSourceCode(
+            this.backbone.publicEncrypt(''),
+            this.appid,
+            new Template(
+                this.appliedTemplate.templateId,
+                JSON.stringify({
+                    extEnable: true,
+                    extAppid: this.appid,
+                    ext: {
+                        appid: this.appid,
+                        businessid: this.backbone.businessId || '',
+                        templateid: this.appliedTemplate.templateId
+                    }
+                }),
+                this.appliedTemplate.userVersion,
+                this.appliedTemplate.userDesc
+            ))
+            .subscribe(result => {
+                console.log(result);
+                if (result.code === 0) {
+                    this.router.navigate(['entry/wechat/miniprogram/template']);    //  成功使用模版后跳转至版本管理
+                } else if (result.code === -100) {
+                    this.errorMessage = '当前小程序已应用该模版，请进入版本管理查看详情';
+                    this.linkName = '版本管理';
+                    this.link = 'entry/wechat/miniprogram/template';
+                } else if (result.errcode === 85014) {
+                    this.errorMessage = '模板不存在';
+                }
+            });
     }
 }

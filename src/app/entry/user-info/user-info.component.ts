@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BankID} from '../../services/diandi.structure';
 import {BackboneService} from '../../services/diandi.backbone';
@@ -24,6 +24,7 @@ export class UserInfoComponent implements OnInit {
     public defaultBank = '';             //  默认银行卡
 
     constructor(private route: ActivatedRoute,
+                private router: Router,
                 private modalService: NgbModal,
                 private backbone: BackboneService) {
     }
@@ -285,6 +286,10 @@ export class UserInfoComponent implements OnInit {
             }
         });
 
+    }
+
+    queryRunningRecord() {
+        this.router.navigate(['/entry/wechat/miniprogram/user/bills']);
     }
 
 }

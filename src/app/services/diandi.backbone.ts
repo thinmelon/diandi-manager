@@ -862,7 +862,7 @@ export class BackboneService {
      */
     public setWebViewDomain(session: string, appid: string, config: any): Observable<any> {
         return this.http
-            .post(UrlService.setWebViewDomain(session, appid), {
+            .post(UrlService.SetWebViewDomain(session, appid), {
                 action: 'set',
                 webviewdomain: JSON.stringify(config[0])
             })
@@ -1085,6 +1085,21 @@ export class BackboneService {
     }
 
     /**
+     * 获取授权方的资金流水
+     * @param session
+     * @param offset
+     * @param amount
+     * @returns {Observable<A>}
+     */
+    public fetchBills(session: string, offset: number, amount: number): Observable<any> {
+        return this.http
+            .get(UrlService.FetchBills(session, offset, amount))
+            .pipe(
+                catchError(this.handleError('fetchBills', {errMsg: '#fetchBills#获取授权方的资金流水出错'}))
+            );
+    }
+
+    /**
      * 申请提现
      * @param session
      * @param appid
@@ -1152,10 +1167,10 @@ export class BackboneService {
     public publicEncrypt(data: any) {
         return encodeURIComponent(Utils.PublicEncrypt(this.publicKey,
             JSON.stringify({
-                appid: this.diandiWebsiteAppId,                     //	当前网站appid
-                session: this.session,                              //	 token
-                timestamp: Date.now(),                              //	 时间戳
-                data: data                                          //	 数据
+                appid: this.diandiWebsiteAppId,
+                session: this.session,
+                timestamp: Date.now(),
+                data: data
             })));
     }
 

@@ -56,6 +56,25 @@ export const OrderStatusEnum = [
 ];
 
 /**
+ *      账单流水类型
+ */
+export const BillTypeEnum = [
+    '微信小程序支付',
+    '提现',
+    '退款'
+];
+
+/**
+ *      账单流水状态
+ */
+export const BillStatusEnum = [
+    '已完成',
+    '冻结',
+    '退款中',
+    '已退款'
+];
+
+/**
  *      商户类别
  */
 export const BusinessType = [
@@ -521,6 +540,22 @@ export class Refund {
                 public out_refund_no: string,
                 public total_fee: number,
                 public refund_fee: number) {
+    }
+}
+
+/**
+ *      资金流水
+ */
+export class BillList {
+    constructor(public index: number,
+                public bid: string,
+                public outTradeNo: string,
+                public paymentNo: string,
+                public billType: number,
+                public status: number,
+                public createTime: string,
+                public amount: number,
+                public fee: number) {
     }
 }
 

@@ -14,12 +14,15 @@ import {RichTextModalComponent} from '../../modal/rich-text-modal/rich-text-moda
 export class ListOrderComponent implements OnInit {
     btnName = '--- 请选择商户 ---';
     businessId = '';                    //  店铺ID
-    shown = false;                     //  是否显示
     target: Refund;                     //  退款
+    shown = false;                      //  是否显示弹出窗
     lastPopover: NgbPopover;            //  弹出窗口
     orders: Order[];                    //  订单列表
     shops: BusinessList[];              //  店铺列表
     errorMessage = '';                  //  错误信息
+    currentPage = 1;                    //  当前页数，默认为1
+    collectionSize = 0;                 //  数据集大小
+    pageSize = 10;                      //  每个页面的默认显示数量
 
     constructor(private route: ActivatedRoute,
                 private popoverConfig: NgbPopoverConfig,
@@ -67,24 +70,25 @@ export class ListOrderComponent implements OnInit {
      */
     fetchOrderList(businessId) {
         this.businessId = businessId;
-        // TODO: 分页功能的实现
         this.backbone
-            .fetchOrders(this.backbone.publicEncrypt(''), businessId, 0, 10)            //  获取订单列表，取前十条
+            .fetchOrders(this.backbone.publicEncrypt(''), businessId, (this.currentPage - 1) * this.pageSize, this.pageSize)
             .subscribe(response => {
+                console.log(response);
                 if (response.code === 0) {
                     let index = 0;
+                    this.collectionSize = response.data.amount;
                     this.orders = response.data.order.map(item => {                     //  遍历列表 转换为前端可识别的SKU
-                        let skuList = [];
-                        for (let key in item.sku) {
+                        const skuList = [];
+                        for (const key in item.sku) {
                             for (let i = 0, length = response.data.product.length; i < length; i++) {
                                 let isHit = false,
-                                    attributes = [],
                                     unit = 0;
+                                const attributes = [];
 
                                 response.data.product[i].sku.map(skuItem => {           //  SKU属性及属性值
                                     if (skuItem._id === item.sku[key].stock_no) {
                                         isHit = true;
-                                        for (let param in skuItem) {
+                                        for (const param in skuItem) {
                                             if (param !== '_id' && param !== 'unit' && param !== 'amount') {
                                                 attributes.push(new Attribute('', param, skuItem[param]));
                                             }
@@ -223,5 +227,14 @@ export class ListOrderComponent implements OnInit {
                     this.errorMessage = res.err_code_des ? res.err_code_des : '发起退款失败';
                 }
             });
+    }
+
+    /**
+     * 切换页面
+     * @param evt
+     */
+    onPageChanged(evt) {
+        this.currentPage = evt;
+        this.fetchOrderList(this.businessId);   //  获取商品列表
     }
 }

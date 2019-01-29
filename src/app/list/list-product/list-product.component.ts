@@ -15,6 +15,9 @@ export class ListProductComponent implements OnInit {
     btnName = '--- 请选择商户 ---';
     shops: BusinessList[];
     products: ProductList[];
+    currentPage = 1;
+    collectionSize = 0;
+    pageSize = 10;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -67,12 +70,12 @@ export class ListProductComponent implements OnInit {
      */
     fetchProductList(businessId) {
         this.backbone
-            .fetchPartialProducts(this.backbone.publicEncrypt(''), businessId, 0, 10)
+            .fetchPartialProducts(this.backbone.publicEncrypt(''), businessId, (this.currentPage - 1) * this.pageSize, this.pageSize)
             .subscribe(response => {
                 console.log(response);
                 if (response.code === 0) {
                     let index = 0;
-                    this.products = response.data.map(item => {
+                    this.products = response.data.products.map(item => {
                         return new ProductList(++index,
                             item._id,
                             decodeURIComponent(item.name),
@@ -82,6 +85,7 @@ export class ListProductComponent implements OnInit {
                             moment(new Date(item.createTime).getTime()).format('YYYY-MM-DD HH:mm:ss'),
                             item.type);
                     });
+                    this.collectionSize = response.data.amount;
                 }
             });
     }
@@ -146,5 +150,17 @@ export class ListProductComponent implements OnInit {
     manageProductCard(pid) {
         this.backbone.productId = pid;
         this.router.navigate(['/entry/wechat/miniprogram/card', pid]);
+    }
+
+    /**
+     * 切换页
+     * An event fired when the page is changed.
+     * Event's payload equals to the newly selected page.
+     * Will fire only if collection size is set and all values are valid.
+     * Page numbers start with 1
+     */
+    onPageChanged(evt) {
+        this.currentPage = evt; //  evt: 页数
+        this.fetchProductList(this.backbone.businessId);
     }
 }

@@ -19,6 +19,7 @@ import {ListBusinessComponent} from './list/list-business/list-business.componen
 import {ListEntryComponent} from './list/list-entry/list-entry.component';
 import {ListMiniProgramComponent} from './list/list-mini-program/list-mini-program.component';
 import {ListTemplateComponent} from './list/list-template/list-template.component';
+import {ListBillComponent} from './list/list-bill/list-bill.component';
 import {RichTextModalComponent} from './modal/rich-text-modal/rich-text-modal.component';
 import {AttributeModalComponent} from './modal/attribute-modal/attribute-modal.component';
 import {ProgressBarModalComponent} from './modal/progress-bar-modal/progress-bar-modal.component';
@@ -40,6 +41,7 @@ import {PrepayComponent} from './entry/prepay/prepay.component';
         ListEntryComponent,
         ListMiniProgramComponent,
         ListTemplateComponent,
+        ListBillComponent,
         EditProductComponent,
         EditBusinessComponent,
         RichTextModalComponent,

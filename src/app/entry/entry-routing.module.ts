@@ -20,6 +20,7 @@ import {ListCardComponent} from '../list/list-card/list-card.component';
 import {ListCardResolver} from '../services/resolver/card.resolver';
 import {ListBusinessComponent} from '../list/list-business/list-business.component';
 import {ListBusinessResolver} from '../services/resolver/business.resolver';
+import {ListBillComponent} from '../list/list-bill/list-bill.component';
 import {UserInfoComponent} from './user-info/user-info.component';
 import {WechatPanelComponent} from './wechat-panel/wechat-panel.component';
 import {ScenarioComponent} from './scenario/scenario.component';
@@ -99,6 +100,10 @@ const __ENTRY_ROUTING__: Routes = [
                 resolve: {
                     wechatUserInfoResolver: WechatUserInfoResolver
                 }
+            },
+            {
+                path: 'miniprogram/user/bills',
+                component: ListBillComponent
             },
             {
                 path: 'miniprogram/card/:pid',

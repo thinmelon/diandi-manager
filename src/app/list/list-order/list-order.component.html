@@ -2,13 +2,20 @@
     {{errorMessage}}
 </div>
 
-<div ngbDropdown>
-    <button class="btn btn-outline-primary" ngbDropdownToggle> {{ btnName }}</button>
-    <div ngbDropdownMenu aria-labelledby="dropdownBasic">
-        <button *ngFor="let shop of shops" class="dropdown-item" (click)="onShopSelected(shop)">
-            {{ shop.name }}
-        </button>
+<div class="d-flex flex-row justify-content-between align-items-center">
+    <div ngbDropdown>
+        <button class="btn btn-outline-primary" ngbDropdownToggle> {{ btnName }}</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+            <button *ngFor="let shop of shops" class="dropdown-item" (click)="onShopSelected(shop)">
+                {{ shop.name }}
+            </button>
+        </div>
     </div>
+    <ngb-pagination class="d-flex justify-content-center"
+                    (pageChange)="onPageChanged($event)"
+                    [pageSize]="pageSize"
+                    [collectionSize]="collectionSize"
+                    [(page)]="currentPage"></ngb-pagination>
 </div>
 <div class="table-responsive">
     <table class="table table-striped table-hover">

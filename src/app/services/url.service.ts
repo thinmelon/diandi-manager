@@ -224,7 +224,7 @@ export class UrlService {
         return `${ PREFIX }/wechat/miniprogram/domain?session=${ session }&appid=${ appid }`;
     }
 
-    static setWebViewDomain(session: string, appid: string): string {
+    static SetWebViewDomain(session: string, appid: string): string {
         return `${ PREFIX }/wechat/miniprogram/webview?session=${ session }&appid=${ appid }`;
     }
 
@@ -294,6 +294,10 @@ export class UrlService {
 
     static WithdrawCash(session: string): string {
         return `${ PREFIX }/authorizer/capital/available?session=${ session }`;
+    }
+
+    static FetchBills(session: string, offset: number, amount: number): string {
+        return `${ PREFIX }/authorizer/bills?session=${ session }&offset=${ offset }&amount=${ amount }`;
     }
 
     /**

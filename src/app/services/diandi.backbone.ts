@@ -1227,6 +1227,14 @@ export class BackboneService {
             );
     }
 
+    public getRestaurants(): Observable<any> {
+        return this.http
+            .get('https://life.pusudo.cn/restaurants')
+            .pipe(
+                catchError(this.handleError('getRestaurants', {errMsg: '#getRestaurants#获取餐馆列表出错'}))
+            );
+    }
+
     /**
      * Handle Http operation that failed.
      * Let the app continue.

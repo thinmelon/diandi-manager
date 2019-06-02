@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BusinessList} from '../../services/diandi.structure';
+import {Restaurants} from '../../services/diandi.structure';
 import {BackboneService} from '../../services/diandi.backbone';
 import {ConfirmModalComponent} from '../../modal/confirm-modal/confirm-modal.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -11,7 +11,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
     styleUrls: ['./list-business.component.less']
 })
 export class ListBusinessComponent implements OnInit {
-    shops: BusinessList[];
+    restaurants: Array<Restaurants> = [];
     errorMessage = '';
 
     constructor(private route: ActivatedRoute,
@@ -21,21 +21,28 @@ export class ListBusinessComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.data
-            .subscribe((data: { listBusinessResolver: any }) => {
-                console.log(data);
-                if (data.listBusinessResolver.code === 0) {
+        this.backbone
+            .getRestaurants()
+            .subscribe(res => {
+                console.log(res);
+                if (res.code === 0) {
                     let index = 0;
-                    this.shops = data.listBusinessResolver.data.map(item => {
-                        return new BusinessList(++index,
-                            item._id,
-                            item.name,
-                            item.longitude,
-                            item.latitude,
-                            item.shopHours,
-                            item.phone,
-                            item.status
-                        );
+                    res.data.restaurants.map(item => {
+                        this.restaurants.push({
+                            index: ++index,
+                            id: item._id,
+                            name: item.name,
+                            address: item.address,
+                            longitude: item.location ? item.location.lng : null,
+                            latitude: item.location ? item.location.lat : null,
+                            consumptionPerPerson: item.consumptionPerPerson,
+                            open: item.open,
+                            phone: item.phone,
+                            source: item.source,
+                            articles: item.articles,
+                            tags: item.tags,
+                            status: item.status
+                        });
                     });
                 }
             });
@@ -88,9 +95,9 @@ export class ListBusinessComponent implements OnInit {
                         .subscribe(res => {
                             console.log(res);
                             if (res.code === 0) {
-                                this.shops = this.shops.filter(shop => {
-                                    return shop.bid !== bid;
-                                });
+                                // this.shops = this.shops.filter(shop => {
+                                //     return shop.bid !== bid;
+                                // });
                             }
                         });
                 }

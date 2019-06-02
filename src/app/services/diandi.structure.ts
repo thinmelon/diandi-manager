@@ -595,3 +595,28 @@ export class VerificationCode {
     }
 }
 
+class Article {
+    constructor(public title: string,
+                public url: string) {
+    }
+}
+
+/**
+ *      餐馆
+ */
+export class Restaurants {
+    constructor(public index: number,
+                public id: string,
+                public name: string,
+                public address: string,
+                public longitude: number,
+                public latitude: number,
+                public consumptionPerPerson: string,
+                public open: string,
+                public phone: string,
+                public source: string,
+                public articles: Array<Article>,
+                public tags: Array<string>,
+                public status: number) {
+    }
+}

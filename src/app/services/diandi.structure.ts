@@ -595,6 +595,9 @@ export class VerificationCode {
     }
 }
 
+/**
+ *      微信文章
+ */
 class Article {
     constructor(public title: string,
                 public url: string) {
@@ -618,5 +621,14 @@ export class Restaurants {
                 public articles: Array<Article>,
                 public tags: Array<string>,
                 public status: number) {
+    }
+}
+
+/**
+ *      标签
+ */
+export class Tag {
+    constructor(public id: number,
+                public name: string) {
     }
 }

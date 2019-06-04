@@ -1227,11 +1227,59 @@ export class BackboneService {
             );
     }
 
+    /**
+     * 获取餐馆列表
+     * @returns {Observable<A>}
+     */
     public getRestaurants(): Observable<any> {
         return this.http
-            .get('https://life.pusudo.cn/restaurants')
+            .get(UrlService.GetRestaurants())
             .pipe(
                 catchError(this.handleError('getRestaurants', {errMsg: '#getRestaurants#获取餐馆列表出错'}))
+            );
+    }
+
+    /**
+     * 获取标签列表
+     * @returns {Observable<A>}
+     */
+    public getTags(): Observable<any> {
+        return this.http
+            .get(UrlService.GetTags())
+            .pipe(
+                catchError(this.handleError('getTags', {errMsg: '#getTags#获取标签列表出错'}))
+            );
+    }
+
+    /**
+     * 添加标签
+     * @param name
+     * @returns {Observable<A>}
+     */
+    public addTag(name: string): Observable<any> {
+        return this.http
+            .post(UrlService.AddTag(), {
+                name: name
+            })
+            .pipe(
+                catchError(this.handleError('addTag', {errMsg: '#addTag#添加标签失败'}))
+            );
+    }
+
+    /**
+     * 关联标签
+     * @param id
+     * @param tag
+     * @returns {Observable<A>}
+     */
+    public bindTag(id: string, tag: string): Observable<any> {
+        return this.http
+            .post(UrlService.BindTag(), {
+                id: id,
+                tag: tag
+            })
+            .pipe(
+                catchError(this.handleError('bindTag', {errMsg: '#bindTag#关联标签失败'}))
             );
     }
 

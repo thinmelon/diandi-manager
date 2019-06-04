@@ -9,9 +9,10 @@ export class ListBusinessResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this.backbone.fetchBusinessList(
-            this.backbone.publicEncrypt(''),
-            this.backbone.authorizerMiniProgramAppId ? this.backbone.authorizerMiniProgramAppId : ''
-        );
+        return this.backbone.getRestaurants();
+        // return this.backbone.fetchBusinessList(
+        //     this.backbone.publicEncrypt(''),
+        //     this.backbone.authorizerMiniProgramAppId ? this.backbone.authorizerMiniProgramAppId : ''
+        // );
     }
 }

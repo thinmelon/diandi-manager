@@ -5,6 +5,7 @@ const HOST = 'www.pusudo.cn';
 const PREFIX = PROTOCOL + HOST + '/backbone';
 const LOGIN = PROTOCOL + HOST + '/platform';
 const STORAGE = PROTOCOL + HOST + '/oss';
+const __DIANDI_LIFE_SERVERLESS__ = 'https://life.pusudo.cn';
 
 export class UrlService {
 
@@ -46,6 +47,26 @@ export class UrlService {
 
     static ChangeBusinessStatus(session: string): string {
         return `${ PREFIX }/business/status?session=${ session }`;
+    }
+
+    /**
+     * =====================      餐馆        ===================== *
+     */
+
+    static GetRestaurants(): string {
+        return `${ __DIANDI_LIFE_SERVERLESS__ }/restaurants`;
+    }
+
+    static GetTags(): string {
+        return `${ __DIANDI_LIFE_SERVERLESS__ }/tags`;
+    }
+
+    static AddTag(): string {
+        return `${ __DIANDI_LIFE_SERVERLESS__ }/tag`;
+    }
+
+    static BindTag(): string {
+        return `${ __DIANDI_LIFE_SERVERLESS__ }/restaurant/tag`;
     }
 
     /**
@@ -316,4 +337,3 @@ export class UrlService {
         return `${ PREFIX }/authorizer/pay/wxchat/api_client_cert?session=${ session }&appid=${ appid }`;
     }
 }
-

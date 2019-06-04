@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Restaurants} from '../../services/diandi.structure';
+import {Restaurants, Tag} from '../../services/diandi.structure';
 import {BackboneService} from '../../services/diandi.backbone';
 import {ConfirmModalComponent} from '../../modal/confirm-modal/confirm-modal.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {FormModalComponent} from '../../modal/form-modal/form-modal.component';
 
 @Component({
     selector: 'app-list-business',
@@ -12,6 +13,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class ListBusinessComponent implements OnInit {
     restaurants: Array<Restaurants> = [];
+    tags: Array<Tag> = [];
     errorMessage = '';
 
     constructor(private route: ActivatedRoute,
@@ -21,13 +23,12 @@ export class ListBusinessComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.backbone
-            .getRestaurants()
-            .subscribe(res => {
-                console.log(res);
-                if (res.code === 0) {
+        this.route.data
+            .subscribe((data: { listBusinessResolver: any }) => {                           //  初始化餐馆基础元信息
+                console.log(data);
+                if (data.listBusinessResolver.code === 0) {
                     let index = 0;
-                    res.data.restaurants.map(item => {
+                    data.listBusinessResolver.data.restaurants.map(item => {
                         this.restaurants.push({
                             index: ++index,
                             id: item._id,
@@ -46,6 +47,81 @@ export class ListBusinessComponent implements OnInit {
                     });
                 }
             });
+
+        this.getTags();                                                                     //  获取标签列表
+    }
+
+    /**
+     * 获取标签列表
+     */
+    getTags() {
+        this.backbone.getTags()
+            .subscribe(res => {
+                console.log(res);
+                if (res.code === 0) {
+                    let index = 0;
+                    res.data.tags.map(item => {
+                        this.tags.push({
+                            id: ++index,
+                            name: item.name
+                        });
+                    });
+                }
+            });
+    }
+
+    addTag() {
+        const modalRef = this.modalService.open(FormModalComponent);
+        modalRef.componentInstance.title = '添加标签';
+        modalRef.componentInstance.hint = '';
+        modalRef.componentInstance.keyValues = [
+            {
+                index: 0,
+                key: '标签名（必填项）',
+                type: 'text',
+                src: ''
+            }
+        ];
+        modalRef.componentInstance.submitBtnText = '提交';
+        modalRef.componentInstance.submitEvt.subscribe(response => {
+            console.log(response);
+            if (response.length > 0 && response[0].src) {
+                this.backbone.addTag(response[0].src)
+                    .subscribe(res => {
+                        console.log(res);
+                        if (res.code === 0) {
+                            this.tags.push(response[0].src);
+                        }
+                    });
+            }
+        });
+    }
+
+    bindTag(id) {
+        console.log(this.tags);
+        const modalRef = this.modalService.open(FormModalComponent);
+        modalRef.componentInstance.title = '绑定标签';
+        modalRef.componentInstance.hint = '';
+        modalRef.componentInstance.keyValues = [
+            {
+                index: 0,
+                key: '标签名称',
+                type: 'dropdown',
+                value: '请选择标签',
+                src: this.tags,
+                categoryId: 0
+            }
+        ];
+        modalRef.componentInstance.submitBtnText = '提交';
+        modalRef.componentInstance.submitEvt.subscribe(response => {
+            console.log(id, ': ', response[0].value);
+            if (response.length > 0 && response[0].value) {
+                this.backbone.bindTag(id, response[0].value)
+                    .subscribe(res => {
+                        console.log(res);
+                    });
+            }
+        });
     }
 
     /**
